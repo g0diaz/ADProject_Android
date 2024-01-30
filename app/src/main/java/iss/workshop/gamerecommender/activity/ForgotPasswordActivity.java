@@ -1,8 +1,10 @@
-package iss.workshop.gamerecommender;
+package iss.workshop.gamerecommender.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import iss.workshop.gamerecommender.R;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
