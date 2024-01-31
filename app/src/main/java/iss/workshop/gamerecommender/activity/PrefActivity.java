@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import iss.workshop.gamerecommender.R;
+import iss.workshop.gamerecommender.adapter.PrefActivityAdapter;
 
 public class PrefActivity extends AppCompatActivity{
     private final String[] genres={"RPG","Action","Racing","FPS","Indie","Massively Multiplayer"

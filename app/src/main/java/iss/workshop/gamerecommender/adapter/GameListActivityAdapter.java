@@ -1,4 +1,4 @@
-package iss.workshop.gamerecommender.activity;
+package iss.workshop.gamerecommender.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

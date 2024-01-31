@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import iss.workshop.gamerecommender.R;
+import iss.workshop.gamerecommender.adapter.GameListActivityAdapter;
 
 public class GameListActivity extends AppCompatActivity {
     private final String[] texts={};
