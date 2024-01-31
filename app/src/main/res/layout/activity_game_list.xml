@@ -25,12 +25,14 @@
         <ImageButton
             android:id="@+id/mes"
             android:layout_width="50dp"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp"
+            android:background="@drawable/baseline_notifications_24"/>
 
         <ImageButton
             android:id="@+id/profile"
             android:layout_width="50dp"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp"
+            android:background="@drawable/baseline_person_24"/>
 
     </LinearLayout>
 

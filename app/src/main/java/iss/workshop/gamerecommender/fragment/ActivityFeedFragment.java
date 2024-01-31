@@ -11,9 +11,19 @@ import iss.workshop.gamerecommender.R;
 import iss.workshop.gamerecommender.adapter.FeedActivityAdapter;
 
 public class ActivityFeedFragment extends Fragment {
-
     private final String[] feeds = {
-           "GGWP Guys!", "Faze UP", "GGEZ!"
+           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur iaculis congue odio, " +
+                   "sed scelerisque mauris mattis sed. Aliquam elementum tempus orci, id dignissim " +
+                   "sem volutpat vitae. Etiam sed justo lorem. Pellentesque dignissim augue dapibus, " +
+                   "cursus nisi vel, varius mi. Integer ullamcorper, ipsum sagittis ornare gravida, " +
+                   "est nulla consequat nunc, at efficitur nunc neque molestie arcu. In enim libero, " +
+                   "sagittis sit amet commodo in, blandit nec lectus. Aenean varius dui in ipsum " +
+                   "accumsan tristique. Nam et dui quis ipsum varius rutrum id vel justo. Nam in nisi " +
+                   "tincidunt, maximus enim eu, varius sem. Proin et aliquam tellus. Mauris porta, " +
+                   "mauris id tempus fermentum, tortor lectus blandit nisi, ac condimentum neque elit " +
+                   "in augue. Sed vel elementum enim, non sagittis lorem. Etiam vehicula orci in accumsan " +
+                   "convallis. Nulla vehicula eu tortor nec volutpat. Sed interdum ullamcorper augue et " +
+                   "vehicula. Etiam tempus arcu leo, accumsan sodales magna auctor quis.", "Faze UP", "GGEZ!"
     };
 
     public ActivityFeedFragment() {

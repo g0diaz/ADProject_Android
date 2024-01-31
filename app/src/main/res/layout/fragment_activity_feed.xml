@@ -7,45 +7,68 @@
     android:padding="20dp">
 
     <LinearLayout
+        android:id="@+id/line1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:id="@+id/line1">
+        android:paddingBottom="10dp">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search"
+        <TextView
+            android:id="@+id/activity_feed_text"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="8"
-            app:iconifiedByDefault="false"
-            app:queryHint="Search"
+            android:text="Activity Feed"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:gravity="center"
             android:background="@drawable/border"/>
 
         <ImageButton
             android:id="@+id/mes"
             android:layout_width="50dp"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp"
+            android:background="@drawable/baseline_notifications_24"/>
 
         <ImageButton
             android:id="@+id/profile"
             android:layout_width="50dp"
-            android:layout_height="50dp"/>
+            android:layout_height="50dp"
+            android:background="@drawable/baseline_person_24"/>
 
     </LinearLayout>
 
-
-    <EditText
-        android:id="@+id/postBar"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
+    <LinearLayout
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_below="@+id/line1"
-        android:hint="What's on your mind?"
-        android:inputType="text" />
+        android:background="@drawable/border">
+
+        <EditText
+            android:id="@+id/postBar"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:paddingLeft="10dp"
+            android:layout_below="@+id/line1"
+            android:hint="What's on your mind?"
+            android:inputType="text" />
+
+
+        <ImageButton
+            android:id="@+id/search"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/baseline_post_add_24" />
+
+    </LinearLayout>
 
     <ListView
         android:id="@+id/feedListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/postBar"/>
+        android:layout_below="@id/line2"/>
 
 </RelativeLayout>

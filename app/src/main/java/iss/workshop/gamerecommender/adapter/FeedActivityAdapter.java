@@ -14,11 +14,10 @@ import iss.workshop.gamerecommender.R;
 
 public class FeedActivityAdapter extends ArrayAdapter<Object> {
     private final Context context;
-
     protected String[] feeds;
 
     public FeedActivityAdapter(Context context, String[] feeds) {
-        super(context, R.layout.row);
+        super(context, R.layout.feedcell);
         this.context = context;
         this.feeds = feeds;
 
@@ -31,11 +30,10 @@ public class FeedActivityAdapter extends ArrayAdapter<Object> {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(
                     Activity.LAYOUT_INFLATER_SERVICE);
 
-            view = inflater.inflate(R.layout.row, parent, false);
+            view = inflater.inflate(R.layout.feedcell, parent, false);
         }
 
-        // set the text for TextView
-        TextView textView = view.findViewById(R.id.textView);
+        TextView textView = view.findViewById(R.id.feed_desc);
         textView.setText(feeds[pos]);
 
         return view;
