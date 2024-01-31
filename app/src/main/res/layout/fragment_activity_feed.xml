@@ -1,72 +1,41 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/biege"
     android:padding="20dp">
 
-    <LinearLayout
-        android:id="@+id/line1"
+    <FrameLayout
+        android:id="@+id/title_bar_placeholder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp">
-
-        <TextView
-            android:id="@+id/activity_feed_text"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="8"
-            android:text="Activity Feed"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:gravity="center"
-            android:background="@drawable/border"/>
-
-        <ImageButton
-            android:id="@+id/mes"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/baseline_notifications_24"/>
-
-        <ImageButton
-            android:id="@+id/profile"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/baseline_person_24"/>
-
-    </LinearLayout>
+        android:layout_alignParentTop="true">
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/line2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@+id/line1"
+        android:layout_below="@+id/title_bar_placeholder"
         android:background="@drawable/border">
 
-        <EditText
-            android:id="@+id/postBar"
-            android:layout_width="320dp"
+        <Button
+            android:id="@+id/post_Feed"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:paddingLeft="10dp"
             android:layout_below="@+id/line1"
             android:hint="What's on your mind?"
-            android:inputType="text" />
-
-
-        <ImageButton
-            android:id="@+id/search"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/baseline_post_add_24" />
+            android:textSize="18sp"
+            android:inputType="text"
+            android:background="@drawable/border"/>
 
     </LinearLayout>
 
     <ListView
         android:id="@+id/feedListView"
+        android:paddingTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/line2"/>

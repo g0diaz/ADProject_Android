@@ -1,13 +1,17 @@
 package iss.workshop.gamerecommender.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import iss.workshop.gamerecommender.R;
+import iss.workshop.gamerecommender.activity.FeedActivity;
 import iss.workshop.gamerecommender.adapter.FeedActivityAdapter;
 
 public class ActivityFeedFragment extends Fragment {
@@ -26,17 +30,34 @@ public class ActivityFeedFragment extends Fragment {
                    "vehicula. Etiam tempus arcu leo, accumsan sodales magna auctor quis.", "Faze UP", "GGEZ!"
     };
 
-    public ActivityFeedFragment() {
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View layoutRoot = inflater.inflate(R.layout.fragment_activity_feed, container, false);
-        ListView listView = layoutRoot.findViewById(R.id.feedListView);
+        View view = inflater.inflate(R.layout.fragment_activity_feed, container, false);
+        ListView listView = view.findViewById(R.id.feedListView);
+        Button postFeedBtn = view.findViewById(R.id.post_Feed);
+
+        TitleBarFragment titleBarFragment = new TitleBarFragment();
+        Bundle arguments = new Bundle();
+        arguments.putString("title", "Activity Feed");
+        titleBarFragment.setArguments(arguments);
+
+        // Add the TitleBarFragment to the placeholder in this fragment's layout
+        getChildFragmentManager().beginTransaction()
+                .add(R.id.title_bar_placeholder, titleBarFragment)
+                .commit();
+
+        postFeedBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), FeedActivity.class);
+                startActivity(intent);
+            }
+        });
+
         if (listView != null) {
             listView.setAdapter(new FeedActivityAdapter(getContext(), feeds));
         }
-        return layoutRoot;
+        return view;
     }
 }

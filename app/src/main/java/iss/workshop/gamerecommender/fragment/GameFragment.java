@@ -20,11 +20,6 @@ import java.util.List;
 import iss.workshop.gamerecommender.R;
 import iss.workshop.gamerecommender.adapter.GameListActivityAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link GameFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class GameFragment extends Fragment {
 
     private final String[] texts={"PalWorld","Conan Exiles","Octopath Traveler","Green Hell","Diablo"};
@@ -36,6 +31,17 @@ public class GameFragment extends Fragment {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_game, container, false);
         SearchView searchView=view.findViewById(R.id.search);
+
+        TitleBarFragment titleBarFragment = new TitleBarFragment();
+        Bundle arguments = new Bundle();
+        arguments.putString("title", "Games");
+        titleBarFragment.setArguments(arguments);
+
+        // Add the TitleBarFragment to the placeholder in this fragment's layout
+        getChildFragmentManager().beginTransaction()
+                .add(R.id.title_bar_placeholder, titleBarFragment)
+                .commit();
+
         setContent(texts,view);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

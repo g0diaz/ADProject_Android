@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/biege"
-    tools:context=".fragment.GameFragment">
+    android:padding="20dp">
+
+    <FrameLayout
+        android:id="@+id/title_bar_placeholder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+    </FrameLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:layout_below="@+id/title_bar_placeholder">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,16 +32,6 @@
                 app:iconifiedByDefault="false"
                 app:queryHint="Search"
                 android:background="@drawable/border"/>
-
-            <ImageButton
-                android:id="@+id/mes"
-                android:layout_width="50dp"
-                android:layout_height="50dp"/>
-
-            <ImageButton
-                android:id="@+id/profile"
-                android:layout_width="50dp"
-                android:layout_height="50dp"/>
 
         </LinearLayout>
 
@@ -58,7 +54,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="20dp"
-                android:background="@drawable/baseline_filter_alt_24"
+                android:src="@drawable/baseline_filter_alt_24"
                 android:id="@+id/filter"/>
         </LinearLayout>
 
@@ -70,4 +66,4 @@
             android:layout_below="@+id/line2"/>
     </RelativeLayout>
 
-</FrameLayout>
+</RelativeLayout>

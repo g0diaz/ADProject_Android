@@ -16,6 +16,17 @@ public class FriendsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_friends, container, false);
+        View view = inflater.inflate(R.layout.fragment_friends, container, false);
+
+        TitleBarFragment titleBarFragment = new TitleBarFragment();
+        Bundle arguments = new Bundle();
+        arguments.putString("title", "Friends");
+        titleBarFragment.setArguments(arguments);
+
+        // Add the TitleBarFragment to the placeholder in this fragment's layout
+        getChildFragmentManager().beginTransaction()
+                .add(R.id.title_bar_placeholder, titleBarFragment)
+                .commit();
+        return view;
     }
 }
