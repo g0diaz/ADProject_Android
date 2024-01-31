@@ -1,4 +1,4 @@
-package iss.workshop.gamerecommender;
+package iss.workshop.gamerecommender.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+
+import iss.workshop.gamerecommender.R;
 
 public class PrefActivityAdapter extends ArrayAdapter<Object> {
     private final Context context;

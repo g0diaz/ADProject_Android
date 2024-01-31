@@ -1,12 +1,12 @@
-package iss.workshop.gamerecommender;
+package iss.workshop.gamerecommender.dto_models;
 
-public class DataModal {
+public class CreateRequest {
     private String username;
     private String email;
     private String password;
     private String accountType;
 
-    public DataModal(String username, String email, String password, String accountType){
+    public CreateRequest(String username, String email, String password, String accountType){
         this.username = username;
         this.email = email;
         this.password = password;

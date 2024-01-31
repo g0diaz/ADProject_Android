@@ -1,4 +1,4 @@
-package iss.workshop.gamerecommender;
+package iss.workshop.gamerecommender.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import androidx.appcompat.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import iss.workshop.gamerecommender.R;
 
 public class GameListActivity extends AppCompatActivity {
     private final String[] texts={};

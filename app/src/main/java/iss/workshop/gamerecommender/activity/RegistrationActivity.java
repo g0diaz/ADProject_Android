@@ -1,4 +1,4 @@
-package iss.workshop.gamerecommender;
+package iss.workshop.gamerecommender.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,12 +17,13 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import iss.workshop.gamerecommender.dto_models.CreateRequest;
+import iss.workshop.gamerecommender.R;
+import iss.workshop.gamerecommender.api.RetrofitClient;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegistrationActivity extends AppCompatActivity {
     private EditText usernameEditText;
@@ -39,6 +40,7 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
+        //Mapping
         usernameEditText = findViewById(R.id.username);
         emailEditText = findViewById(R.id.email);
         passwordEditText = findViewById(R.id.password);
@@ -48,6 +50,7 @@ public class RegistrationActivity extends AppCompatActivity {
         signinLink = findViewById(R.id.sign_in_link);
         loadingPB = findViewById(R.id.idLoadingPB);
 
+        //Set OnClickListener for "Create Account" button
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,25 +59,29 @@ public class RegistrationActivity extends AppCompatActivity {
                 RadioButton selectedRadioButton = (RadioButton) findViewById(selectedRadioButtonId);
                 String accountType = selectedRadioButton.getText().toString();
 
+                //Call "Validate" and "PostData" method
                 if (validate()) {
                     postData();
                 }
             }
         });
 
+        //Underline "Signin" text
         TextView textView = (TextView) findViewById(R.id.sign_in_link);
         SpannableString content = new SpannableString(textView.getText());
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
         textView.setText(content);
 
+        //Set OnClickListener for "Create Account" button
         signinLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+                Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
     }
+    //Method to validate user filled data
     private boolean validate() {
         if (usernameEditText.getText().toString().isEmpty() ||
                 emailEditText.getText().toString().isEmpty() ||
@@ -92,8 +99,10 @@ public class RegistrationActivity extends AppCompatActivity {
         return true;
     }
 
+    //Method to post user filled data
     private void postData() {
 
+        //Show the progress bar
         loadingPB.setVisibility(View.VISIBLE);
 
         String username = usernameEditText.getText().toString().trim();
@@ -103,26 +112,32 @@ public class RegistrationActivity extends AppCompatActivity {
         RadioButton selectedRadioButton = (RadioButton) findViewById(selectedRadioButtonId);
         String accountType = selectedRadioButton.getText().toString();
 
+        //Create a call to server using Retrofit for creating user
         Call<ResponseBody> call = RetrofitClient
                 .getInstance()
                 .getAPI()
-                .createUser(new DataModal(username, email, password, accountType));
+                .createUser(new CreateRequest(username, email, password, accountType));
 
-
+        //Enqueue the call
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
+                //Handle the server response
                 if (response.isSuccessful()) {
                     Toast.makeText(RegistrationActivity.this, "Data added to API", Toast.LENGTH_SHORT).show();
 
-                    // below line is for hiding our progress bar.
+                    //Hide progress bar and clear user filled data
                     loadingPB.setVisibility(View.GONE);
                     usernameEditText.setText("");
                     emailEditText.setText("");
                     passwordEditText.setText("");
                     reenterPasswordEditText.setText("");
                     accountTypeRadioGroup.clearCheck();
+
+                    //Redirect to "Login" page
+                    Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                    startActivity(intent);
 
                 } else {
                     String errorMessage = "Error: " + response.code();
@@ -135,6 +150,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 }
             }
 
+            //Handle failure
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(RegistrationActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();

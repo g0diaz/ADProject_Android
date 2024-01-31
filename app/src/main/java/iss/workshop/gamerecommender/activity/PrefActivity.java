@@ -1,19 +1,18 @@
-package iss.workshop.gamerecommender;
+package iss.workshop.gamerecommender.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import iss.workshop.gamerecommender.R;
 
 public class PrefActivity extends AppCompatActivity{
     private final String[] genres={"RPG","Action","Racing","FPS","Indie","Massively Multiplayer"

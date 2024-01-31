@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/game"
+        android:title="Game"
+        android:icon="@drawable/baseline_videogame_asset_24"/>
+    <item
+        android:id="@+id/activity_feed"
+        android:title="Activity Feed"
+        android:icon="@drawable/baseline_feed_24"/>
+    <item
+        android:id="@+id/friends"
+        android:title="Friends"
+        android:icon="@drawable/baseline_friends_24"/>
+</menu>

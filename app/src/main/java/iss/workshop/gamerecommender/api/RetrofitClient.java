@@ -1,4 +1,4 @@
-package iss.workshop.gamerecommender;
+package iss.workshop.gamerecommender.api;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -16,14 +16,12 @@ public class RetrofitClient {
                 .build();
     }
 
-
     public static synchronized RetrofitClient getInstance() {
         if (mInstance == null) {
             mInstance = new RetrofitClient();
         }
         return mInstance;
     }
-
 
     public RetrofitAPI getAPI () {
         return retrofit.create(RetrofitAPI.class);

@@ -1,4 +1,4 @@
-package iss.workshop.gamerecommender;
+package iss.workshop.gamerecommender.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import iss.workshop.gamerecommender.R;
 
 public class GameListActivityAdapter extends ArrayAdapter<Object> {
     private final Context context;
