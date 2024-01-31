@@ -10,8 +10,10 @@
         android:layout_weight="4"
         android:layout_height="90dp"
         android:layout_marginTop="10dp"
+        android:background="@drawable/border"
         android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"/>
+        android:layout_marginLeft="10dp"
+        />
 
     <TextView
         android:layout_width="0dp"
@@ -19,6 +21,7 @@
         android:layout_weight="6"
         android:id="@+id/textview"
         android:layout_marginTop="10dp"
+        android:background="@drawable/border"
         android:layout_marginRight="10dp"/>
 
 </LinearLayout>

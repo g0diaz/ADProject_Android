@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ public class GameListActivityAdapter extends ArrayAdapter<Object> {
         if(view==null){
             LayoutInflater inflater=
                     (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            view=inflater.inflate(R.layout.prefcell,parent,false);
+            view=inflater.inflate(R.layout.gamelistcell,parent,false);
         }
 
 
