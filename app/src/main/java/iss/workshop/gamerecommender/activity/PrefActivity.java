@@ -37,7 +37,7 @@ public class PrefActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 saveSelectedGenres();
-                Intent intent=new Intent(PrefActivity.this,GameListActivity.class);
+                Intent intent=new Intent(PrefActivity.this,MainActivity.class);
                 intent.putStringArrayListExtra("preferences", (ArrayList<String>) selected);
                 startActivity(intent);
 

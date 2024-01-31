@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.apply();
 
                         //Redirect to "Game List" page
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, PrefActivity.class);
                         startActivity(intent);
                         finish();
                     } catch (IOException | JSONException e) {
