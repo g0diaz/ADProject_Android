@@ -16,18 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GameRecommender"
         tools:targetApi="31">
-<<<<<<< HEAD
+
         <activity
             android:name=".activity.GameListActivityAdapter"
             android:exported="false" />
         <activity
             android:name=".activity.PrefActivityAdapter"
             android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-=======
->>>>>>> b1c532c7d0d12d079b31adae9cadf4db79c5a0e8
         <activity
             android:name=".activity.MainActivity"
             android:exported="false" />
@@ -38,14 +33,13 @@
             android:name=".activity.GameListActivity"
             android:exported="false" />
         <activity
-<<<<<<< HEAD
-            android:name=".PrefActivity"
-=======
+            android:name=".activity.PrefActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.ForgotPasswordActivity"
             android:exported="false" />
         <activity
             android:name=".activity.LoginActivity"
->>>>>>> b1c532c7d0d12d079b31adae9cadf4db79c5a0e8
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

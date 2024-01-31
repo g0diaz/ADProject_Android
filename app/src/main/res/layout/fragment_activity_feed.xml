@@ -1,17 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/biege"
-    tools:context=".fragment.ActivityFeedFragment">
+    android:padding="20dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Activity Tab"
-        android:textSize="25dp"
-        android:layout_gravity="center"/>
+        android:orientation="horizontal"
+        android:id="@+id/line1">
 
-</FrameLayout>
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            app:iconifiedByDefault="false"
+            app:queryHint="Search"
+            android:background="@drawable/border"/>
+
+        <ImageButton
+            android:id="@+id/mes"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+
+        <ImageButton
+            android:id="@+id/profile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+
+    </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/postBar"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/line1"
+        android:hint="What's on your mind?"
+        android:inputType="text" />
+
+    <ListView
+        android:id="@+id/feedListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/postBar"/>
+
+</RelativeLayout>
