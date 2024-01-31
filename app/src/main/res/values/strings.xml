@@ -20,4 +20,10 @@
     <string name="toprate">Top Rated</string>
     <string name="title_activity_feed">ActivityFeedActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--    profilePage     -->
+    <string name="logout">Logout</string>
+    <!--    registrationPage     -->
+    <string name="createAccount">Create account</string>
+    <!--    forgotPasswordPage     -->
+    <string name="resetPassword">Reset Password</string>
 </resources>

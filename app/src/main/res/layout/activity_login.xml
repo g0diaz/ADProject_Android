@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:padding="20dp"
     android:background="@color/biege">
 
     <ImageView
@@ -85,7 +85,9 @@
         android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true"
         android:text="@string/login"
-        android:backgroundTint="@color/darkBlue"/>
+        android:background="@color/darkBlue"
+        android:textColor="@color/white"
+        android:textAllCaps="false"/>
 
     <Button
         android:id="@+id/sign_up_button"
@@ -95,7 +97,9 @@
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
         android:text="@string/sign_up"
-        android:backgroundTint="@color/darkBlue"/>
+        android:background="@color/darkBlue"
+        android:textColor="@color/white"
+        android:textAllCaps="false"/>
 
     <TextView
         android:id="@+id/copy_right"
