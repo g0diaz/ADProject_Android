@@ -10,20 +10,15 @@
     <string name="sign_up">Sign up</string>
     <string name="copyright">©2024 Rain, Inc.</string>
     <string name="forgot_password">Forgot Password?</string>
-<<<<<<< HEAD
-
     <!--    prefPage    -->
     <string name="welcome">Welcome User! Select your favourite genres</string>
     <string name="description">We use your favorite genres to make better games
         recommendations and tailor what you see in your feed.</string>
-
     <!--    gamelistPage     -->
     <string name="sell">Top Sellers</string>
     <string name="trending">Trending</string>
     <string name="toprate">Top Rated</string>
-=======
     <string name="title_activity_feed">ActivityFeedActivity</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
->>>>>>> b1c532c7d0d12d079b31adae9cadf4db79c5a0e8
 </resources>
