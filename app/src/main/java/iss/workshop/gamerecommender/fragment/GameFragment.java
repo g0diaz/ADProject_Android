@@ -38,16 +38,6 @@ implements AdapterView.OnItemClickListener {
         View view=inflater.inflate(R.layout.fragment_game, container, false);
         SearchView searchView=view.findViewById(R.id.search);
 
-        TitleBarFragment titleBarFragment = new TitleBarFragment();
-        Bundle arguments = new Bundle();
-        arguments.putString("title", "Games");
-        titleBarFragment.setArguments(arguments);
-
-        // Add the TitleBarFragment to the placeholder in this fragment's layout
-        getChildFragmentManager().beginTransaction()
-                .add(R.id.title_bar_placeholder, titleBarFragment)
-                .commit();
-
         setContent(texts,view);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

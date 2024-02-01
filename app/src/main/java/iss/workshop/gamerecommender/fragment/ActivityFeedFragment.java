@@ -37,16 +37,6 @@ public class ActivityFeedFragment extends Fragment {
         ListView listView = view.findViewById(R.id.feedListView);
         Button postFeedBtn = view.findViewById(R.id.post_Feed);
 
-        TitleBarFragment titleBarFragment = new TitleBarFragment();
-        Bundle arguments = new Bundle();
-        arguments.putString("title", "Activity Feed");
-        titleBarFragment.setArguments(arguments);
-
-        // Add the TitleBarFragment to the placeholder in this fragment's layout
-        getChildFragmentManager().beginTransaction()
-                .add(R.id.title_bar_placeholder, titleBarFragment)
-                .commit();
-
         postFeedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
