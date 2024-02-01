@@ -16,6 +16,14 @@
         recommendations and tailor what you see in your feed.</string>
     <!--    gamelistPage     -->
     <string name="sell">Top Sellers</string>
+    <string name="GameList">Game List</string>
+    <string name="GameDetail">Game Detail</string>
+    <string name="similar">Similar Games</string>
+    <string name="liked">Add to liked games</string>
+    <string name="wished">Add to wishlist</string>
+    <string name="review">Reviews</string>
+    <string name="hint">Write a review...</string>
+    <string name="follow">Follow</string>
     <string name="trending">Trending</string>
     <string name="toprate">Top Rated</string>
     <string name="title_activity_feed">ActivityFeedActivity</string>

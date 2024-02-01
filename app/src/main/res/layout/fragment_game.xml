@@ -18,24 +18,30 @@
             android:orientation="horizontal"
             android:id="@+id/line1">
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/search"
+            <TextView
+                android:id="@+id/activity_feed_text"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="8"
-                app:iconifiedByDefault="false"
-                app:queryHint="Search"
+                android:text="@string/GameList"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:gravity="center"
                 android:background="@drawable/border"/>
+
 
             <ImageButton
                 android:id="@+id/mes"
                 android:layout_width="50dp"
-                android:layout_height="50dp"/>
+                android:layout_height="50dp"
+                android:background="@drawable/baseline_notifications_24"/>
 
             <ImageButton
                 android:id="@+id/profile"
                 android:layout_width="50dp"
-                android:layout_height="50dp"/>
+                android:layout_height="50dp"
+                android:background="@drawable/baseline_person_24"/>
 
         </LinearLayout>
 
@@ -46,13 +52,14 @@
             android:id="@+id/line2"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
-            <TextView
-                android:layout_width="250dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="10dp"
-                android:textSize="20dp"
-                android:text="Recommendations for you"
-                android:textStyle="bold"/>
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                app:iconifiedByDefault="false"
+                app:queryHint="Search"
+                android:background="@drawable/border"/>
 
             <ImageButton
                 android:layout_width="50dp"
