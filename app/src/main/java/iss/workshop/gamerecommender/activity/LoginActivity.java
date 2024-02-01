@@ -27,7 +27,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
-
     private EditText usernameEditText;
     private EditText passwordEditText;
     private Button loginButton;
@@ -39,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // Check if user is already logged in
-        SharedPreferences sharedPreferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
         boolean isLoggedIn = sharedPreferences.getBoolean("loggedIn", false);
 
         if (isLoggedIn) {
@@ -115,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                         String sessionId = jsonObject.getString("sessionId");
 
                         //Store the username, sessionId and boolean in SharedPreferences
-                        SharedPreferences sharedPreferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
+                        SharedPreferences sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("username", username);
                         editor.putString("sessionId", sessionId);
@@ -123,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.apply();
 
                         //Redirect to "Game List" page
-                        Intent intent = new Intent(LoginActivity.this, PrefActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     } catch (IOException | JSONException e) {
