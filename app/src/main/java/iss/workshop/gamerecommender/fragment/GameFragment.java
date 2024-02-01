@@ -1,5 +1,6 @@
 package iss.workshop.gamerecommender.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.SearchView;
@@ -11,8 +12,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +25,8 @@ import java.util.List;
 import iss.workshop.gamerecommender.R;
 import iss.workshop.gamerecommender.adapter.GameListActivityAdapter;
 
-public class GameFragment extends Fragment {
+public class GameFragment extends Fragment
+implements AdapterView.OnItemClickListener {
 
     private final String[] texts={"PalWorld","Conan Exiles","Octopath Traveler","Green Hell","Diablo"};
     private final String[] images={"palworld","conan_exiles","octopath_traveler","green_hell","diablo"};
@@ -71,6 +77,7 @@ public class GameFragment extends Fragment {
         ListView listView=view.findViewById(R.id.gamelist);
         if(listView!=null){
             listView.setAdapter(adapter);
+            listView.setOnItemClickListener(this);
         }
     }
 
@@ -93,6 +100,21 @@ public class GameFragment extends Fragment {
             MenuInflater inflater=requireActivity().getMenuInflater();
             inflater.inflate(R.menu.contextmenu,menu);
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> av,View v,int pos,long id){
+        Bundle bundle=new Bundle();
+        bundle.putString("gamename",texts[pos]);
+        bundle.putString("image",images[pos]);
+
+        GamedetailFragment gamedetailFragment=new GamedetailFragment();
+        gamedetailFragment.setArguments(bundle);
+
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout,gamedetailFragment)
+                .addToBackStack("gameFragment")
+                .commit();
     }
 
     @Override
