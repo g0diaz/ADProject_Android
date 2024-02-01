@@ -76,8 +76,9 @@ public class GameFragment extends Fragment {
 
     private String[] filterStrings(String[] strings, String targetString) {
         List<String> filteredStrings = new ArrayList<>();
+        targetString = targetString.toLowerCase();
         for (String s : strings) {
-            if (s.contains(targetString)) {
+            if (s.toLowerCase().contains(targetString)) {
                 filteredStrings.add(s);
             }
         }
