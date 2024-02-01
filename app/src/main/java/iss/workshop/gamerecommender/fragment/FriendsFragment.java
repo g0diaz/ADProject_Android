@@ -29,16 +29,6 @@ public class FriendsFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_friends, container, false);
         SearchView searchView=view.findViewById(R.id.search);
 
-        TitleBarFragment titleBarFragment = new TitleBarFragment();
-        Bundle arguments = new Bundle();
-        arguments.putString("title", "Friends");
-        titleBarFragment.setArguments(arguments);
-
-        // Add the TitleBarFragment to the placeholder in this fragment's layout
-        getChildFragmentManager().beginTransaction()
-                .add(R.id.title_bar_placeholder, titleBarFragment)
-                .commit();
-
         setContent(names,view);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
