@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     private void replaceFragment(Fragment fragment, String title) {
         updateTitle(title);
         FragmentManager fragmentManager = getSupportFragmentManager();
