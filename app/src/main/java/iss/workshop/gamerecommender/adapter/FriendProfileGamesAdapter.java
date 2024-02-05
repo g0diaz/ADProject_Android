@@ -13,33 +13,33 @@ import androidx.annotation.NonNull;
 
 import iss.workshop.gamerecommender.R;
 
-public class FriendsActivityAdapter extends ArrayAdapter<Object>  {
+public class FriendProfileGamesAdapter extends ArrayAdapter<Object>  {
     private final Context context;
-    protected String[] names;
-    protected String[] avatars;
-    public FriendsActivityAdapter(Context context, String[] avatars,String[] names) {
-        super(context, R.layout.friendlistcell);
+    protected String[] texts;
+    protected String[] images;
+    public FriendProfileGamesAdapter(Context context, String[] images, String[] texts) {
+        super(context, R.layout.gamelistcell);
 
         this.context=context;
-        this.avatars=avatars;
-        this.names=names;
+        this.images=images;
+        this.texts=texts;
 
-        addAll(new Object[names.length]);
+        addAll(new Object[texts.length]);
     }
 
     public View getView(int pos, View view, @NonNull ViewGroup parent){
         if(view==null){
             LayoutInflater inflater=
                     (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-            view=inflater.inflate(R.layout.friendlistcell,parent,false);
+            view=inflater.inflate(R.layout.gamelistcell,parent,false);
         }
 
 
         TextView textView=view.findViewById(R.id.textview);
-        textView.setText(names[pos]);
+        textView.setText(texts[pos]);
 
         ImageView imageView=view.findViewById(R.id.imageview);
-        int id=context.getResources().getIdentifier(avatars[pos],
+        int id=context.getResources().getIdentifier(images[pos],
                 "drawable",context.getPackageName());
         imageView.setImageResource(id);
 

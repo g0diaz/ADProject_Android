@@ -6,46 +6,17 @@
     tools:context=".fragment.GamedetailFragment">
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/biege">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="16dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/line1">
 
-                <TextView
-                    android:id="@+id/activity_feed_text"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="8"
-                    android:text="@string/GameDetail"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:gravity="center"
-                    android:background="@drawable/border"/>
-
-                <ImageButton
-                    android:id="@+id/mes"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/baseline_notifications_24"/>
-
-                <ImageButton
-                    android:id="@+id/profile"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/baseline_person_24"/>
-
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/line1"
                 android:id="@+id/line2"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">

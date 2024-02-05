@@ -13,11 +13,11 @@ import androidx.annotation.NonNull;
 
 import iss.workshop.gamerecommender.R;
 
-public class FriendsActivityAdapter extends ArrayAdapter<Object>  {
+public class FriendProfileFriendsAdapter extends ArrayAdapter<Object>  {
     private final Context context;
     protected String[] names;
     protected String[] avatars;
-    public FriendsActivityAdapter(Context context, String[] avatars,String[] names) {
+    public FriendProfileFriendsAdapter(Context context, String[] avatars,String[] names) {
         super(context, R.layout.friendlistcell);
 
         this.context=context;

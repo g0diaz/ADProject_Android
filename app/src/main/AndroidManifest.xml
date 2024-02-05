@@ -34,9 +34,6 @@
             android:name=".activity.NotiActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.FeedActivity"
-            android:exported="false" />
-        <activity
             android:name=".adapter.GameListActivityAdapter"
             android:exported="false" />
         <activity
@@ -50,6 +47,9 @@
             android:exported="false" />
         <activity
             android:name=".activity.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.FeedActivity"
             android:exported="false" />
     </application>
 

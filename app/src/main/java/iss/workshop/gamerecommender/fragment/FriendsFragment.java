@@ -5,9 +5,11 @@ import android.os.Bundle;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -15,11 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import iss.workshop.gamerecommender.R;
+import iss.workshop.gamerecommender.adapter.FriendsActivityAdapter;
 import iss.workshop.gamerecommender.adapter.GameListActivityAdapter;
 
-public class FriendsFragment extends Fragment {
+public class FriendsFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    private final String[] names ={"David","Brad","Mike","Steve","John"};
+    private final String[] names ={"Faker","Brad","Mike","Steve","John"};
     private final String[] avatars ={"avatar","avatar","avatar","avatar","avatar"};
 
     @Override
@@ -50,11 +53,12 @@ public class FriendsFragment extends Fragment {
         return view;
     }
     private void setContent(String[] filtertexts,View view){
-        GameListActivityAdapter adapter=new GameListActivityAdapter(requireContext(), avatars,filtertexts);
+        FriendsActivityAdapter adapter=new FriendsActivityAdapter(requireContext(), avatars,filtertexts);
 
-        ListView listView=view.findViewById(R.id.gamelist);
+        ListView listView=view.findViewById(R.id.friendlist);
         if(listView!=null){
             listView.setAdapter(adapter);
+            listView.setOnItemClickListener(this);
         }
     }
 
@@ -68,5 +72,23 @@ public class FriendsFragment extends Fragment {
         }
         String[] arrayString = filteredStrings.toArray(new String[0]);
         return arrayString;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> av, View v, int pos, long id){
+
+        Log.d("ItemClick", "Item clicked: " + pos);
+
+        Bundle bundle=new Bundle();
+        bundle.putString("friendName",names[pos]);
+        bundle.putString("avatar",avatars[pos]);
+
+        FriendDetailFragment friendDetailFragment = new FriendDetailFragment();
+        friendDetailFragment.setArguments(bundle);
+
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout,friendDetailFragment)
+                .addToBackStack("friendsFragment")
+                .commit();
     }
 }
