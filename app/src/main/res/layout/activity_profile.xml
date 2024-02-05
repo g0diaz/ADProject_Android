@@ -59,12 +59,22 @@
             android:layout_height="150dp"
             android:id="@+id/image"
             android:src="@drawable/border"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_right="@id/image">
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="220dp"
+            android:layout_height="150dp"
+            android:src="@drawable/border" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/line3"
+        android:orientation="vertical">
+        <ListView
+            android:id="@+id/wishlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </RelativeLayout>

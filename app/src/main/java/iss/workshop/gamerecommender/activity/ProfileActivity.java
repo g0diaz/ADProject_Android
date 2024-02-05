@@ -19,7 +19,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        logoutButton = findViewById(R.id.logout_btn);
+        logoutButton = findViewById(R.id.logoutBtn);
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
