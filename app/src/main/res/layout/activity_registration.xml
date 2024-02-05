@@ -52,13 +52,13 @@
         android:layout_centerHorizontal="true">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/email"
+            android:id="@+id/displayName"
             android:layout_width="370dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="16dp"
-            android:hint="@string/email"
+            android:hint="@string/displayName"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,40 +98,12 @@
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/account_type_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/reenter_password_layout"
-        android:layout_marginTop="10dp"
-        android:text="Account Type"/>
-
-    <RadioGroup
-        android:id="@+id/account_type_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/account_type_label"
-        android:layout_marginTop="10dp">
-
-        <RadioButton
-            android:id="@+id/radio_gamer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Gamer" />
-
-        <RadioButton
-            android:id="@+id/radio_developer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Developer" />
-    </RadioGroup>
-
     <Button
         android:id="@+id/create_account_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/account_type_group"
-        android:layout_marginTop="10dp"
+        android:layout_below="@id/reenter_password_layout"
+        android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
         android:backgroundTint="@color/darkBlue"
         android:text="@string/createAccount"
