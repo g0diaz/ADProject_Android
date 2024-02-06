@@ -16,6 +16,7 @@ import android.widget.TextView;
 import iss.workshop.gamerecommender.R;
 import iss.workshop.gamerecommender.databinding.ActivityMainBinding;
 import iss.workshop.gamerecommender.fragment.ActivityFeedFragment;
+import iss.workshop.gamerecommender.fragment.FriendDetailFragment;
 import iss.workshop.gamerecommender.fragment.FriendsFragment;
 import iss.workshop.gamerecommender.fragment.GameFragment;
 
@@ -57,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
         profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                startActivity(intent);
+                replaceFragment(new FriendDetailFragment(), "Profile");
+
             }
         });
     }
