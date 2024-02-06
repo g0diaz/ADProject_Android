@@ -1,5 +1,7 @@
 package iss.workshop.gamerecommender.api;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import okhttp3.ResponseBody;
@@ -18,6 +20,6 @@ public interface RetrofitAPI {
     Call<ResponseBody> loginUser(@Body JsonObject loginData);
 
     //Retrieve Game List
-    @GET("api/games/list")
-    Call<JsonObject> getAllGames();
+    @GET("api/game/list")
+    Call<JsonArray> getAllGames();
 }
