@@ -10,14 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
 
-import iss.workshop.gamerecommender.dto_models.CreateRequest;
+import iss.workshop.gamerecommender.api.RetrofitAPI;
 import iss.workshop.gamerecommender.R;
 import iss.workshop.gamerecommender.api.RetrofitClient;
 import okhttp3.ResponseBody;
@@ -27,10 +27,9 @@ import retrofit2.Response;
 
 public class RegistrationActivity extends AppCompatActivity {
     private EditText usernameEditText;
-    private EditText emailEditText;
+    private EditText displayNameEditText;
     private EditText passwordEditText;
     private EditText reenterPasswordEditText;
-    private RadioGroup accountTypeRadioGroup;
     private Button createAccountButton;
     private TextView signinLink;
     private ProgressBar loadingPB;
@@ -42,10 +41,9 @@ public class RegistrationActivity extends AppCompatActivity {
 
         //Mapping
         usernameEditText = findViewById(R.id.username);
-        emailEditText = findViewById(R.id.email);
+        displayNameEditText = findViewById(R.id.displayName);
         passwordEditText = findViewById(R.id.password);
         reenterPasswordEditText = findViewById(R.id.reenter_password);
-        accountTypeRadioGroup = findViewById(R.id.account_type_group);
         createAccountButton = findViewById(R.id.create_account_button);
         signinLink = findViewById(R.id.sign_in_link);
         loadingPB = findViewById(R.id.idLoadingPB);
@@ -54,11 +52,6 @@ public class RegistrationActivity extends AppCompatActivity {
         createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //to get chosen radio button value
-                int selectedRadioButtonId = accountTypeRadioGroup.getCheckedRadioButtonId();
-                RadioButton selectedRadioButton = (RadioButton) findViewById(selectedRadioButtonId);
-                String accountType = selectedRadioButton.getText().toString();
-
                 //Call "Validate" and "PostData" method
                 if (validate()) {
                     postData();
@@ -84,10 +77,9 @@ public class RegistrationActivity extends AppCompatActivity {
     //Method to validate user filled data
     private boolean validate() {
         if (usernameEditText.getText().toString().isEmpty() ||
-                emailEditText.getText().toString().isEmpty() ||
+                displayNameEditText.getText().toString().isEmpty() ||
                 passwordEditText.getText().toString().isEmpty() ||
-                reenterPasswordEditText.getText().toString().isEmpty() ||
-                accountTypeRadioGroup.getCheckedRadioButtonId() == -1) {
+                reenterPasswordEditText.getText().toString().isEmpty()) {
             Toast.makeText(RegistrationActivity.this, "All fields are required", Toast.LENGTH_LONG).show();
             return false;
         }
@@ -105,18 +97,15 @@ public class RegistrationActivity extends AppCompatActivity {
         //Show the progress bar
         loadingPB.setVisibility(View.VISIBLE);
 
-        String username = usernameEditText.getText().toString().trim();
-        String email = emailEditText.getText().toString().trim();
-        String password = passwordEditText.getText().toString().trim();
-        int selectedRadioButtonId = accountTypeRadioGroup.getCheckedRadioButtonId();
-        RadioButton selectedRadioButton = (RadioButton) findViewById(selectedRadioButtonId);
-        String accountType = selectedRadioButton.getText().toString();
+        //Create JsonObject for data
+        JsonObject userData = new JsonObject();
+        userData.addProperty("username", usernameEditText.getText().toString().trim());
+        userData.addProperty("displayName", displayNameEditText.getText().toString().trim());
+        userData.addProperty("password", passwordEditText.getText().toString().trim());
 
         //Create a call to server using Retrofit for creating user
-        Call<ResponseBody> call = RetrofitClient
-                .getInstance()
-                .getAPI()
-                .createUser(new CreateRequest(username, email, password, accountType));
+        RetrofitAPI retrofitAPI = RetrofitClient.getInstance().getAPI();
+        Call<ResponseBody> call = retrofitAPI.createUser(userData);
 
         //Enqueue the call
         call.enqueue(new Callback<ResponseBody>() {
@@ -130,10 +119,9 @@ public class RegistrationActivity extends AppCompatActivity {
                     //Hide progress bar and clear user filled data
                     loadingPB.setVisibility(View.GONE);
                     usernameEditText.setText("");
-                    emailEditText.setText("");
+                    displayNameEditText.setText("");
                     passwordEditText.setText("");
                     reenterPasswordEditText.setText("");
-                    accountTypeRadioGroup.clearCheck();
 
                     //Redirect to "Login" page
                     Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);

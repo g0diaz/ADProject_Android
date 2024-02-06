@@ -13,13 +13,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.JsonObject;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
 import iss.workshop.gamerecommender.R;
-import iss.workshop.gamerecommender.dto_models.LoginRequest;
 import iss.workshop.gamerecommender.api.RetrofitClient;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -95,11 +96,17 @@ public class LoginActivity extends AppCompatActivity {
     }
    //Method to handle login
    private void login(String username, String password) {
-            //Create a call to server using Retrofit for login
-            Call<ResponseBody> call = RetrofitClient
-                    .getInstance()
-                    .getAPI()
-                    .loginUser(new LoginRequest(username, password));
+
+       //Create JsonObject for data
+       JsonObject loginData = new JsonObject();
+       loginData.addProperty("username", username);
+       loginData.addProperty("password", password);
+
+        //Create a call to server using Retrofit for login
+       Call<ResponseBody> call = RetrofitClient
+               .getInstance()
+               .getAPI()
+               .loginUser(loginData);
 
         //Enqueue the call
         call.enqueue(new Callback<ResponseBody>() {
