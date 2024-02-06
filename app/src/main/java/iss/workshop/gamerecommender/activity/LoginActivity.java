@@ -102,9 +102,9 @@ public class LoginActivity extends AppCompatActivity {
        loginData.addProperty("username", username);
        loginData.addProperty("password", password);
 
+       RetrofitClient retrofitClient = new RetrofitClient();
         //Create a call to server using Retrofit for login
-       Call<ResponseBody> call = RetrofitClient
-               .getInstance()
+       Call<ResponseBody> call = retrofitClient
                .getAPI()
                .loginUser(loginData);
 

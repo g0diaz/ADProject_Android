@@ -19,5 +19,5 @@ public interface RetrofitAPI {
 
     //Retrieve Game List
     @GET("api/games/list")
-    Call<JsonObject> getGames();
+    Call<JsonObject> getAllGames();
 }
