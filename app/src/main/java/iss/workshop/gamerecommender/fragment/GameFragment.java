@@ -13,8 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -31,6 +33,8 @@ implements AdapterView.OnItemClickListener {
     private final String[] texts={"PalWorld","Conan Exiles","Octopath Traveler","Green Hell","Diablo"};
     private final String[] images={"palworld","conan_exiles","octopath_traveler","green_hell","diablo"};
     //use for sample,get from java
+    private String search;
+    private String selectedMethod;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,8 +47,9 @@ implements AdapterView.OnItemClickListener {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                String[] filteredStrings = filterStrings(texts,query);
-                setContent(filteredStrings,view);
+//                String[] filteredStrings = filterStrings(texts,query);
+//                setContent(filteredStrings,view);
+                search=query;
                 return true;
             }
 
@@ -54,6 +59,24 @@ implements AdapterView.OnItemClickListener {
                     setContent(texts,view);
                 }
                 return false;
+            }
+        });
+
+        Spinner searchMethodSpinner = view.findViewById(R.id.searchChoice);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(), R.array.search_methods, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        searchMethodSpinner.setAdapter(adapter);
+
+        searchMethodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                selectedMethod = parentView.getItemAtPosition(position).toString();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+
             }
         });
 
@@ -71,17 +94,17 @@ implements AdapterView.OnItemClickListener {
         }
     }
 
-    private String[] filterStrings(String[] strings, String targetString) {
-        List<String> filteredStrings = new ArrayList<>();
-        targetString = targetString.toLowerCase();
-        for (String s : strings) {
-            if (s.toLowerCase().contains(targetString)) {
-                filteredStrings.add(s);
-            }
-        }
-        String[] arrayString = filteredStrings.toArray(new String[0]);
-        return arrayString;
-    }
+//    private String[] filterStrings(String[] strings, String targetString) {
+//        List<String> filteredStrings = new ArrayList<>();
+//        targetString = targetString.toLowerCase();
+//        for (String s : strings) {
+//            if (s.toLowerCase().contains(targetString)) {
+//                filteredStrings.add(s);
+//            }
+//        }
+//        String[] arrayString = filteredStrings.toArray(new String[0]);
+//        return arrayString;
+//    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,

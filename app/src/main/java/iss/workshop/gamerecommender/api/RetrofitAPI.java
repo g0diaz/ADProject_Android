@@ -17,7 +17,13 @@ public interface RetrofitAPI {
     @POST("api/users/login")
     Call<ResponseBody> loginUser(@Body JsonObject loginData);
 
+    //Store user preference
+    @POST("api/users/genre")
+    Call<JsonObject> storeGenres();
+
     //Retrieve Game List
     @GET("api/games/list")
     Call<JsonObject> getGames();
+
+
 }
