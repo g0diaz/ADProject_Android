@@ -102,9 +102,9 @@ public class LoginActivity extends AppCompatActivity {
        loginData.addProperty("username", username);
        loginData.addProperty("password", password);
 
+       RetrofitClient retrofitClient = new RetrofitClient();
         //Create a call to server using Retrofit for login
-       Call<ResponseBody> call = RetrofitClient
-               .getInstance()
+       Call<ResponseBody> call = retrofitClient
                .getAPI()
                .loginUser(loginData);
 
@@ -119,6 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                         String responseBodyString = response.body().string();
                         JSONObject jsonObject = new JSONObject(responseBodyString);
                         String sessionId = jsonObject.getString("sessionId");
+                        int userId=jsonObject.getInt("userId");
 
                         //Store the username, sessionId and boolean in SharedPreferences
                         SharedPreferences sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
@@ -126,6 +127,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putString("username", username);
                         editor.putString("sessionId", sessionId);
                         editor.putBoolean("loggedIn", true);
+                        editor.putInt("userId",userId);
                         editor.apply();
 
                         //Redirect to "Game List" page

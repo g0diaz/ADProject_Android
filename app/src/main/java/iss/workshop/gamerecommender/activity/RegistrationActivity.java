@@ -104,8 +104,10 @@ public class RegistrationActivity extends AppCompatActivity {
         userData.addProperty("password", passwordEditText.getText().toString().trim());
 
         //Create a call to server using Retrofit for creating user
-        RetrofitAPI retrofitAPI = RetrofitClient.getInstance().getAPI();
-        Call<ResponseBody> call = retrofitAPI.createUser(userData);
+        RetrofitClient retrofitClient = new RetrofitClient();
+        Call<ResponseBody> call = retrofitClient
+                .getAPI()
+                .createUser(userData);
 
         //Enqueue the call
         call.enqueue(new Callback<ResponseBody>() {

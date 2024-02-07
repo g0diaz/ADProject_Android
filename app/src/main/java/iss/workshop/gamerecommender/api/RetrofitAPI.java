@@ -1,6 +1,10 @@
 package iss.workshop.gamerecommender.api;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -18,12 +22,13 @@ public interface RetrofitAPI {
     Call<ResponseBody> loginUser(@Body JsonObject loginData);
 
     //Store user preference
-    @POST("api/users/genre")
-    Call<JsonObject> storeGenres();
+    @POST("api/user/profile/genre")
+    Call<ResponseBody> storeGenres(@Body JsonObject genreData);
+
+    @GET("api/user/profile/genreList")
+    Call<JsonElement> getGenres();
 
     //Retrieve Game List
     @GET("api/games/list")
-    Call<JsonObject> getGames();
-
-
+    Call<JsonObject> getAllGames();
 }

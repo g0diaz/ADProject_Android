@@ -11,12 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+
+import java.util.ArrayList;
 
 import iss.workshop.gamerecommender.R;
 
 public class PrefActivityAdapter extends ArrayAdapter<Object> {
     private final Context context;
     protected String[] genres;
+
+    ArrayList<String> selectedStrings = new ArrayList<String>();
     public PrefActivityAdapter(Context context, String[] genres) {
         super(context, R.layout.prefcell);
 
@@ -36,6 +41,20 @@ public class PrefActivityAdapter extends ArrayAdapter<Object> {
         CheckBox checkBox=view.findViewById(R.id.checkbox);
         checkBox.setText(genres[pos]);
 
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    selectedStrings.add(checkBox.getText().toString());
+                }else{
+                    selectedStrings.remove(checkBox.getText().toString());
+                }
+            }
+        });
         return view;
+    }
+
+    public ArrayList<String> getSelectedStrings(){
+        return selectedStrings;
     }
 }
