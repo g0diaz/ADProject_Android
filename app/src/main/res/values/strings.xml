@@ -34,4 +34,10 @@
     <string name="createAccount">Create account</string>
     <!--    forgotPasswordPage     -->
     <string name="resetPassword">Reset Password</string>
+
+    <string-array name="search_methods">
+        <item>Game</item>
+        <item>Developer</item>
+        <item>User</item>
+    </string-array>
 </resources>

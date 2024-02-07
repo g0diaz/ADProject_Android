@@ -27,6 +27,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.HEAD;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText usernameEditText;
@@ -119,9 +120,9 @@ public class LoginActivity extends AppCompatActivity {
                         //Using gson library to parse the response
                         String responseBodyString = response.body().string();
                         JsonObject jsonObject = JsonParser.parseString(responseBodyString).getAsJsonObject();
-
                         String sessionId = jsonObject.get("sessionId").getAsString();
                         int userId = jsonObject.get("userId").getAsInt();
+
 
                         //Store the username, sessionId and boolean in SharedPreferences
                         SharedPreferences sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
