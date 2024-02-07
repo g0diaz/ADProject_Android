@@ -22,4 +22,7 @@ public interface RetrofitAPI {
     //Retrieve Game List
     @GET("api/game/list")
     Call<JsonArray> getAllGames();
+
+    @POST("api/profile/friends")
+    Call<ResponseBody> getFriendsList(@Body JsonObject userIdData);
 }

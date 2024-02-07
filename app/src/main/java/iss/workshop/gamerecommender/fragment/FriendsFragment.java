@@ -1,8 +1,9 @@
 package iss.workshop.gamerecommender.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -10,50 +11,96 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.json.JSONArray;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import iss.workshop.gamerecommender.R;
+import iss.workshop.gamerecommender.activity.LoginActivity;
 import iss.workshop.gamerecommender.adapter.FriendsActivityAdapter;
-import iss.workshop.gamerecommender.adapter.GameListActivityAdapter;
+import iss.workshop.gamerecommender.api.RetrofitClient;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FriendsFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    private final String[] names ={"Faker","Brad","Mike","Steve","John"};
-    private final String[] avatars ={"avatar","avatar","avatar","avatar","avatar"};
+    List<String> names = new ArrayList<>();
+    List<String> urls = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_friends, container, false);
-        SearchView searchView=view.findViewById(R.id.search);
+        displayFriends(view);
 
-        setContent(names,view);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                String[] filteredStrings = filterStrings(names,query);
-                setContent(filteredStrings,view);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if(newText.isEmpty()){
-                    setContent(names,view);
-                }
-                return false;
-            }
-        });
         return view;
     }
-    private void setContent(String[] filtertexts,View view){
-        FriendsActivityAdapter adapter=new FriendsActivityAdapter(requireContext(), avatars,filtertexts);
+
+    public void displayFriends(View view){
+
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+        int userId = sharedPreferences.getInt("userId", 0);
+
+        JsonObject userIdData = new JsonObject();
+        userIdData.addProperty("userId", userId);
+
+        //Create a call to server using Retrofit for fetching games
+        RetrofitClient retrofitClient = new RetrofitClient();
+        Call<ResponseBody> call = retrofitClient
+                .getAPI()
+                .getFriendsList(userIdData);
+
+        //Enqueue the call
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                System.out.println(response);
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+                        //Using gson library to parse the response
+                        String responseBodyString = response.body().string();
+                        JsonArray friends = JsonParser.parseString(responseBodyString).getAsJsonArray();
+
+                        for (JsonElement friend : friends) {
+                            JsonObject friendObj = friend.getAsJsonObject();
+                            String name = friendObj.get("displayName").getAsString();
+                            String url = friendObj.get("displayImageUrl").getAsString();
+
+                            names.add(name);
+                            urls.add(url);
+                        }
+
+                        setContent(view);
+                    } catch (IOException e) {
+                        Log.e("API Error", "Error reading response body", e);
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Unable to fetch your friends", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "Cannot fetch the friends: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void setContent(View view){
+        FriendsActivityAdapter adapter=new FriendsActivityAdapter(requireContext(), urls, names);
 
         ListView listView=view.findViewById(R.id.friendlist);
         if(listView!=null){
@@ -62,26 +109,14 @@ public class FriendsFragment extends Fragment implements AdapterView.OnItemClick
         }
     }
 
-    private String[] filterStrings(String[] strings, String targetString) {
-        List<String> filteredStrings = new ArrayList<>();
-        targetString = targetString.toLowerCase();
-        for (String s : strings) {
-            if (s.toLowerCase().contains(targetString)) {
-                filteredStrings.add(s);
-            }
-        }
-        String[] arrayString = filteredStrings.toArray(new String[0]);
-        return arrayString;
-    }
-
     @Override
     public void onItemClick(AdapterView<?> av, View v, int pos, long id){
 
         Log.d("ItemClick", "Item clicked: " + pos);
 
         Bundle bundle=new Bundle();
-        bundle.putString("friendName",names[pos]);
-        bundle.putString("avatar",avatars[pos]);
+        bundle.putString("friendName", names.get(pos));
+        bundle.putString("url", urls.get(pos));
 
         FriendDetailFragment friendDetailFragment = new FriendDetailFragment();
         friendDetailFragment.setArguments(bundle);

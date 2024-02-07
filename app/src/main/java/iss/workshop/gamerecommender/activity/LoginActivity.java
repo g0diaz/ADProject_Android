@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -115,10 +116,12 @@ public class LoginActivity extends AppCompatActivity {
                 //Handle the server response
                 if (response.isSuccessful() && response.body() != null) {
                     try {
-                        //Parse the response
+                        //Using gson library to parse the response
                         String responseBodyString = response.body().string();
-                        JSONObject jsonObject = new JSONObject(responseBodyString);
-                        String sessionId = jsonObject.getString("sessionId");
+                        JsonObject jsonObject = JsonParser.parseString(responseBodyString).getAsJsonObject();
+
+                        String sessionId = jsonObject.get("sessionId").getAsString();
+                        int userId = jsonObject.get("userId").getAsInt();
 
                         //Store the username, sessionId and boolean in SharedPreferences
                         SharedPreferences sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
@@ -126,13 +129,14 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putString("username", username);
                         editor.putString("sessionId", sessionId);
                         editor.putBoolean("loggedIn", true);
+                        editor.putInt("userId", userId);
                         editor.apply();
 
                         //Redirect to "Game List" page
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
-                    } catch (IOException | JSONException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 } else {
