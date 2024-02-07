@@ -3,7 +3,6 @@ package iss.workshop.gamerecommender.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 
 import android.view.ContextMenu;
@@ -13,79 +12,91 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Spinner;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import iss.workshop.gamerecommender.R;
+import iss.workshop.gamerecommender.activity.LoginActivity;
 import iss.workshop.gamerecommender.adapter.GameListActivityAdapter;
+import iss.workshop.gamerecommender.api.RetrofitClient;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class GameFragment extends Fragment
-implements AdapterView.OnItemClickListener {
+        implements AdapterView.OnItemClickListener {
 
-    private final String[] texts={"PalWorld","Conan Exiles","Octopath Traveler","Green Hell","Diablo"};
-    private final String[] images={"palworld","conan_exiles","octopath_traveler","green_hell","diablo"};
-    //use for sample,get from java
-    private String search;
-    private String selectedMethod;
+    List<String> titles = new ArrayList<>();
+    List<String> urls = new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_game, container, false);
+        displayGames(view);
+
         SearchView searchView=view.findViewById(R.id.search);
-
-        setContent(texts,view);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-//                String[] filteredStrings = filterStrings(texts,query);
-//                setContent(filteredStrings,view);
-                search=query;
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if(newText.isEmpty()){
-                    setContent(texts,view);
-                }
-                return false;
-            }
-        });
-
-        Spinner searchMethodSpinner = view.findViewById(R.id.searchChoice);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(), R.array.search_methods, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        searchMethodSpinner.setAdapter(adapter);
-
-        searchMethodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                selectedMethod = parentView.getItemAtPosition(position).toString();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-
-            }
-        });
 
         ImageButton filter=view.findViewById(R.id.filter);
         registerForContextMenu(filter);
         return view;
     }
-    private void setContent(String[] filtertexts,View view){
-        GameListActivityAdapter adapter=new GameListActivityAdapter(requireContext(),images,filtertexts);
+
+    public void displayGames(View view){
+
+        //Create a call to server using Retrofit for fetching games
+        RetrofitClient retrofitClient = new RetrofitClient();
+        Call<JsonArray> call = retrofitClient
+                .getAPI()
+                .getAllGames();
+
+        //Enqueue the call
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                System.out.println(response);
+                if (response.isSuccessful() && response.body() != null){
+                    JsonArray games = response.body();
+                    // JsonObject element = result.get(0).getAsJsonObject();
+
+                    for (JsonElement game : games){
+                        JsonObject gameObj = game.getAsJsonObject();
+                        String title = gameObj.get("title").getAsString();
+                        String url = gameObj.get("imageUrl").getAsString();
+
+                        titles.add(title);
+                        urls.add(url);
+                    }
+
+                    setContent(view);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                Toast.makeText(getContext(), "Cannot fetch the games: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setContent(View view){
+        GameListActivityAdapter adapter=new GameListActivityAdapter(requireContext(),urls,titles);
 
         ListView listView=view.findViewById(R.id.gamelist);
         if(listView!=null){
@@ -94,17 +105,6 @@ implements AdapterView.OnItemClickListener {
         }
     }
 
-//    private String[] filterStrings(String[] strings, String targetString) {
-//        List<String> filteredStrings = new ArrayList<>();
-//        targetString = targetString.toLowerCase();
-//        for (String s : strings) {
-//            if (s.toLowerCase().contains(targetString)) {
-//                filteredStrings.add(s);
-//            }
-//        }
-//        String[] arrayString = filteredStrings.toArray(new String[0]);
-//        return arrayString;
-//    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
@@ -118,8 +118,8 @@ implements AdapterView.OnItemClickListener {
     @Override
     public void onItemClick(AdapterView<?> av,View v,int pos,long id){
         Bundle bundle=new Bundle();
-        bundle.putString("gamename",texts[pos]);
-        bundle.putString("image",images[pos]);
+        bundle.putString("title",titles.get(pos));
+        bundle.putString("url", urls.get(pos));
 
         GamedetailFragment gamedetailFragment=new GamedetailFragment();
         gamedetailFragment.setArguments(bundle);

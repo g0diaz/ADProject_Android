@@ -1,34 +1,34 @@
 package iss.workshop.gamerecommender.adapter;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+
+import java.util.List;
 
 import iss.workshop.gamerecommender.R;
 
 public class GameListActivityAdapter extends ArrayAdapter<Object> {
     private final Context context;
-    protected String[] texts;
-    protected String[] images;
-    public GameListActivityAdapter(Context context, String[] images,String[] texts) {
+    protected List<String> titles;
+    protected List<String> urls;
+    public GameListActivityAdapter(Context context, List<String> urls, List<String> titles) {
         super(context, R.layout.gamelistcell);
 
         this.context=context;
-        this.images=images;
-        this.texts=texts;
+        this.urls=urls;
+        this.titles=titles;
 
-        addAll(new Object[texts.length]);
+        addAll(new Object[titles.size()]);
     }
 
     public View getView(int pos, View view, @NonNull ViewGroup parent){
@@ -38,14 +38,12 @@ public class GameListActivityAdapter extends ArrayAdapter<Object> {
             view=inflater.inflate(R.layout.gamelistcell,parent,false);
         }
 
-
         TextView textView=view.findViewById(R.id.textview);
-        textView.setText(texts[pos]);
+        textView.setText(titles.get(pos));
 
         ImageView imageView=view.findViewById(R.id.imageview);
-        int id=context.getResources().getIdentifier(images[pos],
-                "drawable",context.getPackageName());
-        imageView.setImageResource(id);
+        String url = urls.get(pos);
+        ImageLoader.loadImage(context, url, imageView);
 
         return view;
     }

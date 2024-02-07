@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import iss.workshop.gamerecommender.R;
+import iss.workshop.gamerecommender.adapter.ImageLoader;
+
 public class GamedetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -21,16 +23,14 @@ public class GamedetailFragment extends Fragment {
 
         Bundle args=getArguments();
         if(args!=null){
-            String name=args.getString("gamename");
-            String image=args.getString("image");
+            String name=args.getString("title");
+            String url=args.getString("url");
 
             TextView textView=view.findViewById(R.id.gamename);
             textView.setText(name);
 
             ImageView imageView=view.findViewById(R.id.gameimage);
-            int id=requireContext().getResources().getIdentifier(image,
-                    "drawable",requireContext().getPackageName());
-            imageView.setImageResource(id);
+            ImageLoader.loadImage(getContext(), url, imageView );
         }
         return view;
     }

@@ -29,6 +29,6 @@ public interface RetrofitAPI {
     Call<JsonElement> getGenres();
 
     //Retrieve Game List
-    @GET("api/games/list")
-    Call<JsonObject> getAllGames();
+    @GET("api/game/list")
+    Call<JsonArray> getAllGames();
 }

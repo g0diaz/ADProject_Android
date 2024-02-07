@@ -64,7 +64,6 @@
                 android:id="@+id/filter"/>
         </LinearLayout>
 
-
         <ListView
             android:layout_width="match_parent"
             android:id="@+id/gamelist"
