@@ -35,4 +35,6 @@ public interface RetrofitAPI {
     //Retrieve Game Search Result
     @POST("api/common/search")
     Call<ResponseBody> getSearchResult(@Body JsonObject searchData);
+    @POST("api/profile/friends")
+    Call<ResponseBody> getFriendsList(@Body JsonObject userIdData);
 }

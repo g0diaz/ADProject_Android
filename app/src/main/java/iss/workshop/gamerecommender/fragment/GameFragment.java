@@ -18,7 +18,6 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import androidx.appcompat.widget.SearchView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -26,18 +25,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import iss.workshop.gamerecommender.R;
-import iss.workshop.gamerecommender.activity.LoginActivity;
 import iss.workshop.gamerecommender.adapter.GameListActivityAdapter;
 import iss.workshop.gamerecommender.api.RetrofitClient;
 import okhttp3.ResponseBody;
@@ -48,24 +40,27 @@ import retrofit2.Response;
 public class GameFragment extends Fragment
         implements AdapterView.OnItemClickListener {
 
-    List<String> titles = new ArrayList<>();
-    List<String> urls = new ArrayList<>();
+    List<String> titles ;
+    List<String> urls ;
     private SearchView searchView;
     private Spinner spinner;
     private String searchQuery;
+    private String searchMethod;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_game, container, false);
+        titles= new ArrayList<>();
+        urls = new ArrayList<>();
         displayGames(view);
 
         searchView=view.findViewById(R.id.search);
-        handelSearchSubmit(searchView);
+        handelSearchSubmit(searchView,view);
 
         spinner=view.findViewById(R.id.searchChoice);
-        handleSpinner(spinner,view);
+        handleSpinner(spinner);
 
         ImageButton filter=view.findViewById(R.id.filter);
         registerForContextMenu(filter);
@@ -158,7 +153,7 @@ public class GameFragment extends Fragment
         return super.onContextItemSelected(item);
     }
 
-    private void handleSpinner(Spinner spinner,View view){
+    private void handleSpinner(Spinner spinner){
         String[] searchMethods = getResources().getStringArray(R.array.search_methods);
         ArrayAdapter adapter
                 = new ArrayAdapter(
@@ -169,8 +164,7 @@ public class GameFragment extends Fragment
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String searchMethod = parent.getItemAtPosition(position).toString();
-                handleSearchMethodSelection(searchMethod,view);
+                searchMethod = parent.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -192,11 +186,12 @@ public class GameFragment extends Fragment
                 break;
         }
     }
-    private void handelSearchSubmit(SearchView searchView){
+    private void handelSearchSubmit(SearchView searchView,View view){
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 searchQuery=query;
+                handleSearchMethodSelection(searchMethod,view);
                 return true;
             }
 
@@ -210,6 +205,7 @@ public class GameFragment extends Fragment
     }
     private void displaySearchResult(View view,String query,String type){
         JsonObject searchData=new JsonObject();
+        System.out.println(query);
         searchData.addProperty("query",query);
         searchData.addProperty("type",type);
 
@@ -223,15 +219,19 @@ public class GameFragment extends Fragment
                 if (response.isSuccessful() && response.body() != null){
                     try {
                         String responseBodyString = response.body().string();
-                        JsonArray games = JsonParser.parseString(responseBodyString).getAsJsonArray();
-
-                        for (JsonElement game : games){
-                            JsonObject gameObj = game.getAsJsonObject();
-                            String title = gameObj.get("title").getAsString();
-                            String url = gameObj.get("imageUrl").getAsString();
-
-                            titles.add(title);
-                            urls.add(url);
+                        JsonArray jsonArray = JsonParser.parseString(responseBodyString).getAsJsonArray();
+                        titles=new ArrayList<>();
+                        urls=new ArrayList<>();
+                        switch(type) {
+                            case "Game":
+                                setTitlesandUrls(jsonArray,"title","imageUrl");
+                                break;
+                            case "Developer":
+                                setTitlesandUrls(jsonArray,"displayName","displayImageUrl");
+                                break;
+                            case "User":
+                                setTitlesandUrls(jsonArray,"displayName","displayImageUrl");
+                                break;
                         }
                         setContent(view);
                     }catch(IOException e){
@@ -245,5 +245,16 @@ public class GameFragment extends Fragment
                 Toast.makeText(getContext(), "Cannot fetch the games: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setTitlesandUrls(JsonArray jsonArray,String titlename,String urlname){
+        for (JsonElement e : jsonArray){
+            JsonObject obj = e.getAsJsonObject();
+            String title = obj.get(titlename).getAsString();
+            String url = obj.get(urlname).getAsString();
+
+            titles.add(title);
+            urls.add(url);
+        }
     }
 }

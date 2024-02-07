@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageButton notiBtn = findViewById(R.id.noti_btn);
         ImageButton profileBtn = findViewById(R.id.profile_btn);
+        ImageButton logoutBtn = findViewById(R.id.logout_btn);
 
         notiBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +62,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 replaceFragment(new FriendDetailFragment(),"Profile");
+            }
+        });
+
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences pref = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                editor.clear();
+                editor.commit();
+
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+                finish();
             }
         });
     }

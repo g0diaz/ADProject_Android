@@ -19,8 +19,8 @@ import iss.workshop.gamerecommender.R;
 
 public class GameListActivityAdapter extends ArrayAdapter<Object> {
     private final Context context;
-    protected List<String> titles;
     protected List<String> urls;
+    protected List<String> titles;
     public GameListActivityAdapter(Context context, List<String> urls, List<String> titles) {
         super(context, R.layout.gamelistcell);
 
