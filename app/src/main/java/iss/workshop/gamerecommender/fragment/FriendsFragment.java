@@ -19,14 +19,11 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import org.json.JSONArray;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import iss.workshop.gamerecommender.R;
-import iss.workshop.gamerecommender.activity.LoginActivity;
 import iss.workshop.gamerecommender.adapter.FriendsActivityAdapter;
 import iss.workshop.gamerecommender.api.RetrofitClient;
 import okhttp3.ResponseBody;
