@@ -46,7 +46,6 @@ public class GameFragment extends Fragment
 
     private SearchView searchView;
     private Spinner spinner;
-    private String searchQuery;
     private String searchMethod;
 
     @Override
@@ -133,13 +132,32 @@ public class GameFragment extends Fragment
         bundle.putString("title",titles.get(pos));
         bundle.putString("url", urls.get(pos));
 
-        GamedetailFragment gamedetailFragment=new GamedetailFragment();
-        gamedetailFragment.setArguments(bundle);
-
-        getParentFragmentManager().beginTransaction()
-                .replace(R.id.frame_layout,gamedetailFragment)
-                .addToBackStack("gameFragment")
-                .commit();
+        switch(searchMethod){
+            case "Game":
+                GamedetailFragment gamedetailFragment=new GamedetailFragment();
+                gamedetailFragment.setArguments(bundle);
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.frame_layout,gamedetailFragment)
+                        .addToBackStack("gameFragment")
+                        .commit();
+                break;
+            case "Developer":
+                FriendDetailFragment friendDetailFragment=new FriendDetailFragment();
+                friendDetailFragment.setArguments(bundle);
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.frame_layout,friendDetailFragment)
+                        .addToBackStack("gameFragment")
+                        .commit();
+                break;
+            case "User":
+                FriendDetailFragment userDetailFragment=new FriendDetailFragment();
+                userDetailFragment.setArguments(bundle);
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.frame_layout,userDetailFragment)
+                        .addToBackStack("gameFragment")
+                        .commit();
+                break;
+        }
     }
 
     @Override
@@ -177,7 +195,7 @@ public class GameFragment extends Fragment
             }
         });
     }
-    private void handleSearchMethodSelection(String searchMethod,View view) {
+    private void handleSearchMethodSelection(String searchMethod,View view,String searchQuery) {
         switch (searchMethod) {
             case "Game":
                 displaySearchResult(view,searchQuery,"Game");
@@ -194,8 +212,7 @@ public class GameFragment extends Fragment
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchQuery=query;
-                handleSearchMethodSelection(searchMethod,view);
+                handleSearchMethodSelection(searchMethod,view,query);
                 return true;
             }
 
