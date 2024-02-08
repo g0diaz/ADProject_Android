@@ -57,12 +57,12 @@
                 android:text="Recommendations for you"
                 android:textStyle="bold"/>
 
-            <ImageButton
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="20dp"
-                android:src="@drawable/baseline_filter_alt_24"
-                android:id="@+id/filter"/>
+<!--            <ImageButton-->
+<!--                android:layout_width="50dp"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:src="@drawable/baseline_filter_alt_24"-->
+<!--                android:id="@+id/filter"/>-->
         </LinearLayout>
 
         <ListView
