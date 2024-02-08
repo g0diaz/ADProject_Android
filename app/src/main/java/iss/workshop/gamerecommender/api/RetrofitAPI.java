@@ -32,12 +32,19 @@ public interface RetrofitAPI {
     @GET("api/game/list")
     Call<JsonArray> getAllGames();
 
+    //Retrieve Game Search Result
+    @POST("api/common/search")
+    Call<ResponseBody> getSearchResult(@Body JsonObject searchData);
+
+    //Retrieve User Related Friends
     @POST("api/user/profile/friends")
     Call<ResponseBody> getFriendsList(@Body JsonObject userIdData);
 
+    //Retrieve User Profile
     @POST("api/user/profile/detail")
     Call<ResponseBody> getProfileDetail(@Body JsonObject userIdData);
 
+    //Retrieve User Related Games
     @POST("api/user/profile/games")
     Call<ResponseBody> getGamesList(@Body JsonObject userIdData);
 }

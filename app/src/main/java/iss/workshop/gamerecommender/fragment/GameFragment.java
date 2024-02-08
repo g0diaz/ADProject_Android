@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -12,25 +13,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import androidx.appcompat.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import iss.workshop.gamerecommender.R;
 import iss.workshop.gamerecommender.adapter.GameListActivityAdapter;
 import iss.workshop.gamerecommender.api.RetrofitClient;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.HEAD;
 
 public class GameFragment extends Fragment
         implements AdapterView.OnItemClickListener {
@@ -38,16 +44,27 @@ public class GameFragment extends Fragment
     List<String> titles;
     List<String> urls ;
 
+    private SearchView searchView;
+    private Spinner spinner;
+    private String searchQuery;
+    private String searchMethod;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_game, container, false);
         titles= new ArrayList<>();
+
         urls= new ArrayList<>();
+
         displayGames(view);
 
-        SearchView searchView=view.findViewById(R.id.search);
+        searchView=view.findViewById(R.id.search);
+        handelSearchSubmit(searchView,view);
+
+        spinner=view.findViewById(R.id.searchChoice);
+        handleSpinner(spinner);
 
         ImageButton filter=view.findViewById(R.id.filter);
         registerForContextMenu(filter);
@@ -66,7 +83,6 @@ public class GameFragment extends Fragment
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                System.out.println(response);
                 if (response.isSuccessful() && response.body() != null){
                     JsonArray games = response.body();
                     // JsonObject element = result.get(0).getAsJsonObject();
@@ -101,7 +117,6 @@ public class GameFragment extends Fragment
             listView.setOnItemClickListener(this);
         }
     }
-
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
@@ -140,5 +155,110 @@ public class GameFragment extends Fragment
 
         }
         return super.onContextItemSelected(item);
+    }
+
+    private void handleSpinner(Spinner spinner){
+        String[] searchMethods = getResources().getStringArray(R.array.search_methods);
+        ArrayAdapter adapter
+                = new ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                searchMethods);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                searchMethod = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
+    }
+    private void handleSearchMethodSelection(String searchMethod,View view) {
+        switch (searchMethod) {
+            case "Game":
+                displaySearchResult(view,searchQuery,"Game");
+                break;
+            case "Developer":
+                displaySearchResult(view,searchQuery,"Developer");
+                break;
+            case "User":
+                displaySearchResult(view,searchQuery,"User");
+                break;
+        }
+    }
+    private void handelSearchSubmit(SearchView searchView,View view){
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchQuery=query;
+                handleSearchMethodSelection(searchMethod,view);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(newText.isEmpty()){
+                }
+                return false;
+            }
+        });
+    }
+    private void displaySearchResult(View view,String query,String type){
+        JsonObject searchData=new JsonObject();
+        System.out.println(query);
+        searchData.addProperty("query",query);
+        searchData.addProperty("type",type);
+
+        RetrofitClient retrofitClient=new RetrofitClient();
+        Call<ResponseBody> call=retrofitClient
+                .getAPI().getSearchResult(searchData);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    try {
+                        String responseBodyString = response.body().string();
+                        JsonArray jsonArray = JsonParser.parseString(responseBodyString).getAsJsonArray();
+                        titles=new ArrayList<>();
+                        urls=new ArrayList<>();
+                        switch(type) {
+                            case "Game":
+                                setTitlesandUrls(jsonArray,"title","imageUrl");
+                                break;
+                            case "Developer":
+                                setTitlesandUrls(jsonArray,"displayName","displayImageUrl");
+                                break;
+                            case "User":
+                                setTitlesandUrls(jsonArray,"displayName","displayImageUrl");
+                                break;
+                        }
+                        setContent(view);
+                    }catch(IOException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "Cannot fetch the games: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void setTitlesandUrls(JsonArray jsonArray,String titlename,String urlname){
+        for (JsonElement e : jsonArray){
+            JsonObject obj = e.getAsJsonObject();
+            String title = obj.get(titlename).getAsString();
+            String url = obj.get(urlname).getAsString();
+
+            titles.add(title);
+            urls.add(url);
+        }
     }
 }
