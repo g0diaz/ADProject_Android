@@ -78,7 +78,6 @@
             android:text="Edit"
             android:visibility="gone"/>
 
-
         <TextView
             android:id="@+id/friends"
             android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 package iss.workshop.gamerecommender.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import iss.workshop.gamerecommender.R;
+import iss.workshop.gamerecommender.activity.EditUserProfileActivity;
 import iss.workshop.gamerecommender.adapter.FriendsActivityAdapter;
 import iss.workshop.gamerecommender.adapter.GameListActivityAdapter;
 import iss.workshop.gamerecommender.adapter.ImageLoader;
@@ -60,6 +63,14 @@ public class FriendDetailFragment extends Fragment {
                 unfriendButton.setVisibility(View.GONE);
                 unfollowButton.setVisibility(View.GONE);
 
+                editProfileButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(getActivity(), EditUserProfileActivity.class);
+                        intent.putExtra("userId",userId);
+                        startActivity(intent);
+                    }
+                });
             }
 
             fetchProfileDetail(userId);
