@@ -41,8 +41,9 @@ import retrofit2.http.HEAD;
 public class GameFragment extends Fragment
         implements AdapterView.OnItemClickListener {
 
-    List<String> titles;
-    List<String> urls ;
+    private List<String> titles;
+    private List<String> urls ;
+    private List<Integer> gameIds;
 
     private SearchView searchView;
     private Spinner spinner;
@@ -54,8 +55,8 @@ public class GameFragment extends Fragment
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_game, container, false);
         titles= new ArrayList<>();
-
         urls= new ArrayList<>();
+        gameIds = new ArrayList<>();
 
         displayGames(view);
 
@@ -84,15 +85,16 @@ public class GameFragment extends Fragment
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 if (response.isSuccessful() && response.body() != null){
                     JsonArray games = response.body();
-                    // JsonObject element = result.get(0).getAsJsonObject();
 
                     for (JsonElement game : games){
                         JsonObject gameObj = game.getAsJsonObject();
                         String title = gameObj.get("title").getAsString();
                         String url = gameObj.get("imageUrl").getAsString();
+                        int gameId = gameObj.get("id").getAsInt();
 
                         titles.add(title);
                         urls.add(url);
+                        gameIds.add(gameId);
                     }
 
                     setContent(view);
@@ -129,8 +131,7 @@ public class GameFragment extends Fragment
     @Override
     public void onItemClick(AdapterView<?> av,View v,int pos,long id){
         Bundle bundle=new Bundle();
-        bundle.putString("title",titles.get(pos));
-        bundle.putString("url", urls.get(pos));
+        bundle.putInt("gameId", gameIds.get(pos));
 
         switch(searchMethod){
             case "Game":

@@ -32,6 +32,10 @@ public interface RetrofitAPI {
     @GET("api/game/list")
     Call<JsonArray> getAllGames();
 
+    //Retrieve Game Data
+    @POST("api/game/detail")
+    Call<ResponseBody> getGameDetail(@Body JsonObject gameIdData);
+
     //Retrieve Game Search Result
     @POST("api/common/search")
     Call<ResponseBody> getSearchResult(@Body JsonObject searchData);
