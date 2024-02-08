@@ -33,14 +33,19 @@ import retrofit2.Response;
 
 public class FriendsFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    List<String> names = new ArrayList<>();
-    List<String> urls = new ArrayList<>();
+    private List<String> names;
+    private List<String> urls;
+    private List<Integer> userIds;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_friends, container, false);
+        names = new ArrayList<>();
+        urls = new ArrayList<>();
+        userIds = new ArrayList<>();
+
         displayFriends(view);
 
         return view;
@@ -64,7 +69,6 @@ public class FriendsFragment extends Fragment implements AdapterView.OnItemClick
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                System.out.println(response);
                 if (response.isSuccessful() && response.body() != null) {
                     try {
                         //Using gson library to parse the response
@@ -75,9 +79,11 @@ public class FriendsFragment extends Fragment implements AdapterView.OnItemClick
                             JsonObject friendObj = friend.getAsJsonObject();
                             String name = friendObj.get("displayName").getAsString();
                             String url = friendObj.get("displayImageUrl").getAsString();
+                            int userId = friendObj.get("id").getAsInt();
 
                             names.add(name);
                             urls.add(url);
+                            userIds.add(userId);
                         }
 
                         setContent(view);
@@ -112,8 +118,7 @@ public class FriendsFragment extends Fragment implements AdapterView.OnItemClick
         Log.d("ItemClick", "Item clicked: " + pos);
 
         Bundle bundle=new Bundle();
-        bundle.putString("friendName", names.get(pos));
-        bundle.putString("url", urls.get(pos));
+        bundle.putInt("userId", userIds.get(pos));
 
         FriendDetailFragment friendDetailFragment = new FriendDetailFragment();
         friendDetailFragment.setArguments(bundle);

@@ -21,7 +21,7 @@
             android:textStyle="bold"/>
 
         <Button
-            android:id="@+id/unfriend"
+            android:id="@+id/unfriendBtn"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/friend_name"
@@ -30,10 +30,10 @@
             android:text="unfriend"/>
 
         <Button
-            android:id="@+id/unfollow"
+            android:id="@+id/unfollowBtn"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/unfriend"
+            android:layout_toRightOf="@id/unfriendBtn"
             android:layout_marginTop="-10dp"
             android:layout_marginLeft="10dp"
             android:text="unfollow"/>
@@ -68,14 +68,25 @@
             android:layout_marginLeft="10dp"
             android:textColor="@color/black"/>
 
+        <Button
+            android:id="@+id/editProfileBtn"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/friend_avatar"
+            android:layout_below="@id/bio"
+            android:layout_marginLeft="10dp"
+            android:text="Edit"
+            android:visibility="gone"/>
+
+
         <TextView
             android:id="@+id/friends"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/friend_avatar"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
-            android:text="Friends"
+            android:text="Friend List"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="20sp"/>
@@ -94,7 +105,7 @@
             android:layout_below="@id/friendlist"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
-            android:text="Games"
+            android:text="Games List"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="20sp"/>

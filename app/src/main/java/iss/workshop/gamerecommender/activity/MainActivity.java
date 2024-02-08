@@ -9,8 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -61,7 +59,16 @@ public class MainActivity extends AppCompatActivity {
         profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                replaceFragment(new FriendDetailFragment(),"Profile");
+                SharedPreferences sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+                int myUserId = sharedPreferences.getInt("userId", 0);
+
+                Bundle bundle = new Bundle();
+                bundle.putInt("userId", myUserId);
+
+                FriendDetailFragment friendDetailFragment = new FriendDetailFragment();
+                friendDetailFragment.setArguments(bundle);
+
+                replaceFragment(friendDetailFragment, "Profile");
             }
         });
 

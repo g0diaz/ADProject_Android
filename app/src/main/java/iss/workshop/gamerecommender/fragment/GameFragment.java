@@ -35,14 +35,16 @@ import retrofit2.Response;
 public class GameFragment extends Fragment
         implements AdapterView.OnItemClickListener {
 
-    List<String> titles = new ArrayList<>();
-    List<String> urls = new ArrayList<>();
+    List<String> titles;
+    List<String> urls ;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_game, container, false);
+        titles= new ArrayList<>();
+        urls= new ArrayList<>();
         displayGames(view);
 
         SearchView searchView=view.findViewById(R.id.search);

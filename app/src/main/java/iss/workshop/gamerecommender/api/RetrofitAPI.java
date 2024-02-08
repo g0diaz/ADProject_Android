@@ -14,11 +14,11 @@ import retrofit2.http.POST;
 
 public interface RetrofitAPI {
     //Create account
-    @POST("api/users/register")
+    @POST("api/user/register")
     Call<ResponseBody> createUser(@Body JsonObject userData);
 
     //Login
-    @POST("api/users/login")
+    @POST("api/user/login")
     Call<ResponseBody> loginUser(@Body JsonObject loginData);
 
     //Store user preference
@@ -32,6 +32,13 @@ public interface RetrofitAPI {
     @GET("api/game/list")
     Call<JsonArray> getAllGames();
 
-    @POST("api/profile/friends")
+    @POST("api/user/profile/friends")
     Call<ResponseBody> getFriendsList(@Body JsonObject userIdData);
+
+    @POST("api/user/profile/detail")
+    Call<ResponseBody> getProfileDetail(@Body JsonObject userIdData);
+
+    @POST("api/user/profile/games")
+    Call<ResponseBody> getGamesList(@Body JsonObject userIdData);
 }
+
