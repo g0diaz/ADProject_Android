@@ -11,6 +11,8 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface RetrofitAPI {
     //Create account
@@ -51,5 +53,8 @@ public interface RetrofitAPI {
     //Retrieve User Related Games
     @POST("api/user/profile/games")
     Call<ResponseBody> getGamesList(@Body JsonObject userIdData);
+
+    @PUT("api/user/profile/update/{userId}")
+    Call<ResponseBody> editProfile(@Path ("userId") int userId,@Body JsonObject userJsonObject);
 }
 
