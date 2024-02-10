@@ -16,7 +16,7 @@ import android.widget.TextView;
 import iss.workshop.gamerecommender.R;
 import iss.workshop.gamerecommender.databinding.ActivityMainBinding;
 import iss.workshop.gamerecommender.fragment.ActivityFeedFragment;
-import iss.workshop.gamerecommender.fragment.FriendDetailFragment;
+import iss.workshop.gamerecommender.fragment.ProfileDetailFragment;
 import iss.workshop.gamerecommender.fragment.FriendsFragment;
 import iss.workshop.gamerecommender.fragment.GameFragment;
 
@@ -65,10 +65,10 @@ public class MainActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putInt("userId", myUserId);
 
-                FriendDetailFragment friendDetailFragment = new FriendDetailFragment();
-                friendDetailFragment.setArguments(bundle);
+                ProfileDetailFragment profileDetailFragment = new ProfileDetailFragment();
+                profileDetailFragment.setArguments(bundle);
 
-                replaceFragment(friendDetailFragment, "Profile");
+                replaceFragment(profileDetailFragment, "Profile");
             }
         });
 

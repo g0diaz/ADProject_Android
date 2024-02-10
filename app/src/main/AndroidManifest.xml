@@ -35,7 +35,7 @@
             android:name=".activity.NotiActivity"
             android:exported="false" />
         <activity
-            android:name=".adapter.GameListActivityAdapter"
+            android:name=".adapter.FriendProfileGamesAdapter"
             android:exported="false" />
         <activity
             android:name=".adapter.PrefActivityAdapter"

@@ -1,5 +1,7 @@
 package iss.workshop.gamerecommender.adapter;
 
+import androidx.annotation.NonNull;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,22 +11,22 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
+import java.util.List;
 
 import iss.workshop.gamerecommender.R;
 
-public class FriendProfileGamesAdapter extends ArrayAdapter<Object>  {
+public class FriendProfileGamesAdapter extends ArrayAdapter<Object> {
     private final Context context;
-    protected String[] texts;
-    protected String[] images;
-    public FriendProfileGamesAdapter(Context context, String[] images, String[] texts) {
+    protected List<String> urls;
+    protected List<String> titles;
+    public FriendProfileGamesAdapter(Context context, List<String> urls, List<String> titles) {
         super(context, R.layout.gamelistcell);
 
         this.context=context;
-        this.images=images;
-        this.texts=texts;
+        this.urls=urls;
+        this.titles=titles;
 
-        addAll(new Object[texts.length]);
+        addAll(new Object[titles.size()]);
     }
 
     public View getView(int pos, View view, @NonNull ViewGroup parent){
@@ -34,14 +36,12 @@ public class FriendProfileGamesAdapter extends ArrayAdapter<Object>  {
             view=inflater.inflate(R.layout.gamelistcell,parent,false);
         }
 
-
         TextView textView=view.findViewById(R.id.textview);
-        textView.setText(texts[pos]);
+        textView.setText(titles.get(pos));
 
         ImageView imageView=view.findViewById(R.id.imageview);
-        int id=context.getResources().getIdentifier(images[pos],
-                "drawable",context.getPackageName());
-        imageView.setImageResource(id);
+        String url = urls.get(pos);
+        ImageLoader.loadImage(context, url, imageView);
 
         return view;
     }

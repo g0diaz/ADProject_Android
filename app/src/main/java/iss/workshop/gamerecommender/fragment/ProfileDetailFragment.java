@@ -8,11 +8,11 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,8 +30,9 @@ import java.util.List;
 
 import iss.workshop.gamerecommender.R;
 import iss.workshop.gamerecommender.activity.EditUserProfileActivity;
-import iss.workshop.gamerecommender.adapter.FriendsActivityAdapter;
-import iss.workshop.gamerecommender.adapter.GameListActivityAdapter;
+import iss.workshop.gamerecommender.adapter.FriendProfileDevelopersAdapter;
+import iss.workshop.gamerecommender.adapter.FriendProfileFriendsAdapter;
+import iss.workshop.gamerecommender.adapter.FriendProfileGamesAdapter;
 import iss.workshop.gamerecommender.adapter.ImageLoader;
 import iss.workshop.gamerecommender.api.RetrofitClient;
 import okhttp3.ResponseBody;
@@ -39,13 +40,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class FriendDetailFragment extends Fragment {
+public class ProfileDetailFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_friend_detail, container, false);
+        View view=inflater.inflate(R.layout.fragment_profile_detail, container, false);
 
         Bundle args=getArguments();
         if(args!=null){
@@ -72,6 +73,7 @@ public class FriendDetailFragment extends Fragment {
             fetchProfileDetail(userId);
             fetchGameList(userId);
             fetchFriendList(userId);
+            fetchDevelopersList(userId);
         }
         return view;
     }
@@ -152,11 +154,29 @@ public class FriendDetailFragment extends Fragment {
                             gamesIds.add(gameId);
                         }
 
-                        GameListActivityAdapter adapter = new GameListActivityAdapter(requireContext(), urls, titles);
+                        FriendProfileGamesAdapter adapter = new FriendProfileGamesAdapter(requireContext(), urls, titles);
 
                         ListView gamelistView = getView().findViewById(R.id.gamelist);
                         if (gamelistView != null) {
                             gamelistView.setAdapter(adapter);
+                            gamelistView.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View view, MotionEvent motionEvent) {
+                                    int action = motionEvent.getAction();
+                                    switch (action) {
+                                        case MotionEvent.ACTION_DOWN:
+                                            // Disallow ScrollView to intercept touch events.
+                                            view.getParent().requestDisallowInterceptTouchEvent(true);
+                                            break;
+                                        case MotionEvent.ACTION_UP:
+                                            // Allow ScrollView to intercept touch events.
+                                            view.getParent().requestDisallowInterceptTouchEvent(false);
+                                            break;
+                                    }
+                                    view.onTouchEvent(motionEvent);
+                                    return true;
+                                }
+                            });
                             gamelistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> av, View view, int pos, long id) {
@@ -218,11 +238,29 @@ public class FriendDetailFragment extends Fragment {
                             userIds.add(userId);
                         }
 
-                        FriendsActivityAdapter adapter = new FriendsActivityAdapter(requireContext(), urls, names);
+                        FriendProfileFriendsAdapter adapter = new FriendProfileFriendsAdapter(requireContext(), urls, names);
 
                         ListView friendlistView = getView().findViewById(R.id.friendlist);
                         if (friendlistView != null) {
                             friendlistView.setAdapter(adapter);
+                            friendlistView.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View view, MotionEvent motionEvent) {
+                                    int action = motionEvent.getAction();
+                                    switch (action) {
+                                        case MotionEvent.ACTION_DOWN:
+                                            // Disallow ScrollView to intercept touch events.
+                                            view.getParent().requestDisallowInterceptTouchEvent(true);
+                                            break;
+                                        case MotionEvent.ACTION_UP:
+                                            // Allow ScrollView to intercept touch events.
+                                            view.getParent().requestDisallowInterceptTouchEvent(false);
+                                            break;
+                                    }
+                                    view.onTouchEvent(motionEvent);
+                                    return true;
+                                }
+                            });
                             friendlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> av, View view, int pos, long id) {
@@ -230,11 +268,93 @@ public class FriendDetailFragment extends Fragment {
                                     Bundle bundle=new Bundle();
                                     bundle.putInt("userId", userIds.get(pos));
 
-                                    FriendDetailFragment friendDetailFragment = new FriendDetailFragment();
-                                    friendDetailFragment.setArguments(bundle);
+                                    ProfileDetailFragment profileDetailFragment = new ProfileDetailFragment();
+                                    profileDetailFragment.setArguments(bundle);
 
                                     getParentFragmentManager().beginTransaction()
-                                            .replace(R.id.frame_layout,friendDetailFragment)
+                                            .replace(R.id.frame_layout, profileDetailFragment)
+                                            .addToBackStack("friendsFragment")
+                                            .commit();
+                                }
+                            });
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+            @Override
+            public void onFailure (Call < ResponseBody > call, Throwable t){
+                Toast.makeText(getContext(), "Cannot fetch friend list: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void fetchDevelopersList(int userId) {
+        JsonObject userIdData = new JsonObject();
+        userIdData.addProperty("userId", userId);
+
+        //Create a call to server using Retrofit for fetching games
+        RetrofitClient retrofitClient = new RetrofitClient();
+        Call<ResponseBody> call = retrofitClient
+                .getAPI()
+                .getDevelopersList(userIdData);
+
+        //Enqueue the call
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+                        String responseBodyString = response.body().string();
+                        JsonArray developers = JsonParser.parseString(responseBodyString).getAsJsonArray();
+                        List<String> names = new ArrayList<>();
+                        List<Integer> userIds = new ArrayList<>();
+
+                        for (JsonElement developer : developers) {
+                            JsonObject developerObj = developer.getAsJsonObject();
+                            String name = developerObj.get("displayName").getAsString();
+                            int userId = developerObj.get("id").getAsInt();
+
+                            names.add(name);
+                            userIds.add(userId);
+                        }
+
+                        FriendProfileDevelopersAdapter adapter = new FriendProfileDevelopersAdapter(requireContext(), names);
+
+                        ListView developerlistView = getView().findViewById(R.id.developerslist);
+                        if (developerlistView != null) {
+                            developerlistView.setAdapter(adapter);
+                            developerlistView.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View view, MotionEvent motionEvent) {
+                                    int action = motionEvent.getAction();
+                                    switch (action) {
+                                        case MotionEvent.ACTION_DOWN:
+                                            // Disallow ScrollView to intercept touch events.
+                                            view.getParent().requestDisallowInterceptTouchEvent(true);
+                                            break;
+                                        case MotionEvent.ACTION_UP:
+                                            // Allow ScrollView to intercept touch events.
+                                            view.getParent().requestDisallowInterceptTouchEvent(false);
+                                            break;
+                                    }
+                                    view.onTouchEvent(motionEvent);
+                                    return true;
+                                }
+                            });
+                            developerlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> av, View view, int pos, long id) {
+
+                                    Bundle bundle=new Bundle();
+                                    bundle.putInt("userId", userIds.get(pos));
+
+                                    ProfileDetailFragment profileDetailFragment = new ProfileDetailFragment();
+                                    profileDetailFragment.setArguments(bundle);
+
+                                    getParentFragmentManager().beginTransaction()
+                                            .replace(R.id.frame_layout, profileDetailFragment)
                                             .addToBackStack("friendsFragment")
                                             .commit();
                                 }

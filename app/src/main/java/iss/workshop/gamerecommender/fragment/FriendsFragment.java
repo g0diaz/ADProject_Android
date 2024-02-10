@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import iss.workshop.gamerecommender.R;
-import iss.workshop.gamerecommender.adapter.FriendsActivityAdapter;
+import iss.workshop.gamerecommender.adapter.FriendProfileFriendsAdapter;
 import iss.workshop.gamerecommender.api.RetrofitClient;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -103,7 +103,7 @@ public class FriendsFragment extends Fragment implements AdapterView.OnItemClick
         });
     }
     private void setContent(View view){
-        FriendsActivityAdapter adapter=new FriendsActivityAdapter(requireContext(), urls, names);
+        FriendProfileFriendsAdapter adapter=new FriendProfileFriendsAdapter(requireContext(), urls, names);
 
         ListView listView=view.findViewById(R.id.friendlist);
         if(listView!=null){
@@ -120,11 +120,11 @@ public class FriendsFragment extends Fragment implements AdapterView.OnItemClick
         Bundle bundle=new Bundle();
         bundle.putInt("userId", userIds.get(pos));
 
-        FriendDetailFragment friendDetailFragment = new FriendDetailFragment();
-        friendDetailFragment.setArguments(bundle);
+        ProfileDetailFragment profileDetailFragment = new ProfileDetailFragment();
+        profileDetailFragment.setArguments(bundle);
 
         getParentFragmentManager().beginTransaction()
-                .replace(R.id.frame_layout,friendDetailFragment)
+                .replace(R.id.frame_layout, profileDetailFragment)
                 .addToBackStack("friendsFragment")
                 .commit();
     }

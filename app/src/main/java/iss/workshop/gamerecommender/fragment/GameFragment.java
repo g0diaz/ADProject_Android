@@ -1,20 +1,14 @@
 package iss.workshop.gamerecommender.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.TypedValue;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import androidx.appcompat.widget.SearchView;
 import android.widget.Spinner;
@@ -30,13 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import iss.workshop.gamerecommender.R;
-import iss.workshop.gamerecommender.adapter.GameListActivityAdapter;
+import iss.workshop.gamerecommender.adapter.FriendProfileGamesAdapter;
 import iss.workshop.gamerecommender.api.RetrofitClient;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.HEAD;
 
 public class GameFragment extends Fragment
         implements AdapterView.OnItemClickListener {
@@ -110,7 +103,7 @@ public class GameFragment extends Fragment
     }
 
     private void setContent(View view){
-        GameListActivityAdapter adapter=new GameListActivityAdapter(requireContext(),urls,titles);
+        FriendProfileGamesAdapter adapter=new FriendProfileGamesAdapter(requireContext(),urls,titles);
 
         ListView listView=view.findViewById(R.id.gamelist);
         if(listView!=null){
@@ -143,15 +136,15 @@ public class GameFragment extends Fragment
                         .commit();
                 break;
             case "Developer":
-                FriendDetailFragment friendDetailFragment=new FriendDetailFragment();
-                friendDetailFragment.setArguments(bundle);
+                ProfileDetailFragment profileDetailFragment =new ProfileDetailFragment();
+                profileDetailFragment.setArguments(bundle);
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.frame_layout,friendDetailFragment)
+                        .replace(R.id.frame_layout, profileDetailFragment)
                         .addToBackStack("gameFragment")
                         .commit();
                 break;
             case "User":
-                FriendDetailFragment userDetailFragment=new FriendDetailFragment();
+                ProfileDetailFragment userDetailFragment=new ProfileDetailFragment();
                 userDetailFragment.setArguments(bundle);
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.frame_layout,userDetailFragment)
