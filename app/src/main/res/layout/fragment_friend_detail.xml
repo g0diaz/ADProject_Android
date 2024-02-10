@@ -21,21 +21,12 @@
             android:textStyle="bold"/>
 
         <Button
-            android:id="@+id/unfriendBtn"
-            android:layout_width="100dp"
+            android:id="@+id/unfollowBtn"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/friend_name"
             android:layout_marginTop="-10dp"
-            android:layout_marginLeft="10dp"
-            android:text="unfriend"/>
-
-        <Button
-            android:id="@+id/unfollowBtn"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/unfriendBtn"
-            android:layout_marginTop="-10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="100dp"
             android:text="unfollow"/>
 
         <ImageView

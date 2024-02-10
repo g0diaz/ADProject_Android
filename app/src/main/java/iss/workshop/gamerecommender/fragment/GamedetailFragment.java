@@ -5,21 +5,28 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 import iss.workshop.gamerecommender.R;
+import iss.workshop.gamerecommender.adapter.DevBlogAdapter;
 import iss.workshop.gamerecommender.adapter.ImageLoader;
+import iss.workshop.gamerecommender.adapter.ReviewPostAdapter;
 import iss.workshop.gamerecommender.api.RetrofitClient;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -60,6 +67,8 @@ public class GamedetailFragment extends Fragment {
                     try {
                         String responseBodyString = response.body().string();
                         JsonObject gameDetail = JsonParser.parseString(responseBodyString).getAsJsonObject();
+
+                        //for game detail
                         JsonObject developer = gameDetail.getAsJsonObject("developer");
                         String developerName = developer.get("displayName").getAsString();
                         String title = gameDetail.get("title").getAsString();
@@ -67,8 +76,7 @@ public class GamedetailFragment extends Fragment {
                         String imageUrl = gameDetail.get("imageUrl").getAsString();
                         String webUrl = gameDetail.get("webUrl").getAsString();
                         String releasedDate = gameDetail.get("dateRelease").getAsString();
-                        JsonArray platform = gameDetail.get("platforms").getAsJsonArray();
-
+                        JsonArray platformArray = gameDetail.get("platforms").getAsJsonArray();
                         Float price = gameDetail.get("price").getAsFloat();
                         Float rating = gameDetail.get("rating").getAsFloat();
                         rating = rating * 100;
@@ -90,7 +98,11 @@ public class GamedetailFragment extends Fragment {
                         devTextView.setText(developerName);
 
                         TextView priceTextView = getView().findViewById(R.id.priceTitle);
-                        priceTextView.setText(String.valueOf(price));
+                        if (price == 0){
+                            priceTextView.setText("Free to Play");
+                        } else {
+                            priceTextView.setText(String.valueOf(price));
+                        }
 
                         TextView ratingTextView = getView().findViewById(R.id.ratingTitle);
                         ratingTextView.setText(ratingPercentage);
@@ -98,6 +110,122 @@ public class GamedetailFragment extends Fragment {
                         TextView urlTextView = getView().findViewById(R.id.weburlTitle);
                         urlTextView.setText(String.valueOf(webUrl));
 
+                        StringBuilder platformStringBuilder = new StringBuilder();
+                        for (int i = 0; i < platformArray.size(); i++){
+                            String platform = platformArray.get(i).getAsString();
+                            platformStringBuilder.append(platform);
+                            if (i < platformArray.size() - 1) {
+                                platformStringBuilder.append(", ");
+                            }
+                        }
+
+                        String platformString = platformStringBuilder.toString();
+                        TextView platformTextView = getView().findViewById(R.id.platformTitle);
+                        platformTextView.setText(platformString);
+
+                        JsonArray genreArray = gameDetail.get("genres").getAsJsonArray();
+                        StringBuilder genreStringBuilder = new StringBuilder();
+                        for (int i = 0; i < genreArray.size(); i++){
+                            String genre = genreArray.get(i).getAsString();
+                            genreStringBuilder.append(genre);
+                            if (i < genreArray.size() - 1) {
+                                genreStringBuilder.append(", ");
+                            }
+                        }
+                        String genreString = genreStringBuilder.toString();
+                        TextView genreTextView = getView().findViewById(R.id.genretitle);
+                        genreTextView.setText(genreString);
+
+                        //for dev blog posts
+                        //JsonObject profile = developer.getAsJsonObject("profile");
+                        JsonObject profile = gameDetail.getAsJsonObject("profile");
+                        JsonArray gameUpdatePosts = profile.get("gameUpdatePosts").getAsJsonArray();
+                        List<String> devTitles = new ArrayList<>();
+                        List<String> devMessages = new ArrayList<>();
+                        List<String> devDates = new ArrayList<>();
+                        for (JsonElement gameUpdatePost : gameUpdatePosts){
+                            JsonObject blogObj = gameUpdatePost.getAsJsonObject();
+                            String blogTitle = blogObj.get("title").getAsString();
+                            String blogMessage = blogObj.get("message").getAsString();
+                            String blogDate = blogObj.get("datePosted").getAsString();
+
+                            devTitles.add(blogTitle);
+                            devMessages.add(blogMessage);
+                            devDates.add(blogDate);
+                        }
+
+                        DevBlogAdapter devBlogAdapterdapter = new DevBlogAdapter(requireContext(), devTitles, devMessages, devDates);
+                        ListView blogListView = getView().findViewById(R.id.post_list);
+
+                        if (blogListView != null) {
+                            blogListView.setAdapter(devBlogAdapterdapter);
+
+                            //to make list view scroll work https://stackoverflow.com/questions/6546108/mapview-inside-a-scrollview/6883831#6883831
+                            blogListView.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View view, MotionEvent motionEvent) {
+                                    int action = motionEvent.getAction();
+                                    switch (action) {
+                                        case MotionEvent.ACTION_DOWN:
+                                            // Disallow ScrollView to intercept touch events.
+                                            view.getParent().requestDisallowInterceptTouchEvent(true);
+                                            break;
+                                        case MotionEvent.ACTION_UP:
+                                            // Allow ScrollView to intercept touch events.
+                                            view.getParent().requestDisallowInterceptTouchEvent(false);
+                                            break;
+                                    }
+                                    view.onTouchEvent(motionEvent);
+                                    return true;
+                                }
+                            });
+                        }
+
+//                        JsonObject profileTwo = gameDetail.getAsJsonObject("profile");
+                        JsonArray reviewPosts = profile.get("gameReviewPosts").getAsJsonArray();
+                        List<String> reviewTitles = new ArrayList<>();
+                        List<String> reviewMessages = new ArrayList<>();
+                        List<String> reviewDates = new ArrayList<>();
+                        List<Boolean> reviewResults = new ArrayList<>();
+                        for (JsonElement reviewPost : reviewPosts){
+                            JsonObject reviewObj = reviewPost.getAsJsonObject();
+                            String reviewTitle = reviewObj.get("title").getAsString();
+                            String reviewMessage = reviewObj.get("message").getAsString();
+                            String reviewDate = reviewObj.get("datePosted").getAsString();
+                            Boolean reviewResult = reviewObj.get("isRecommend").getAsBoolean();
+
+                            reviewTitles.add(reviewTitle);
+                            reviewMessages.add(reviewMessage);
+                            reviewDates.add(reviewDate);
+                            reviewResults.add(reviewResult);
+                        }
+
+                        ReviewPostAdapter reviewPostAdapter = new ReviewPostAdapter(requireContext(), reviewTitles, reviewMessages, reviewDates, reviewResults);
+                        ListView reviewListView = getView().findViewById(R.id.review_list);
+
+                        if (reviewListView != null) {
+                            reviewListView.setAdapter(reviewPostAdapter);
+
+                            //to make list view scroll work https://stackoverflow.com/questions/6546108/mapview-inside-a-scrollview/6883831#6883831
+                            reviewListView.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View view, MotionEvent motionEvent) {
+                                    int action = motionEvent.getAction();
+                                    switch (action) {
+                                        case MotionEvent.ACTION_DOWN:
+                                            // Disallow ScrollView to intercept touch events.
+                                            view.getParent().requestDisallowInterceptTouchEvent(true);
+                                            break;
+                                        case MotionEvent.ACTION_UP:
+                                            // Allow ScrollView to intercept touch events.
+                                            view.getParent().requestDisallowInterceptTouchEvent(false);
+                                            break;
+                                    }
+                                    view.onTouchEvent(motionEvent);
+                                    return true;
+                                }
+                            });
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

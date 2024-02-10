@@ -20,7 +20,6 @@ import iss.workshop.gamerecommender.R;
 public class PrefActivityAdapter extends ArrayAdapter<Object> {
     private final Context context;
     protected String[] genres;
-
     ArrayList<String> selectedStrings = new ArrayList<String>();
     public PrefActivityAdapter(Context context, String[] genres) {
         super(context, R.layout.prefcell);

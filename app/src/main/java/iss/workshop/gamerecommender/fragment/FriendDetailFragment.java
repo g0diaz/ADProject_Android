@@ -55,10 +55,8 @@ public class FriendDetailFragment extends Fragment {
 
             if (userId == myUserId){
                 Button editProfileButton = view.findViewById(R.id.editProfileBtn);
-                Button unfriendButton = view.findViewById(R.id.unfriendBtn);
                 Button unfollowButton = view.findViewById(R.id.unfollowBtn);
                 editProfileButton.setVisibility(View.VISIBLE);
-                unfriendButton.setVisibility(View.GONE);
                 unfollowButton.setVisibility(View.GONE);
 
                 editProfileButton.setOnClickListener(new View.OnClickListener() {
@@ -142,13 +140,16 @@ public class FriendDetailFragment extends Fragment {
                         JsonArray games = JsonParser.parseString(responseBodyString).getAsJsonArray();
                         List<String> titles = new ArrayList<>();
                         List<String> urls = new ArrayList<>();
+                        List<Integer> gamesIds = new ArrayList<>();
                         for (JsonElement game : games) {
                             JsonObject gameObj = game.getAsJsonObject();
                             String title = gameObj.get("title").getAsString();
                             String url = gameObj.get("imageUrl").getAsString();
+                            int gameId = gameObj.get("id").getAsInt();
 
                             titles.add(title);
                             urls.add(url);
+                            gamesIds.add(gameId);
                         }
 
                         GameListActivityAdapter adapter = new GameListActivityAdapter(requireContext(), urls, titles);
@@ -161,12 +162,10 @@ public class FriendDetailFragment extends Fragment {
                                 public void onItemClick(AdapterView<?> av, View view, int pos, long id) {
 
                                     Bundle bundle=new Bundle();
-                                    bundle.putString("title",titles.get(pos));
-                                    bundle.putString("url", urls.get(pos));
+                                    bundle.putInt("gameId", gamesIds.get(pos));
 
                                     GamedetailFragment gameDetailFragment = new GamedetailFragment();
                                     gameDetailFragment.setArguments(bundle);
-
                                     getParentFragmentManager().beginTransaction()
                                             .replace(R.id.frame_layout,gameDetailFragment)
                                             .addToBackStack("gameFragment")

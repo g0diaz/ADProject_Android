@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.GamedetailFragment">
@@ -40,18 +41,46 @@
                     android:layout_marginBottom="10dp"
                     android:layout_below="@id/gameimage"/>
 
-                <TextView
+                <com.borjabravo.readmoretextview.ReadMoreTextView
                     android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_above="@id/developer_line"/>
+                    android:layout_above="@id/genre_line"
+                    android:layout_marginBottom="10dp"
+                    app:trimExpandedText="@string/read_less"
+                    app:trimCollapsedText="@string/read_more"
+                    app:trimMode="trimModeLength"
+                    app:trimLength="160"
+                    app:colorClickableText="@color/darkBlue" />
+
+                <LinearLayout
+                    android:id="@+id/genre_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_above="@id/platform_line">
+
+                    <TextView
+                        android:id="@+id/genre"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Developer"/>
+
+                    <TextView
+                        android:id="@+id/genretitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"/>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/developer_line"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:layout_above="@id/releasedDate_line">
+                    android:layout_above="@id/platform_line">
 
                     <TextView
                         android:id="@+id/developer"
@@ -62,6 +91,28 @@
 
                     <TextView
                         android:id="@+id/developertitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/platform_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_above="@id/releasedDate_line">
+
+                    <TextView
+                        android:id="@+id/platform"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Platform"/>
+
+                    <TextView
+                        android:id="@+id/platformTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"/>
@@ -237,6 +288,7 @@
                     android:src="@drawable/baseline_arrow_downward_24" />
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/line4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -245,16 +297,30 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:layout_marginBottom="10dp"
+                    android:textStyle="bold"
+                    android:text="@string/posts"/>
+                <ListView
+                    android:id="@+id/post_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@drawable/border"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:layout_below="@id/line4">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
                     android:textStyle="bold"
                     android:text="@string/review"/>
                 <ListView
                     android:id="@+id/review_list"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:background="@drawable/border"
-                    android:layout_marginTop="10dp"
-                    />
+                    android:background="@drawable/border"/>
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>
