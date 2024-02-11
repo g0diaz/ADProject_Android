@@ -71,6 +71,7 @@ public class GamedetailFragment extends Fragment {
                         //for game detail
                         JsonObject developer = gameDetail.getAsJsonObject("developer");
                         String developerName = developer.get("displayName").getAsString();
+                        int developerId = developer.get("id").getAsInt();
                         String title = gameDetail.get("title").getAsString();
                         String description = gameDetail.get("description").getAsString();
                         String imageUrl = gameDetail.get("imageUrl").getAsString();
@@ -96,6 +97,21 @@ public class GamedetailFragment extends Fragment {
 
                         TextView devTextView = getView().findViewById(R.id.developertitle);
                         devTextView.setText(developerName);
+
+                        devTextView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Bundle bundle = new Bundle();
+                                bundle.putInt("cellId", developerId);
+
+                                DevDetailFragment devDetailFragment =new DevDetailFragment();
+                                devDetailFragment.setArguments(bundle);
+                                getParentFragmentManager().beginTransaction()
+                                        .replace(R.id.frame_layout, devDetailFragment)
+                                        .addToBackStack("devDetailFragment")
+                                        .commit();
+                            }
+                        });
 
                         TextView priceTextView = getView().findViewById(R.id.priceTitle);
                         if (price == 0){

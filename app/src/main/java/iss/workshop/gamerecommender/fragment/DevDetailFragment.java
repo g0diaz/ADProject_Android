@@ -133,7 +133,7 @@ public class DevDetailFragment extends Fragment {
                         FriendProfileGamesAdapter adapter = new FriendProfileGamesAdapter(requireContext(), urls, titles);
 
                         TextView textView=getView().findViewById(R.id.dev_game);
-                        textView.setText("Develop games");
+                        textView.setText("Developed games");
                         ListView gamelistView = getView().findViewById(R.id.dev_gamelist);
                         if (gamelistView != null) {
                             gamelistView.setAdapter(adapter);

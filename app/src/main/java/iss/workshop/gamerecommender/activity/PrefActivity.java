@@ -104,7 +104,12 @@ public class PrefActivity extends AppCompatActivity{
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    SharedPreferences.Editor editor = getSharedPreferences("loginPrefs", MODE_PRIVATE).edit();
+                    editor.putBoolean("oldUser", true);
+                    editor.apply();
+
                     Intent intent = new Intent(PrefActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 }else{
                     System.out.println("error");

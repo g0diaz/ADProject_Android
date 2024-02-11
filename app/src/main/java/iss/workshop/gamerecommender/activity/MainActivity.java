@@ -77,7 +77,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 SharedPreferences pref = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = pref.edit();
-                editor.clear();
+
+                editor.remove("username");
+                editor.remove("sessionId");
+                editor.remove("loggedIn");
+                editor.remove("userId");
                 editor.commit();
 
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);

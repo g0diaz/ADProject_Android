@@ -2,7 +2,9 @@ package iss.workshop.gamerecommender.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -116,6 +118,12 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 //Handle the server response
                 if (response.isSuccessful()) {
+
+                    SharedPreferences pref = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putBoolean("oldUser", false);
+                    editor.apply();
+
                     Toast.makeText(RegistrationActivity.this, "Data added to API", Toast.LENGTH_SHORT).show();
 
                     //Hide progress bar and clear user filled data

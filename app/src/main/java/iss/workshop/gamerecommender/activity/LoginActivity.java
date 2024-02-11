@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -132,9 +133,15 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putBoolean("loggedIn", true);
                         editor.putInt("userId", userId);
                         editor.apply();
+                        boolean oldUser = sharedPreferences.getBoolean("oldUser", false);
 
-                        //Redirect to "Game List" page
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        //Redirect to "Game List" page or "Pref" page
+                        Intent intent;
+                        if (oldUser){
+                            intent = new Intent(LoginActivity.this, MainActivity.class);
+                        } else {
+                            intent = new Intent(LoginActivity.this, PrefActivity.class);
+                        }
                         startActivity(intent);
                         finish();
                     } catch (IOException e) {

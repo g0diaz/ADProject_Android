@@ -354,7 +354,7 @@ public class ProfileDetailFragment extends Fragment {
                             }
                         } else {
                             List<String> names = new ArrayList<>();
-                            List<Integer> userIds = new ArrayList<>();
+                            List<Integer> cellIds = new ArrayList<>();
 
                             for (JsonElement developer : developers) {
                                 JsonObject developerObj = developer.getAsJsonObject();
@@ -362,7 +362,7 @@ public class ProfileDetailFragment extends Fragment {
                                 int userId = developerObj.get("id").getAsInt();
 
                                 names.add(name);
-                                userIds.add(userId);
+                                cellIds.add(userId);
                             }
 
                             FriendProfileDevelopersAdapter adapter = new FriendProfileDevelopersAdapter(requireContext(), names);
@@ -393,13 +393,13 @@ public class ProfileDetailFragment extends Fragment {
                                     public void onItemClick(AdapterView<?> av, View view, int pos, long id) {
 
                                         Bundle bundle=new Bundle();
-                                        bundle.putInt("userId", userIds.get(pos));
+                                        bundle.putInt("cellId", cellIds.get(pos));
 
-                                        ProfileDetailFragment profileDetailFragment = new ProfileDetailFragment();
-                                        profileDetailFragment.setArguments(bundle);
+                                        DevDetailFragment devDetailFragment = new DevDetailFragment();
+                                        devDetailFragment.setArguments(bundle);
 
                                         getParentFragmentManager().beginTransaction()
-                                                .replace(R.id.frame_layout, profileDetailFragment)
+                                                .replace(R.id.frame_layout, devDetailFragment)
                                                 .addToBackStack("friendsFragment")
                                                 .commit();
                                     }
