@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.DevDetailFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/biege">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:background="@color/biege">
+            <TextView
+                android:id="@+id/dev_name"
+                android:layout_width="160dp"
+                android:layout_height="50dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/unfollowBtn"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/dev_name"
+                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="100dp"
+                android:text="unfollow"/>
+
+            <ImageView
+                android:id="@+id/dev_avatar"
+                android:scaleType="fitXY"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_below="@id/dev_name"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/bio_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/dev_avatar"
+                android:layout_below="@id/dev_name"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:text="@string/bio"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/bio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/dev_avatar"
+                android:layout_below="@id/bio_title"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/dev_game"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dev_avatar"
+                android:layout_marginTop="10dp"
+                android:text="@string/f_users"
+                android:textStyle="bold"/>
+
+            <ListView
+                android:id="@+id/dev_gamelist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dev_game"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/border"/>
+        </RelativeLayout>
+    </ScrollView>
+
+</FrameLayout>

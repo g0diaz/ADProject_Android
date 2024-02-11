@@ -51,6 +51,11 @@ public class ProfileDetailFragment extends Fragment {
         Bundle args=getArguments();
         if(args!=null){
             int userId = args.getInt("userId", -1);
+
+            if(userId==-1){
+                userId=args.getInt("cellId",-2);
+            }
+
             SharedPreferences sharedPreferences = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
             int myUserId = sharedPreferences.getInt("userId", 0);
 
@@ -64,7 +69,7 @@ public class ProfileDetailFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(getActivity(), EditUserProfileActivity.class);
-                        intent.putExtra("userId",userId);
+                        intent.putExtra("userId",myUserId);
                         startActivity(intent);
                     }
                 });
