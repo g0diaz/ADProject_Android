@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import androidx.appcompat.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -36,11 +37,12 @@ public class GameFragment extends Fragment
 
     private List<String> titles;
     private List<String> urls ;
-    private List<Integer> gameIds;
+    private List<Integer> cellIds;
 
     private SearchView searchView;
     private Spinner spinner;
     private String searchMethod;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,7 +51,9 @@ public class GameFragment extends Fragment
         View view=inflater.inflate(R.layout.fragment_game, container, false);
         titles= new ArrayList<>();
         urls= new ArrayList<>();
-        gameIds = new ArrayList<>();
+        cellIds = new ArrayList<>();
+
+        View mainLayout = getLayoutInflater().inflate(R.layout.activity_main, null);
 
         displayGames(view);
 
@@ -87,7 +91,7 @@ public class GameFragment extends Fragment
 
                         titles.add(title);
                         urls.add(url);
-                        gameIds.add(gameId);
+                        cellIds.add(gameId);
                     }
 
                     setContent(view);
@@ -124,7 +128,7 @@ public class GameFragment extends Fragment
     @Override
     public void onItemClick(AdapterView<?> av,View v,int pos,long id){
         Bundle bundle=new Bundle();
-        bundle.putInt("gameId", gameIds.get(pos));
+        bundle.putInt("cellId", cellIds.get(pos));
 
         switch(searchMethod){
             case "Game":
@@ -136,18 +140,18 @@ public class GameFragment extends Fragment
                         .commit();
                 break;
             case "Developer":
-                ProfileDetailFragment profileDetailFragment =new ProfileDetailFragment();
-                profileDetailFragment.setArguments(bundle);
+                DevDetailFragment devDetailFragment =new DevDetailFragment();
+                devDetailFragment.setArguments(bundle);
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.frame_layout, profileDetailFragment)
+                        .replace(R.id.frame_layout, devDetailFragment)
                         .addToBackStack("gameFragment")
                         .commit();
                 break;
             case "User":
-                ProfileDetailFragment userDetailFragment=new ProfileDetailFragment();
-                userDetailFragment.setArguments(bundle);
+                ProfileDetailFragment profileDetailFragment=new ProfileDetailFragment();
+                profileDetailFragment.setArguments(bundle);
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.frame_layout,userDetailFragment)
+                        .replace(R.id.frame_layout,profileDetailFragment)
                         .addToBackStack("gameFragment")
                         .commit();
                 break;
@@ -220,7 +224,6 @@ public class GameFragment extends Fragment
     }
     private void displaySearchResult(View view,String query,String type){
         JsonObject searchData=new JsonObject();
-        System.out.println(query);
         searchData.addProperty("query",query);
         searchData.addProperty("type",type);
 
@@ -237,17 +240,12 @@ public class GameFragment extends Fragment
                         JsonArray jsonArray = JsonParser.parseString(responseBodyString).getAsJsonArray();
                         titles=new ArrayList<>();
                         urls=new ArrayList<>();
-                        switch(type) {
-                            case "Game":
+                        cellIds=new ArrayList<>();
+                            if(type=="Game"){
                                 setTitlesandUrls(jsonArray,"title","imageUrl");
-                                break;
-                            case "Developer":
+                            }else{
                                 setTitlesandUrls(jsonArray,"displayName","displayImageUrl");
-                                break;
-                            case "User":
-                                setTitlesandUrls(jsonArray,"displayName","displayImageUrl");
-                                break;
-                        }
+                            }
                         setContent(view);
                     }catch(IOException e){
                         e.printStackTrace();
@@ -267,8 +265,10 @@ public class GameFragment extends Fragment
             JsonObject obj = e.getAsJsonObject();
             String title = obj.get(titlename).getAsString();
             String url = obj.get(urlname).getAsString();
+            int id=obj.get("id").getAsInt();
 
             titles.add(title);
+            cellIds.add(id);
             urls.add(url);
         }
     }
