@@ -38,6 +38,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
+                android:textAlignment="center"
                 android:entries="@array/search_methods"/>
 
         </LinearLayout>
@@ -53,8 +54,8 @@
                 android:layout_width="250dp"
                 android:layout_height="30dp"
                 android:layout_marginTop="10dp"
-                android:textSize="20dp"
-                android:text="Recommendations for you"
+                android:textSize="15dp"
+                android:text="GAMES"
                 android:textStyle="bold"/>
 
 <!--            <ImageButton-->

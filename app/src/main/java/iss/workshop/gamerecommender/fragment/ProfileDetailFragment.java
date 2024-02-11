@@ -140,58 +140,73 @@ public class ProfileDetailFragment extends Fragment {
                     try {
                         String responseBodyString = response.body().string();
                         JsonArray games = JsonParser.parseString(responseBodyString).getAsJsonArray();
-                        List<String> titles = new ArrayList<>();
-                        List<String> urls = new ArrayList<>();
-                        List<Integer> gamesIds = new ArrayList<>();
-                        for (JsonElement game : games) {
-                            JsonObject gameObj = game.getAsJsonObject();
-                            String title = gameObj.get("title").getAsString();
-                            String url = gameObj.get("imageUrl").getAsString();
-                            int gameId = gameObj.get("id").getAsInt();
+                        if (games.size() == 0){
+                            TextView noGamesTextView = getView().findViewById(R.id.no_games_textview);
+                            if (noGamesTextView != null){
+                                noGamesTextView.setVisibility(View.VISIBLE);
+                            }
+                            ListView gamelistView = getView().findViewById(R.id.gamelist);
+                            if (gamelistView != null) {
+                                gamelistView.setVisibility(View.GONE);
+                            }
+                        } else {
+                            List<String> titles = new ArrayList<>();
+                            List<String> urls = new ArrayList<>();
+                            List<Integer> gamesIds = new ArrayList<>();
+                            for (JsonElement game : games) {
+                                JsonObject gameObj = game.getAsJsonObject();
+                                String title = gameObj.get("title").getAsString();
+                                String url = gameObj.get("imageUrl").getAsString();
+                                int gameId = gameObj.get("id").getAsInt();
 
-                            titles.add(title);
-                            urls.add(url);
-                            gamesIds.add(gameId);
-                        }
+                                titles.add(title);
+                                urls.add(url);
+                                gamesIds.add(gameId);
+                            }
 
-                        FriendProfileGamesAdapter adapter = new FriendProfileGamesAdapter(requireContext(), urls, titles);
+                            FriendProfileGamesAdapter adapter = new FriendProfileGamesAdapter(requireContext(), urls, titles);
 
-                        ListView gamelistView = getView().findViewById(R.id.gamelist);
-                        if (gamelistView != null) {
-                            gamelistView.setAdapter(adapter);
-                            gamelistView.setOnTouchListener(new View.OnTouchListener() {
-                                @Override
-                                public boolean onTouch(View view, MotionEvent motionEvent) {
-                                    int action = motionEvent.getAction();
-                                    switch (action) {
-                                        case MotionEvent.ACTION_DOWN:
-                                            // Disallow ScrollView to intercept touch events.
-                                            view.getParent().requestDisallowInterceptTouchEvent(true);
-                                            break;
-                                        case MotionEvent.ACTION_UP:
-                                            // Allow ScrollView to intercept touch events.
-                                            view.getParent().requestDisallowInterceptTouchEvent(false);
-                                            break;
+                            ListView gamelistView = getView().findViewById(R.id.gamelist);
+                            if (gamelistView != null) {
+                                gamelistView.setAdapter(adapter);
+                                gamelistView.setOnTouchListener(new View.OnTouchListener() {
+                                    @Override
+                                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                                        int action = motionEvent.getAction();
+                                        switch (action) {
+                                            case MotionEvent.ACTION_DOWN:
+                                                // Disallow ScrollView to intercept touch events.
+                                                view.getParent().requestDisallowInterceptTouchEvent(true);
+                                                break;
+                                            case MotionEvent.ACTION_UP:
+                                                // Allow ScrollView to intercept touch events.
+                                                view.getParent().requestDisallowInterceptTouchEvent(false);
+                                                break;
+                                        }
+                                        view.onTouchEvent(motionEvent);
+                                        return true;
                                     }
-                                    view.onTouchEvent(motionEvent);
-                                    return true;
-                                }
-                            });
-                            gamelistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> av, View view, int pos, long id) {
+                                });
+                                gamelistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> av, View view, int pos, long id) {
 
-                                    Bundle bundle=new Bundle();
-                                    bundle.putInt("gameId", gamesIds.get(pos));
+                                        Bundle bundle=new Bundle();
+                                        bundle.putInt("gameId", gamesIds.get(pos));
 
-                                    GamedetailFragment gameDetailFragment = new GamedetailFragment();
-                                    gameDetailFragment.setArguments(bundle);
-                                    getParentFragmentManager().beginTransaction()
-                                            .replace(R.id.frame_layout,gameDetailFragment)
-                                            .addToBackStack("gameFragment")
-                                            .commit();
+                                        GamedetailFragment gameDetailFragment = new GamedetailFragment();
+                                        gameDetailFragment.setArguments(bundle);
+                                        getParentFragmentManager().beginTransaction()
+                                                .replace(R.id.frame_layout,gameDetailFragment)
+                                                .addToBackStack("gameFragment")
+                                                .commit();
+                                    }
+                                });
+                                TextView noGamesTextView = getView().findViewById(R.id.no_games_textview);
+                                if (noGamesTextView != null) {
+                                    noGamesTextView.setVisibility(View.GONE);
                                 }
-                            });
+                            }
                         }
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -223,60 +238,75 @@ public class ProfileDetailFragment extends Fragment {
                     try {
                         String responseBodyString = response.body().string();
                         JsonArray friends = JsonParser.parseString(responseBodyString).getAsJsonArray();
-                        List<String> names = new ArrayList<>();
-                        List<String> urls = new ArrayList<>();
-                        List<Integer> userIds = new ArrayList<>();
+                        if (friends.size() == 0){
+                            TextView noFriendsTextView = getView().findViewById(R.id.no_friends_textview);
+                            if (noFriendsTextView != null){
+                                noFriendsTextView.setVisibility(View.VISIBLE);
+                            }
+                            ListView friendlistView = getView().findViewById(R.id.friendlist);
+                            if (friendlistView != null) {
+                                friendlistView.setVisibility(View.GONE);
+                            }
+                        } else {
+                            List<String> names = new ArrayList<>();
+                            List<String> urls = new ArrayList<>();
+                            List<Integer> userIds = new ArrayList<>();
 
-                        for (JsonElement friend : friends) {
-                            JsonObject friendObj = friend.getAsJsonObject();
-                            String name = friendObj.get("displayName").getAsString();
-                            String url = friendObj.get("displayImageUrl").getAsString();
-                            int userId = friendObj.get("id").getAsInt();
+                            for (JsonElement friend : friends) {
+                                JsonObject friendObj = friend.getAsJsonObject();
+                                String name = friendObj.get("displayName").getAsString();
+                                String url = friendObj.get("displayImageUrl").getAsString();
+                                int userId = friendObj.get("id").getAsInt();
 
-                            names.add(name);
-                            urls.add(url);
-                            userIds.add(userId);
-                        }
+                                names.add(name);
+                                urls.add(url);
+                                userIds.add(userId);
+                            }
 
-                        FriendProfileFriendsAdapter adapter = new FriendProfileFriendsAdapter(requireContext(), urls, names);
+                            FriendProfileFriendsAdapter adapter = new FriendProfileFriendsAdapter(requireContext(), urls, names);
 
-                        ListView friendlistView = getView().findViewById(R.id.friendlist);
-                        if (friendlistView != null) {
-                            friendlistView.setAdapter(adapter);
-                            friendlistView.setOnTouchListener(new View.OnTouchListener() {
-                                @Override
-                                public boolean onTouch(View view, MotionEvent motionEvent) {
-                                    int action = motionEvent.getAction();
-                                    switch (action) {
-                                        case MotionEvent.ACTION_DOWN:
-                                            // Disallow ScrollView to intercept touch events.
-                                            view.getParent().requestDisallowInterceptTouchEvent(true);
-                                            break;
-                                        case MotionEvent.ACTION_UP:
-                                            // Allow ScrollView to intercept touch events.
-                                            view.getParent().requestDisallowInterceptTouchEvent(false);
-                                            break;
+                            ListView friendlistView = getView().findViewById(R.id.friendlist);
+                            if (friendlistView != null) {
+                                friendlistView.setAdapter(adapter);
+                                friendlistView.setOnTouchListener(new View.OnTouchListener() {
+                                    @Override
+                                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                                        int action = motionEvent.getAction();
+                                        switch (action) {
+                                            case MotionEvent.ACTION_DOWN:
+                                                // Disallow ScrollView to intercept touch events.
+                                                view.getParent().requestDisallowInterceptTouchEvent(true);
+                                                break;
+                                            case MotionEvent.ACTION_UP:
+                                                // Allow ScrollView to intercept touch events.
+                                                view.getParent().requestDisallowInterceptTouchEvent(false);
+                                                break;
+                                        }
+                                        view.onTouchEvent(motionEvent);
+                                        return true;
                                     }
-                                    view.onTouchEvent(motionEvent);
-                                    return true;
-                                }
-                            });
-                            friendlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> av, View view, int pos, long id) {
+                                });
+                                friendlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> av, View view, int pos, long id) {
 
-                                    Bundle bundle=new Bundle();
-                                    bundle.putInt("userId", userIds.get(pos));
+                                        Bundle bundle=new Bundle();
+                                        bundle.putInt("userId", userIds.get(pos));
 
-                                    ProfileDetailFragment profileDetailFragment = new ProfileDetailFragment();
-                                    profileDetailFragment.setArguments(bundle);
+                                        ProfileDetailFragment profileDetailFragment = new ProfileDetailFragment();
+                                        profileDetailFragment.setArguments(bundle);
 
-                                    getParentFragmentManager().beginTransaction()
-                                            .replace(R.id.frame_layout, profileDetailFragment)
-                                            .addToBackStack("friendsFragment")
-                                            .commit();
-                                }
-                            });
+                                        getParentFragmentManager().beginTransaction()
+                                                .replace(R.id.frame_layout, profileDetailFragment)
+                                                .addToBackStack("friendsFragment")
+                                                .commit();
+                                    }
+                                });
+                            }
+                            TextView noFriendsTextView = getView().findViewById(R.id.no_friends_textview);
+                            if (noFriendsTextView != null){
+                                noFriendsTextView.setVisibility(View.GONE);
+                            }
                         }
                     } catch (IOException e) {
                         throw new RuntimeException(e);
@@ -308,57 +338,72 @@ public class ProfileDetailFragment extends Fragment {
                     try {
                         String responseBodyString = response.body().string();
                         JsonArray developers = JsonParser.parseString(responseBodyString).getAsJsonArray();
-                        List<String> names = new ArrayList<>();
-                        List<Integer> userIds = new ArrayList<>();
+                        if (developers.size() == 0){
+                            TextView noDevelopersTextView = getView().findViewById(R.id.no_developers_textview);
+                            if (noDevelopersTextView != null){
+                                noDevelopersTextView.setVisibility(View.VISIBLE);
+                            }
+                            ListView developerlistView = getView().findViewById(R.id.developerslist);
+                            if (developerlistView != null) {
+                                developerlistView.setVisibility(View.GONE);
+                            }
+                        } else {
+                            List<String> names = new ArrayList<>();
+                            List<Integer> userIds = new ArrayList<>();
 
-                        for (JsonElement developer : developers) {
-                            JsonObject developerObj = developer.getAsJsonObject();
-                            String name = developerObj.get("displayName").getAsString();
-                            int userId = developerObj.get("id").getAsInt();
+                            for (JsonElement developer : developers) {
+                                JsonObject developerObj = developer.getAsJsonObject();
+                                String name = developerObj.get("displayName").getAsString();
+                                int userId = developerObj.get("id").getAsInt();
 
-                            names.add(name);
-                            userIds.add(userId);
-                        }
+                                names.add(name);
+                                userIds.add(userId);
+                            }
 
-                        FriendProfileDevelopersAdapter adapter = new FriendProfileDevelopersAdapter(requireContext(), names);
+                            FriendProfileDevelopersAdapter adapter = new FriendProfileDevelopersAdapter(requireContext(), names);
 
-                        ListView developerlistView = getView().findViewById(R.id.developerslist);
-                        if (developerlistView != null) {
-                            developerlistView.setAdapter(adapter);
-                            developerlistView.setOnTouchListener(new View.OnTouchListener() {
-                                @Override
-                                public boolean onTouch(View view, MotionEvent motionEvent) {
-                                    int action = motionEvent.getAction();
-                                    switch (action) {
-                                        case MotionEvent.ACTION_DOWN:
-                                            // Disallow ScrollView to intercept touch events.
-                                            view.getParent().requestDisallowInterceptTouchEvent(true);
-                                            break;
-                                        case MotionEvent.ACTION_UP:
-                                            // Allow ScrollView to intercept touch events.
-                                            view.getParent().requestDisallowInterceptTouchEvent(false);
-                                            break;
+                            ListView developerlistView = getView().findViewById(R.id.developerslist);
+                            if (developerlistView != null) {
+                                developerlistView.setAdapter(adapter);
+                                developerlistView.setOnTouchListener(new View.OnTouchListener() {
+                                    @Override
+                                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                                        int action = motionEvent.getAction();
+                                        switch (action) {
+                                            case MotionEvent.ACTION_DOWN:
+                                                // Disallow ScrollView to intercept touch events.
+                                                view.getParent().requestDisallowInterceptTouchEvent(true);
+                                                break;
+                                            case MotionEvent.ACTION_UP:
+                                                // Allow ScrollView to intercept touch events.
+                                                view.getParent().requestDisallowInterceptTouchEvent(false);
+                                                break;
+                                        }
+                                        view.onTouchEvent(motionEvent);
+                                        return true;
                                     }
-                                    view.onTouchEvent(motionEvent);
-                                    return true;
-                                }
-                            });
-                            developerlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> av, View view, int pos, long id) {
+                                });
+                                developerlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> av, View view, int pos, long id) {
 
-                                    Bundle bundle=new Bundle();
-                                    bundle.putInt("userId", userIds.get(pos));
+                                        Bundle bundle=new Bundle();
+                                        bundle.putInt("userId", userIds.get(pos));
 
-                                    ProfileDetailFragment profileDetailFragment = new ProfileDetailFragment();
-                                    profileDetailFragment.setArguments(bundle);
+                                        ProfileDetailFragment profileDetailFragment = new ProfileDetailFragment();
+                                        profileDetailFragment.setArguments(bundle);
 
-                                    getParentFragmentManager().beginTransaction()
-                                            .replace(R.id.frame_layout, profileDetailFragment)
-                                            .addToBackStack("friendsFragment")
-                                            .commit();
-                                }
-                            });
+                                        getParentFragmentManager().beginTransaction()
+                                                .replace(R.id.frame_layout, profileDetailFragment)
+                                                .addToBackStack("friendsFragment")
+                                                .commit();
+                                    }
+                                });
+                            }
+                            TextView noDevelopersTextView = getView().findViewById(R.id.no_developers_textview);
+                            if (noDevelopersTextView != null){
+                                noDevelopersTextView.setVisibility(View.GONE);
+                            }
                         }
                     } catch (IOException e) {
                         throw new RuntimeException(e);

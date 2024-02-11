@@ -37,7 +37,6 @@ public class GameFragment extends Fragment
     private List<String> titles;
     private List<String> urls ;
     private List<Integer> gameIds;
-
     private SearchView searchView;
     private Spinner spinner;
     private String searchMethod;

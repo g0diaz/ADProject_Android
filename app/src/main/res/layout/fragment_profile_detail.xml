@@ -90,10 +90,20 @@
                 android:background="@drawable/border"/>
 
             <TextView
+                android:id="@+id/no_friends_textview"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/friendlist"
+                android:layout_marginTop="10dp"
+                android:text="No followed friends"
+                android:visibility="gone"
+                android:textStyle="bold"/>
+
+            <TextView
                 android:id="@+id/games"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/friendlist"
+                android:layout_below="@id/no_friends_textview"
                 android:layout_marginTop="5dp"
                 android:text="@string/f_games"
                 android:textStyle="bold"/>
@@ -106,10 +116,20 @@
                 android:layout_marginTop="10dp"/>
 
             <TextView
+                android:id="@+id/no_games_textview"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/gamelist"
+                android:layout_marginTop="10dp"
+                android:text="No followed games"
+                android:visibility="gone"
+                android:textStyle="bold"/>
+
+            <TextView
                 android:id="@+id/developers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/gamelist"
+                android:layout_below="@id/no_games_textview"
                 android:layout_marginTop="5dp"
                 android:text="@string/f_dev"
                 android:textStyle="bold"/>
@@ -121,6 +141,16 @@
                 android:layout_below="@id/developers"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/border"/>
+
+            <TextView
+                android:id="@+id/no_developers_textview"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/developerslist"
+                android:layout_marginTop="10dp"
+                android:text="No followed developers"
+                android:visibility="gone"
+                android:textStyle="bold"/>
 
         </RelativeLayout>
     </ScrollView>
