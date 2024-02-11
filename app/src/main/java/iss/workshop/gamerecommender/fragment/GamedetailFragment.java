@@ -42,7 +42,7 @@ public class GamedetailFragment extends Fragment {
 
         Bundle args=getArguments();
         if(args!=null){
-            int gameId = args.getInt("gameId", 0);
+            int gameId = args.getInt("cellId", 0);
 
             fetchGameDetail(gameId);
         }
