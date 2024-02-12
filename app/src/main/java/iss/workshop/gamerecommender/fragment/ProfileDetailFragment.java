@@ -45,6 +45,7 @@ public class ProfileDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_profile_detail, container, false);
 
@@ -77,7 +78,7 @@ public class ProfileDetailFragment extends Fragment {
             else {
                 Button followUnfollowButton = view.findViewById(R.id.followUnfollowBtn);
                 followUnfollowButton.setVisibility(View.VISIBLE);
-                setFriendButton(myUserId, viewedUserId, followUnfollowButton);
+                checkFriendAndSetButton(myUserId, viewedUserId, followUnfollowButton);
             }
 
             fetchProfileDetail(viewedUserId);
@@ -88,7 +89,7 @@ public class ProfileDetailFragment extends Fragment {
         return view;
     }
 
-    private void friendFollowUnfollowButtonSetup(int viewedUserId, Button followUnfollowButton, int myUserId, boolean isCurrentlyFriend) {
+    private void friendFollowUnfollowButtonSetup(int viewedUserId, Button followUnfollowButton, int myUserId) {
         followUnfollowButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,7 +148,7 @@ public class ProfileDetailFragment extends Fragment {
             }
         });
     }
-    private void setFriendButton(int myUserId, int viewedUserId, Button followUnfollowButton) {
+    private void checkFriendAndSetButton(int myUserId, int viewedUserId, Button followUnfollowButton) {
         JsonObject userIdData = new JsonObject();
         userIdData.addProperty("userId", myUserId);
 
@@ -177,7 +178,7 @@ public class ProfileDetailFragment extends Fragment {
                         } else {
                             followUnfollowButton.setText("FOLLOW");
                         }
-                        friendFollowUnfollowButtonSetup(viewedUserId, followUnfollowButton, myUserId, !isFriend);
+                        friendFollowUnfollowButtonSetup(viewedUserId, followUnfollowButton, myUserId);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

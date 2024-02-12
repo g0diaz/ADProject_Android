@@ -30,12 +30,12 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        replaceFragment(new GameFragment(), "Game");
+        replaceFragment(new GameFragment(), "Home");
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
-            if (item.getItemId() == R.id.game) {
-                replaceFragment(new GameFragment(), "Game");
+            if (item.getItemId() == R.id.home) {
+                replaceFragment(new GameFragment(), "Home");
             } else if (item.getItemId() == R.id.activity_feed) {
                 replaceFragment(new ActivityFeedFragment(), "Activity Feed");
             } else if (item.getItemId() == R.id.friends) {

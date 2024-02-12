@@ -23,7 +23,7 @@
                 android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/unfollowBtn"
+                android:id="@+id/followUnfollowBtn"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/dev_name"

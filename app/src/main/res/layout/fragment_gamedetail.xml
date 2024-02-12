@@ -260,7 +260,7 @@
 <!--                    android:layout_marginRight="10dp"/>-->
 
                 <Button
-                    android:id="@+id/follow"
+                    android:id="@+id/followUnfollowBtn"
                     android:layout_width="0dp"
                     android:layout_weight="4"
                     android:layout_gravity="center"
