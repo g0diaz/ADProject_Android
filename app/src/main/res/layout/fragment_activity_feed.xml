@@ -12,26 +12,26 @@
         android:layout_alignParentTop="true">
     </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/line2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/title_bar_placeholder"
-        android:background="@drawable/border">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/line2"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_below="@+id/title_bar_placeholder"-->
+<!--        android:background="@drawable/border">-->
 
-        <Button
-            android:id="@+id/post_Feed"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:paddingLeft="10dp"
-            android:layout_below="@+id/line1"
-            android:hint="What's on your mind?"
-            android:textSize="18sp"
-            android:inputType="text"
-            android:background="@drawable/border"/>
+<!--        <Button-->
+<!--            android:id="@+id/post_Feed"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:paddingLeft="10dp"-->
+<!--            android:layout_below="@+id/line1"-->
+<!--            android:hint="What's on your mind?"-->
+<!--            android:textSize="18sp"-->
+<!--            android:inputType="text"-->
+<!--            android:background="@drawable/border"/>-->
 
-    </LinearLayout>
+<!--    </LinearLayout>-->
 
     <ListView
         android:id="@+id/feedListView"

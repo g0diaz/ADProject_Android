@@ -60,5 +60,11 @@ public interface RetrofitAPI {
 
     @PUT("api/user/profile/update/{userId}")
     Call<ResponseBody> editProfile(@Path ("userId") int userId,@Body JsonObject userJsonObject);
+
+    @POST("api/user/activity")
+    Call<ResponseBody> getAllActivity(@Body JsonObject userId);
+
+//    @POST("api/user/activity/store")
+//    Call<ResponseBody> storeNewActivity(@Body JsonObject activity);
 }
 
