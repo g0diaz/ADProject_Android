@@ -66,13 +66,13 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/dev_avatar"
                 android:layout_marginTop="10dp"
-                android:text="@string/f_users"
+                android:text="@string/feat_games"
                 android:textStyle="bold"/>
 
             <ListView
                 android:id="@+id/dev_gamelist"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="500dp"
                 android:layout_below="@id/dev_game"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/border"/>

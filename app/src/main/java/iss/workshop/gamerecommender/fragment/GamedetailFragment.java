@@ -19,7 +19,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +44,7 @@ public class GamedetailFragment extends Fragment {
             int gameId = args.getInt("cellId", 0);
 
             fetchGameDetail(gameId);
+            setFollowButton(gameId, )
         }
         return view;
     }
@@ -153,7 +153,6 @@ public class GamedetailFragment extends Fragment {
                         genreTextView.setText(genreString);
 
                         //for dev blog posts
-                        //JsonObject profile = developer.getAsJsonObject("profile");
                         JsonObject profile = gameDetail.getAsJsonObject("profile");
                         JsonArray gameUpdatePosts = profile.get("gameUpdatePosts").getAsJsonArray();
                         List<String> devTitles = new ArrayList<>();
@@ -197,26 +196,29 @@ public class GamedetailFragment extends Fragment {
                             });
                         }
 
-//                        JsonObject profileTwo = gameDetail.getAsJsonObject("profile");
+                        //for review posts
                         JsonArray reviewPosts = profile.get("gameReviewPosts").getAsJsonArray();
                         List<String> reviewTitles = new ArrayList<>();
                         List<String> reviewMessages = new ArrayList<>();
                         List<String> reviewDates = new ArrayList<>();
                         List<Boolean> reviewResults = new ArrayList<>();
+                        List<Integer> reviewUserIds = new ArrayList<>();
                         for (JsonElement reviewPost : reviewPosts){
                             JsonObject reviewObj = reviewPost.getAsJsonObject();
                             String reviewTitle = reviewObj.get("title").getAsString();
                             String reviewMessage = reviewObj.get("message").getAsString();
                             String reviewDate = reviewObj.get("datePosted").getAsString();
                             Boolean reviewResult = reviewObj.get("isRecommend").getAsBoolean();
+                            int reviewUserId = reviewObj.get("userProfileId").getAsInt();
 
                             reviewTitles.add(reviewTitle);
                             reviewMessages.add(reviewMessage);
                             reviewDates.add(reviewDate);
                             reviewResults.add(reviewResult);
+                            reviewUserIds.add(reviewUserId);
                         }
 
-                        ReviewPostAdapter reviewPostAdapter = new ReviewPostAdapter(requireContext(), reviewTitles, reviewMessages, reviewDates, reviewResults);
+                        ReviewPostAdapter reviewPostAdapter = new ReviewPostAdapter(requireContext(), reviewTitles, reviewMessages, reviewDates, reviewResults, reviewUserIds);
                         ListView reviewListView = getView().findViewById(R.id.review_list);
 
                         if (reviewListView != null) {

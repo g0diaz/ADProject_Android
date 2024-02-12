@@ -39,7 +39,8 @@
     <string name="createAccount">Create account</string>
     <!--    forgotPasswordPage     -->
     <string name="resetPassword">Reset Password</string>
-
+    <!--    devDetailPage     -->
+    <string name="feat_games">Featured Games</string>
     <string-array name="search_methods">
         <item>Game</item>
         <item>Developer</item>
