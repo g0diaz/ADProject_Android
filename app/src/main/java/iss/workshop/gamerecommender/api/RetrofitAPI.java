@@ -79,6 +79,11 @@ public interface RetrofitAPI {
     @PUT("api/user/profile/unfollow/{friendId}")
     Call<ResponseBody> unfollowGame(@Path("gameId") int gameId, @Body JsonObject userIdData);
 
+    @POST("api/user/activity")
+    Call<ResponseBody> getAllActivity(@Body JsonObject userId);
+
+//    @POST("api/user/activity/store")
+//    Call<ResponseBody> storeNewActivity(@Body JsonObject activity);
 
 }
 

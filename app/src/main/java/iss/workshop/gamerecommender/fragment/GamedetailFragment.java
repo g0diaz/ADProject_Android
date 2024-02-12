@@ -44,7 +44,6 @@ public class GamedetailFragment extends Fragment {
             int gameId = args.getInt("cellId", 0);
 
             fetchGameDetail(gameId);
-            setFollowButton(gameId, )
         }
         return view;
     }
