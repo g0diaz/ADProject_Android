@@ -308,7 +308,7 @@ public class ProfileDetailFragment extends Fragment {
                                     public void onItemClick(AdapterView<?> av, View view, int pos, long id) {
 
                                         Bundle bundle=new Bundle();
-                                        bundle.putInt("gameId", gamesIds.get(pos));
+                                        bundle.putInt("cellId", gamesIds.get(pos));
 
                                         GamedetailFragment gameDetailFragment = new GamedetailFragment();
                                         gameDetailFragment.setArguments(bundle);
