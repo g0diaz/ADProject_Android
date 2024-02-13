@@ -31,7 +31,7 @@
         android:layout_height="150dp"
         android:layout_below="@id/displayname"
         android:layout_centerInParent="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/border" />
 
     <TextView
@@ -58,7 +58,7 @@
     <TextView
         android:id="@+id/text3"
         android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_height="50dp"
         android:layout_below="@id/imageUrl"
         android:background="@drawable/border"
@@ -76,12 +76,32 @@
         android:gravity="top"
         android:background="@drawable/border"/>
 
+    <RadioGroup
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bio"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/publicBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="public"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/privateBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="private" />
+    </RadioGroup>
     <Button
         android:id="@+id/completBtn"
         android:layout_width="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/bio"
+        android:layout_below="@id/line"
         android:layout_centerInParent="true"
         android:text="submit"
         android:textAllCaps="false"
