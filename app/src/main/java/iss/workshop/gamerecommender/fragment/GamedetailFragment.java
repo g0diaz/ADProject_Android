@@ -1,6 +1,7 @@
 package iss.workshop.gamerecommender.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -11,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -129,6 +131,24 @@ public class GamedetailFragment extends Fragment {
                             }
                         });
 
+                        TextView reviewTextView = getView().findViewById(R.id.reviewTextView);
+                        reviewTextView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                Bundle bundle = new Bundle();
+                                bundle.putInt("gameId", gameId);
+                                bundle.putString("gameName", title);
+                                bundle.putString("imgUrl", imageUrl);
+                                ReviewPostFragment reviewPostFragment = new ReviewPostFragment();
+                                reviewPostFragment.setArguments(bundle);
+                                getParentFragmentManager().beginTransaction()
+                                        .replace(R.id.frame_layout, reviewPostFragment)
+                                        .addToBackStack("reviewPostFragment")
+                                        .commit();
+                            }
+                        });
+
                         TextView priceTextView = getView().findViewById(R.id.priceTitle);
                         if (price == 0){
                             priceTextView.setText("Free to Play");
@@ -218,23 +238,23 @@ public class GamedetailFragment extends Fragment {
                         List<String> reviewMessages = new ArrayList<>();
                         List<String> reviewDates = new ArrayList<>();
                         List<Boolean> reviewResults = new ArrayList<>();
-                        List<Integer> reviewUserIds = new ArrayList<>();
+                        List<String> reviewUsernames = new ArrayList<>();
                         for (JsonElement reviewPost : reviewPosts){
                             JsonObject reviewObj = reviewPost.getAsJsonObject();
                             String reviewTitle = reviewObj.get("title").getAsString();
                             String reviewMessage = reviewObj.get("message").getAsString();
                             String reviewDate = reviewObj.get("datePosted").getAsString();
                             Boolean reviewResult = reviewObj.get("isRecommend").getAsBoolean();
-                            int reviewUserId = reviewObj.get("userProfileId").getAsInt();
+                            String reviewUsername = reviewObj.get("userDisplayname").getAsString();
 
                             reviewTitles.add(reviewTitle);
                             reviewMessages.add(reviewMessage);
                             reviewDates.add(reviewDate);
                             reviewResults.add(reviewResult);
-                            reviewUserIds.add(reviewUserId);
+                            reviewUsernames.add(reviewUsername);
                         }
 
-                        ReviewPostAdapter reviewPostAdapter = new ReviewPostAdapter(requireContext(), reviewTitles, reviewMessages, reviewDates, reviewResults, reviewUserIds);
+                        ReviewPostAdapter reviewPostAdapter = new ReviewPostAdapter(requireContext(), reviewTitles, reviewMessages, reviewDates, reviewResults, reviewUsernames);
                         ListView reviewListView = getView().findViewById(R.id.review_list);
 
                         if (reviewListView != null) {

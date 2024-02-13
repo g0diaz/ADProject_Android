@@ -22,8 +22,8 @@ public class ReviewPostAdapter extends ArrayAdapter<Object> {
     protected List<String> messages;
     protected List<String> dates;
     protected List<Boolean> reviews;
-    protected List<Integer> userIds;
-    public ReviewPostAdapter(Context context, List<String> titles, List<String> messages, List<String> dates, List<Boolean> reviews, List<Integer> userIds) {
+    protected List<String> usernames;
+    public ReviewPostAdapter(Context context, List<String> titles, List<String> messages, List<String> dates, List<Boolean> reviews, List<String> usernames) {
         super(context, R.layout.reviewlistcell);
 
         this.context=context;
@@ -31,7 +31,7 @@ public class ReviewPostAdapter extends ArrayAdapter<Object> {
         this.messages=messages;
         this.dates=dates;
         this.reviews=reviews;
-        this.userIds=userIds;
+        this.usernames=usernames;
 
         addAll(new Object[reviews.size()]);
     }
@@ -53,7 +53,7 @@ public class ReviewPostAdapter extends ArrayAdapter<Object> {
         msgTextView.setText(messages.get(pos));
 
         TextView userTextView=view.findViewById(R.id.reviewUserTextView);
-        userTextView.setText(String.valueOf(userIds.get(pos)));
+        userTextView.setText(usernames.get(pos));
 
         TextView reviewTextView=view.findViewById(R.id.reviewTextView);
         if (reviews.get(pos)) {

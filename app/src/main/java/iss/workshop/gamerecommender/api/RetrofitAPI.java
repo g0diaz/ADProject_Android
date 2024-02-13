@@ -90,8 +90,8 @@ public interface RetrofitAPI {
     @POST("api/user/activity")
     Call<ResponseBody> getAllActivity(@Body JsonObject userId);
 
-//    @POST("api/user/activity/store")
-//    Call<ResponseBody> storeNewActivity(@Body JsonObject activity);
+    @POST("api/game/review")
+    Call<ResponseBody> reviewGame(@Body JsonObject reviewData);
 
 }
 

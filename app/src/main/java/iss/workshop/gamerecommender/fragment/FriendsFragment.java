@@ -42,6 +42,13 @@ public class FriendsFragment extends Fragment implements AdapterView.OnItemClick
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        if (getActivity() != null) {
+            TextView titleTextView = getActivity().findViewById(R.id.activity_feed_title);
+            if (titleTextView != null) {
+                titleTextView.setText("Friend");
+            }
+        }
+
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_friends, container, false);
         names = new ArrayList<>();
