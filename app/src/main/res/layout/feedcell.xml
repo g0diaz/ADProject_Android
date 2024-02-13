@@ -36,45 +36,46 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/time"
+        android:id="@+id/see_more"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/line"
         android:layout_alignParentEnd="true"
-        android:text="time"/>
+        android:text="see more"
+        android:textSize="18sp" />
     <TextView
-        android:id="@+id/see_more"
+        android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="see more"
-        android:textSize="18sp"
-        android:layout_below="@id/time"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
         android:layout_below="@id/see_more"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_weight="1">
+        android:layout_alignParentEnd="true"
+        android:text="time"/>
 
-        <ImageButton
-            android:id="@+id/like_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_arrow_upward_24" />
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_below="@id/see_more"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:layout_weight="1">-->
 
-        <ImageButton
-            android:id="@+id/unlike_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_arrow_downward_24" />
+<!--        <ImageButton-->
+<!--            android:id="@+id/like_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/baseline_arrow_upward_24" />-->
 
-        <ImageButton
-            android:id="@+id/share_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_ios_share_24" />
-    </LinearLayout>
+<!--        <ImageButton-->
+<!--            android:id="@+id/unlike_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/baseline_arrow_downward_24" />-->
+
+<!--        <ImageButton-->
+<!--            android:id="@+id/share_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/baseline_ios_share_24" />-->
+<!--    </LinearLayout>-->
 
 </RelativeLayout>

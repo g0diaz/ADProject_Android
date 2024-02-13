@@ -16,6 +16,7 @@ import android.widget.TextView;
 import iss.workshop.gamerecommender.R;
 import iss.workshop.gamerecommender.databinding.ActivityMainBinding;
 import iss.workshop.gamerecommender.fragment.ActivityFeedFragment;
+import iss.workshop.gamerecommender.fragment.HomeFragment;
 import iss.workshop.gamerecommender.fragment.ProfileDetailFragment;
 import iss.workshop.gamerecommender.fragment.FriendsFragment;
 import iss.workshop.gamerecommender.fragment.GameFragment;
@@ -30,16 +31,18 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        replaceFragment(new GameFragment(), "Home");
+        replaceFragment(new HomeFragment(), "Home");
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
             if (item.getItemId() == R.id.home) {
-                replaceFragment(new GameFragment(), "Home");
+                replaceFragment(new HomeFragment(), "Home");
             } else if (item.getItemId() == R.id.activity_feed) {
                 replaceFragment(new ActivityFeedFragment(), "Activity Feed");
             } else if (item.getItemId() == R.id.friends) {
                 replaceFragment(new FriendsFragment(), "Friends");
+            }else if(item.getItemId()==R.id.search){
+                replaceFragment(new GameFragment(), "Search");
             }
             return true;
         });
