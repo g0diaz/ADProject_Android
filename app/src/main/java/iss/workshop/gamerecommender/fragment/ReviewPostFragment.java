@@ -10,9 +10,11 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,24 +55,28 @@ public class ReviewPostFragment extends Fragment {
             TextView gameTitleTextView = view.findViewById(R.id.game_title);
             gameTitleTextView.setText(gameTitle);
 
-            ImageButton likeImageButton = view.findViewById(R.id.recommend_button);
-            likeImageButton.setOnClickListener(new View.OnClickListener() {
+            Button submitBtn = view.findViewById(R.id.submitBtn);
+            submitBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    submitReview(true);
-                }
-            });
-
-            ImageButton dislikeImageButton = view.findViewById(R.id.not_recommend_button);
-            dislikeImageButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    submitReview(false);
+                    boolean like = getReviewFeedback();
+                    submitReview(like);
                 }
             });
         }
 
         return view;
+    }
+
+    private boolean getReviewFeedback() {
+        RadioGroup radioGroup = getView().findViewById(R.id.radioGroup);
+        int selectedId = radioGroup.getCheckedRadioButtonId();
+
+        if(selectedId == R.id.recommendBtn){
+            return true;
+        }
+        else
+            return false;
     }
 
     private void submitReview(boolean like) {
