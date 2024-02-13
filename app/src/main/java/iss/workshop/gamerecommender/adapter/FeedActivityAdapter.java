@@ -58,8 +58,8 @@ public class FeedActivityAdapter extends ArrayAdapter<Object> {
         textView.setText(contents.get(pos));
 
         ImageView imageView=view.findViewById(R.id.feed_photo);
-//        String url = images.get(pos);
-//        ImageLoader.loadImage(context, url, imageView);
+        String url = images.get(pos);
+        ImageLoader.loadImage(context, url, imageView);
 
         TextView timeView=view.findViewById(R.id.time);
         timeView.setText(times.get(pos));
