@@ -235,33 +235,34 @@
                 android:layout_marginTop="10dp"
                 android:layout_below="@id/line2">
 
-                <Button
-                    android:id="@+id/liked"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="3"
-                    android:layout_gravity="center"
-                    android:background="@drawable/border"
-                    android:text="@string/liked"
-                    android:textAllCaps="false"
-                    android:textSize="10dp" />
+<!--                <Button-->
+<!--                    android:id="@+id/liked"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:layout_marginRight="10dp"-->
+<!--                    android:layout_weight="3"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:background="@drawable/border"-->
+<!--                    android:text="@string/liked"-->
+<!--                    android:textAllCaps="false"-->
+<!--                    android:textSize="10dp" />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/wished"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_weight="3"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:text="@string/wished"-->
+<!--                    android:textSize="10dp"-->
+<!--                    android:textAllCaps="false"-->
+<!--                    android:background="@drawable/border"-->
+<!--                    android:layout_marginRight="10dp"/>-->
 
                 <Button
-                    android:id="@+id/wished"
+                    android:id="@+id/followUnfollowBtn"
                     android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:text="@string/wished"
-                    android:textSize="10dp"
-                    android:textAllCaps="false"
-                    android:background="@drawable/border"
-                    android:layout_marginRight="10dp"/>
-                <Button
-                    android:id="@+id/follow"
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
+                    android:layout_weight="4"
                     android:layout_gravity="center"
                     android:layout_height="50dp"
                     android:text="@string/follow"
@@ -269,6 +270,7 @@
                     android:textAllCaps="false"
                     android:background="@drawable/border"
                     android:layout_marginRight="10dp"/>
+
                 <EditText
                     android:layout_width="0dp"
                     android:layout_weight="10"

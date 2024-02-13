@@ -46,11 +46,19 @@ public class DevDetailFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_dev_detail, container, false);
 
         Bundle args=getArguments();
-        int userId= args.getInt("cellId", -1);
+        if(args!=null) {
+            int userId = args.getInt("cellId", 0);
 
-        fetchProfileDetail(userId);
-        fetchGameList(userId);
+            SharedPreferences sharedPreferences = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+            int myUserId = sharedPreferences.getInt("userId", 0);
 
+            Button followUnfollowButton = view.findViewById(R.id.followUnfollowBtn);
+
+            checkDevAndSetButton(myUserId, userId, followUnfollowButton);
+
+            fetchProfileDetail(userId);
+            fetchGameList(userId);
+        }
         return view;
     }
     private void fetchProfileDetail(int userId) {
@@ -132,8 +140,6 @@ public class DevDetailFragment extends Fragment {
 
                         FriendProfileGamesAdapter adapter = new FriendProfileGamesAdapter(requireContext(), urls, titles);
 
-                        TextView textView=getView().findViewById(R.id.dev_game);
-                        textView.setText("Developed games");
                         ListView gamelistView = getView().findViewById(R.id.dev_gamelist);
                         if (gamelistView != null) {
                             gamelistView.setAdapter(adapter);
@@ -179,6 +185,107 @@ public class DevDetailFragment extends Fragment {
             @Override
             public void onFailure (Call < ResponseBody > call, Throwable t){
                 Toast.makeText(getContext(), "Cannot fetch game list: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void checkDevAndSetButton(int myUserId, int userId, Button followUnfollowButton) {
+        JsonObject userIdData = new JsonObject();
+        userIdData.addProperty("userId", myUserId);
+
+        RetrofitClient retrofitClient = new RetrofitClient();
+        Call<ResponseBody> call = retrofitClient
+                .getAPI()
+                .getDevelopersList(userIdData);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+                        String responseBodyString = response.body().string();
+                        JsonArray devs = JsonParser.parseString(responseBodyString).getAsJsonArray();
+                        boolean isFollowed = false;
+                        for (JsonElement devElement : devs) {
+                            JsonObject devObj = devElement.getAsJsonObject();
+                            int followedDevId = devObj.get("id").getAsInt();
+                            if (followedDevId == userId) {
+                                isFollowed = true;
+                                break;
+                            }
+                        }
+                        if (isFollowed){
+                            followUnfollowButton.setText("UNFOLLOW");
+                        } else {
+                            followUnfollowButton.setText("FOLLOW");
+                        }
+                        devFollowUnfollowButtonSetup(userId, followUnfollowButton, isFollowed);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "Error checking game follow status: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void devFollowUnfollowButtonSetup(int userId, Button followUnfollowButton, boolean isCurrentlyFollowed) {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+        int myUserId = sharedPreferences.getInt("userId", 0);
+        JsonObject userIdData = new JsonObject();
+        userIdData.addProperty("userId", myUserId);
+        RetrofitClient retrofitClient = new RetrofitClient();
+
+        followUnfollowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (followUnfollowButton.getText().toString().equalsIgnoreCase("FOLLOW")) {
+                    Call<ResponseBody> call = retrofitClient
+                            .getAPI()
+                            .followDev(userId, userIdData);
+
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                Toast.makeText(getContext(), "Successfully followed", Toast.LENGTH_SHORT).show();
+                                followUnfollowButton.setText("UNFOLLOW");
+                            } else {
+                                Toast.makeText(getContext(), "Failed to follow", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                } else {
+                    Call<ResponseBody> call = retrofitClient
+                            .getAPI()
+                            .unfollowDev(userId, userIdData);
+
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                followUnfollowButton.setText(isCurrentlyFollowed ? "FOLLOW" : "UNFOLLOW");
+                            } else {
+                                Toast.makeText(getContext(), "Failed to update follow status", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
     }

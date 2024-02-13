@@ -23,7 +23,7 @@
                 android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/unfollowBtn"
+                android:id="@+id/followUnfollowBtn"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/dev_name"
@@ -66,13 +66,13 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/dev_avatar"
                 android:layout_marginTop="10dp"
-                android:text="@string/f_users"
+                android:text="@string/feat_games"
                 android:textStyle="bold"/>
 
             <ListView
                 android:id="@+id/dev_gamelist"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="500dp"
                 android:layout_below="@id/dev_game"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/border"/>

@@ -14,7 +14,7 @@
     <string name="welcome">Welcome User! Select your favourite genres</string>
     <string name="description">We use your favorite genres to make better games
         recommendations and tailor what you see in your feed.</string>
-    <!--    gamelistPage     -->
+    <!--    gameDetailPage     -->
     <string name="sell">Top Sellers</string>
     <string name="GameList">Game List</string>
     <string name="GameDetail">Game Detail</string>
@@ -39,7 +39,12 @@
     <string name="createAccount">Create account</string>
     <!--    forgotPasswordPage     -->
     <string name="resetPassword">Reset Password</string>
-
+    <!--    devDetailPage     -->
+    <string name="feat_games">Featured Games</string>
+    <!--    gamePage     -->
+    <string name="games_title">GAMES</string>
+    <string name="developers_title">DEVELOPERS</string>
+    <string name="users_title">USERS</string>
     <string-array name="search_methods">
         <item>Game</item>
         <item>Developer</item>

@@ -22,7 +22,8 @@ public class ReviewPostAdapter extends ArrayAdapter<Object> {
     protected List<String> messages;
     protected List<String> dates;
     protected List<Boolean> reviews;
-    public ReviewPostAdapter(Context context, List<String> titles, List<String> messages, List<String> dates, List<Boolean> reviews) {
+    protected List<Integer> userIds;
+    public ReviewPostAdapter(Context context, List<String> titles, List<String> messages, List<String> dates, List<Boolean> reviews, List<Integer> userIds) {
         super(context, R.layout.reviewlistcell);
 
         this.context=context;
@@ -30,7 +31,7 @@ public class ReviewPostAdapter extends ArrayAdapter<Object> {
         this.messages=messages;
         this.dates=dates;
         this.reviews=reviews;
-
+        this.userIds=userIds;
 
         addAll(new Object[reviews.size()]);
     }
@@ -51,6 +52,9 @@ public class ReviewPostAdapter extends ArrayAdapter<Object> {
         TextView msgTextView=view.findViewById(R.id.messageTextView);
         msgTextView.setText(messages.get(pos));
 
+        TextView userTextView=view.findViewById(R.id.reviewUserTextView);
+        userTextView.setText(String.valueOf(userIds.get(pos)));
+
         TextView reviewTextView=view.findViewById(R.id.reviewTextView);
         if (reviews.get(pos)) {
             reviewTextView.setText("Recommended");
@@ -59,6 +63,7 @@ public class ReviewPostAdapter extends ArrayAdapter<Object> {
             reviewTextView.setText("Not Recommended");
             reviewTextView.setTextColor(Color.rgb(255, 0, 0));
         }
+
         return view;
     }
 }

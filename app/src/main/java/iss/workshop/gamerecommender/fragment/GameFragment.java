@@ -1,5 +1,6 @@
 package iss.workshop.gamerecommender.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -46,6 +47,14 @@ public class GameFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        if (getActivity() != null) {
+            TextView titleTextView = getActivity().findViewById(R.id.activity_feed_title);
+            if (titleTextView != null) {
+                titleTextView.setText("Home");
+            }
+        }
+
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_game, container, false);
         titles= new ArrayList<>();
@@ -209,6 +218,11 @@ public class GameFragment extends Fragment
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                TextView titleTextView = view.findViewById(R.id.titleTextView);
+                if (titleTextView != null) {
+                    String updatedTitle = getSearchContextTitle(searchMethod, getContext());
+                    titleTextView.setText(updatedTitle);
+                }
                 handleSearchMethodSelection(searchMethod,view,query);
                 return true;
             }
@@ -221,6 +235,20 @@ public class GameFragment extends Fragment
             }
         });
     }
+
+    private String getSearchContextTitle(String searchMethod, Context context) {
+        switch (searchMethod) {
+            case "Game":
+                return context.getResources().getString(R.string.games_title);
+            case "Developer":
+                return context.getResources().getString(R.string.developers_title);
+            case "User":
+                return context.getResources().getString(R.string.users_title);
+            default:
+                return context.getResources().getString(R.string.games_title);
+        }
+    }
+
     private void displaySearchResult(View view,String query,String type){
         JsonObject searchData=new JsonObject();
         searchData.addProperty("query",query);

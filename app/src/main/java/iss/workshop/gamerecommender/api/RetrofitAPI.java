@@ -10,6 +10,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -58,8 +59,33 @@ public interface RetrofitAPI {
     @POST("api/user/profile/games")
     Call<ResponseBody> getGamesList(@Body JsonObject userIdData);
 
+    //Update User Profile
     @PUT("api/user/profile/update/{userId}")
     Call<ResponseBody> editProfile(@Path ("userId") int userId,@Body JsonObject userJsonObject);
+
+    //Follow Friend
+    @PUT("api/user/profile/user/follow/{friendId}")
+    Call<ResponseBody> followFriend(@Path("friendId") int friendId, @Body JsonObject userIdData);
+
+    //Unfollow Friend
+    @PUT("api/user/profile/user/unfollow/{friendId}")
+    Call<ResponseBody> unfollowFriend(@Path("friendId") int friendId, @Body JsonObject userIdData);
+
+    //Follow Game
+    @PUT("api/game/follow/{gameId}")
+    Call<ResponseBody> followGame(@Path("gameId") int gameId, @Body JsonObject userIdData);
+
+    //Unfollow Game
+    @PUT("api/game/unfollow/{gameId}")
+    Call<ResponseBody> unfollowGame(@Path("gameId") int gameId, @Body JsonObject userIdData);
+
+    //Follow Dev
+    @PUT("api/user/profile/dev/follow/{devId}")
+    Call<ResponseBody> followDev(@Path("devId") int devId, @Body JsonObject userIdData);
+
+    //Unfollow Dev
+    @PUT("api/user/profile/dev/unfollow/{devId}")
+    Call<ResponseBody> unfollowDev(@Path("devId") int devId, @Body JsonObject userIdData);
 
     @POST("api/user/activity")
     Call<ResponseBody> getAllActivity(@Body JsonObject userId);

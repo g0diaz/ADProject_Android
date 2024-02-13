@@ -45,25 +45,26 @@ public class ProfileDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_profile_detail, container, false);
 
         Bundle args=getArguments();
         if(args!=null){
-            int userId = args.getInt("userId", -1);
+            int viewedUserId = args.getInt("userId", -1);
 
-            if(userId==-1){
-                userId=args.getInt("cellId",-2);
+            if(viewedUserId==-1){
+                viewedUserId=args.getInt("cellId",-2);
             }
 
             SharedPreferences sharedPreferences = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
             int myUserId = sharedPreferences.getInt("userId", 0);
 
-            if (userId == myUserId){
+            if (viewedUserId == myUserId){
                 Button editProfileButton = view.findViewById(R.id.editProfileBtn);
-                Button unfollowButton = view.findViewById(R.id.unfollowBtn);
+                Button followUnfollowButton = view.findViewById(R.id.followUnfollowBtn);
                 editProfileButton.setVisibility(View.VISIBLE);
-                unfollowButton.setVisibility(View.GONE);
+                followUnfollowButton.setVisibility(View.GONE);
 
                 editProfileButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -74,14 +75,124 @@ public class ProfileDetailFragment extends Fragment {
                     }
                 });
             }
+            else {
+                Button followUnfollowButton = view.findViewById(R.id.followUnfollowBtn);
+                followUnfollowButton.setVisibility(View.VISIBLE);
+                checkFriendAndSetButton(myUserId, viewedUserId, followUnfollowButton);
+            }
 
-            fetchProfileDetail(userId);
-            fetchGameList(userId);
-            fetchFriendList(userId);
-            fetchDevelopersList(userId);
+            fetchProfileDetail(viewedUserId);
+            fetchGameList(viewedUserId);
+            fetchFriendList(viewedUserId);
+            fetchDevelopersList(viewedUserId);
         }
         return view;
     }
+
+    private void friendFollowUnfollowButtonSetup(int viewedUserId, Button followUnfollowButton, int myUserId) {
+        followUnfollowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (followUnfollowButton.getText().toString().equalsIgnoreCase("FOLLOW")) {
+                    JsonObject userIdData = new JsonObject();
+                    userIdData.addProperty("userId", myUserId);
+
+                    RetrofitClient retrofitClient = new RetrofitClient();
+                    Call<ResponseBody> call = retrofitClient
+                            .getAPI()
+                            .followFriend(viewedUserId, userIdData);
+
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                Toast.makeText(getContext(), "Successfully followed", Toast.LENGTH_SHORT).show();
+                                followUnfollowButton.setText("UNFOLLOW");
+                            } else {
+                                Toast.makeText(getContext(), "Failed to follow", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    JsonObject userIdData = new JsonObject();
+                    userIdData.addProperty("userId", myUserId);
+
+                    RetrofitClient retrofitClient = new RetrofitClient();
+                    Call<ResponseBody> call = retrofitClient
+                            .getAPI()
+                            .unfollowFriend(viewedUserId, userIdData);
+
+                    call.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                Toast.makeText(getContext(), "Successfully unfollowed", Toast.LENGTH_SHORT).show();
+                                followUnfollowButton.setText("FOLLOW");
+                            } else {
+                                Toast.makeText(getContext(), "Failed to unfollow", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
+    }
+    private void checkFriendAndSetButton(int myUserId, int viewedUserId, Button followUnfollowButton) {
+        JsonObject userIdData = new JsonObject();
+        userIdData.addProperty("userId", myUserId);
+
+        RetrofitClient retrofitClient = new RetrofitClient();
+        Call<ResponseBody> call = retrofitClient
+                .getAPI()
+                .getFriendsList(userIdData);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+                        String responseBodyString = response.body().string();
+                        JsonArray friends = JsonParser.parseString(responseBodyString).getAsJsonArray();
+                        boolean isFriend = false;
+                        for (JsonElement friend : friends) {
+                            JsonObject friendObj = friend.getAsJsonObject();
+                            int friendId = friendObj.get("id").getAsInt();
+                            if (friendId == viewedUserId) {
+                                isFriend = true;
+                                break;
+                            }
+                        }
+                        if (isFriend){
+                            followUnfollowButton.setText("UNFOLLOW");
+                        } else {
+                            followUnfollowButton.setText("FOLLOW");
+                        }
+                        friendFollowUnfollowButtonSetup(viewedUserId, followUnfollowButton, myUserId);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "Cannot fetch friend list: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
     private void fetchProfileDetail(int userId) {
         JsonObject userIdData = new JsonObject();
         userIdData.addProperty("userId", userId);
@@ -203,7 +314,7 @@ public class ProfileDetailFragment extends Fragment {
                                         gameDetailFragment.setArguments(bundle);
                                         getParentFragmentManager().beginTransaction()
                                                 .replace(R.id.frame_layout,gameDetailFragment)
-                                                .addToBackStack("gameFragment")
+                                                .addToBackStack("gameDetailFragment")
                                                 .commit();
                                     }
                                 });
@@ -255,19 +366,26 @@ public class ProfileDetailFragment extends Fragment {
                         } else {
                             List<String> names = new ArrayList<>();
                             List<String> urls = new ArrayList<>();
-                            List<Integer> userIds = new ArrayList<>();
+                            List<Integer> friendIds = new ArrayList<>();
 
                             for (JsonElement friend : friends) {
                                 JsonObject friendObj = friend.getAsJsonObject();
                                 String name = friendObj.get("displayName").getAsString();
                                 String url = friendObj.get("displayImageUrl").getAsString();
-                                int userId = friendObj.get("id").getAsInt();
+                                int friendId = friendObj.get("id").getAsInt();
 
                                 names.add(name);
                                 urls.add(url);
-                                userIds.add(userId);
+                                friendIds.add(friendId);
                             }
+                            SharedPreferences sharedPreferences = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+                            int myUserId = sharedPreferences.getInt("userId", 0);
 
+                            boolean isFriend = friendIds.contains(myUserId);
+                            if (!isFriend) {
+                                Button unfollowButton = getView().findViewById(R.id.followUnfollowBtn);
+                                unfollowButton.setText("FOLLOW");
+                            }
                             FriendProfileFriendsAdapter adapter = new FriendProfileFriendsAdapter(requireContext(), urls, names);
 
                             ListView friendlistView = getView().findViewById(R.id.friendlist);
@@ -296,7 +414,7 @@ public class ProfileDetailFragment extends Fragment {
                                     public void onItemClick(AdapterView<?> av, View view, int pos, long id) {
 
                                         Bundle bundle=new Bundle();
-                                        bundle.putInt("userId", userIds.get(pos));
+                                        bundle.putInt("userId", friendIds.get(pos));
 
                                         ProfileDetailFragment profileDetailFragment = new ProfileDetailFragment();
                                         profileDetailFragment.setArguments(bundle);
@@ -400,7 +518,7 @@ public class ProfileDetailFragment extends Fragment {
 
                                         getParentFragmentManager().beginTransaction()
                                                 .replace(R.id.frame_layout, devDetailFragment)
-                                                .addToBackStack("friendsFragment")
+                                                .addToBackStack("devDetailFragment")
                                                 .commit();
                                     }
                                 });
