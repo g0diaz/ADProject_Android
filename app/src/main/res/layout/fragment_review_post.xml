@@ -53,22 +53,17 @@
             android:layout_height="wrap_content"
             android:gravity="left|center"
             android:layout_marginTop="15dp"
-            android:layout_above="@id/reviewTitleEditText"
+            android:layout_above="@id/reviewBodyEditText"
             android:text="@string/review_body"/>
 
-        <EditText
-            android:id="@+id/reviewTitleEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:hint="Title" />
+
 
         <EditText
             android:id="@+id/reviewBodyEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Review Message"
-            android:layout_below="@+id/reviewTitleEditText"/>
+            android:layout_centerInParent="true"/>
 
         <TextView
             android:id="@+id/recommendText"

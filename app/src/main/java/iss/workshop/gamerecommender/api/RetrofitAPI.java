@@ -9,6 +9,7 @@ import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -90,9 +91,13 @@ public interface RetrofitAPI {
     @POST("api/user/activity")
     Call<ResponseBody> getAllActivity(@Body JsonObject userId);
 
-
     @POST("api/game/review")
     Call<ResponseBody> reviewGame(@Body JsonObject reviewData);
 
+    @DELETE("api/game/review/delete/{reviewId}")
+    Call<ResponseBody> deleteReview(@Path("reviewId") int reviewId);
+
+    @PUT("api/game/review/update/{reviewId}")
+    Call<ResponseBody> updateReview(@Path("reviewId") int reviewId, @Body JsonObject reviewData);
 }
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -15,15 +16,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="10"/>
-        <TextView
+        <com.borjabravo.readmoretextview.ReadMoreTextView
             android:id="@+id/feed_desc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:gravity="left|center_horizontal"
             android:layout_weight="30"
-            android:maxLines="3"
-            android:ellipsize="end"/>
+            app:trimExpandedText="@string/read_less"
+            app:trimCollapsedText="@string/read_more"
+            app:trimMode="trimModeLength"
+            app:trimLength="80"
+            app:colorClickableText="@color/darkBlue"/>
 <!--        <TextView-->
 <!--            android:id="@+id/target"-->
 <!--            android:layout_width="0dp"-->
@@ -36,18 +40,10 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/see_more"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/line"
-        android:layout_alignParentEnd="true"
-        android:text="see more"
-        android:textSize="18sp" />
-    <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/see_more"
+        android:layout_below="@id/line"
         android:layout_alignParentEnd="true"
         android:text="time"/>
 
