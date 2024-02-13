@@ -40,19 +40,11 @@ public class ActivityFeedFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_activity_feed, container, false);
         ListView listView = view.findViewById(R.id.feedListView);
-//        Button postFeedBtn = view.findViewById(R.id.post_Feed);
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
         int myUserId = sharedPreferences.getInt("userId", 0);
 
-//        postFeedBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), FeedActivity.class);
-//                intent.putExtra("userId",myUserId);
-//                startActivity(intent);
-//            }
-//        });
+
 
         getAllActivity(myUserId,listView);
         return view;
