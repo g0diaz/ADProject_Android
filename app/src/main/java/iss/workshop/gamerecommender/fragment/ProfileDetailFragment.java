@@ -88,14 +88,14 @@ public class ProfileDetailFragment extends Fragment {
             fetchFriendList(viewedUserId);
             fetchDevelopersList(viewedUserId);
 
-            OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-                @Override
-                public void handleOnBackPressed() {
-                    startActivity(new Intent(requireActivity(), MainActivity.class));
-                }
-            };
-            requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
-
+//            OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+//                @Override
+//                public void handleOnBackPressed() {
+//                    startActivity(new Intent(requireActivity(), MainActivity.class));
+//                }
+//            };
+//            requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+//
 
         }
         return view;

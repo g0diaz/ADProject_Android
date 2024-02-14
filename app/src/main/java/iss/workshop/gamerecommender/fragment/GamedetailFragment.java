@@ -74,6 +74,7 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
 
             fetchGameDetail(gameId);
         }
+
         return view;
     }
 

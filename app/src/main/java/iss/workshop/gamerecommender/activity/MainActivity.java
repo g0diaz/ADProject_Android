@@ -39,19 +39,6 @@ public class MainActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.activity_feed) {
                 replaceFragment(new ActivityFeedFragment(), "Activity Feed");
             } else if (item.getItemId() == R.id.friends) {
-                replaceFragment(new FriendsFragment(), "Friends");
-            }else if(item.getItemId()==R.id.search){
-                replaceFragment(new GameFragment(), "Search");
-            }
-            return true;
-        });
-
-        ImageButton profileBtn = findViewById(R.id.profile_btn);
-        ImageButton logoutBtn = findViewById(R.id.logout_btn);
-
-        profileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 SharedPreferences sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
                 int myUserId = sharedPreferences.getInt("userId", 0);
 
@@ -62,8 +49,16 @@ public class MainActivity extends AppCompatActivity {
                 profileDetailFragment.setArguments(bundle);
 
                 replaceFragment(profileDetailFragment, "Profile");
+            }else if(item.getItemId()==R.id.search){
+                replaceFragment(new GameFragment(), "Search");
             }
+            return true;
         });
+
+
+        ImageButton logoutBtn = findViewById(R.id.logout_btn);
+
+
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
