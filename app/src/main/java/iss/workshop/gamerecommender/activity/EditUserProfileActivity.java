@@ -125,8 +125,7 @@ public class EditUserProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Intent intent=new Intent(EditUserProfileActivity.this,MainActivity.class);
-                    startActivity(intent);
+                    finish();
                 }
             }
 

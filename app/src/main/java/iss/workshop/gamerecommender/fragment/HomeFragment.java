@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.gson.JsonArray;
@@ -27,7 +28,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment
+        implements AdapterView.OnItemClickListener {
 
     private List<String> titles;
     private List<String> urls ;
@@ -72,7 +74,7 @@ public class HomeFragment extends Fragment {
                     cellIds.add(gameId);
                 }
 
-                setContent(view);
+                setContent(view,"top");
             }
             @Override
             public void onFailure(Call<JsonArray> call, Throwable throwable) {
@@ -104,7 +106,7 @@ public class HomeFragment extends Fragment {
                     cellIds.add(gameId);
                 }
 
-                setContent(view);
+                setContent(view,"trend");
             }
             @Override
             public void onFailure(Call<JsonArray> call, Throwable throwable) {
@@ -136,7 +138,7 @@ public class HomeFragment extends Fragment {
                     cellIds.add(gameId);
                 }
 
-                setContent(view);
+                setContent(view,"recomm");
             }
             @Override
             public void onFailure(Call<JsonArray> call, Throwable throwable) {
@@ -145,13 +147,37 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void setContent(View view){
+    private void setContent(View view,String name){
         FriendProfileGamesAdapter adapter=new FriendProfileGamesAdapter(requireContext(),urls,titles);
-
-        ListView listView=view.findViewById(R.id.gamelist);
+        ListView listView=new ListView(requireContext());
+        switch(name){
+            case "top":
+                listView=view.findViewById(R.id.topgamelist);
+                break;
+            case "trend":
+                listView=view.findViewById(R.id.trendinggamelist);
+                break;
+            case "recomm":
+                listView=view.findViewById(R.id.gamerecommendlist);
+                break;
+        }
         if(listView!=null){
             listView.setAdapter(adapter);
-//            listView.setOnItemClickListener(this);
+            listView.setOnItemClickListener(this);
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Bundle bundle=new Bundle();
+        bundle.putInt("cellId", cellIds.get(position));
+
+        GamedetailFragment gamedetailFragment=new GamedetailFragment();
+        gamedetailFragment.setArguments(bundle);
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout,gamedetailFragment)
+                .addToBackStack("gameFragment")
+                .commit();
+
     }
 }

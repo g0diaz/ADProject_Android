@@ -6,24 +6,16 @@
     android:padding="16dp"
     android:background="@color/biege">
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:contentDescription="@string/logo" />
 
     <TextView
         android:id="@+id/welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/logo"
         android:layout_centerHorizontal="true"
         android:text="@string/welcome"
         android:textStyle="bold"
         android:textSize="16sp"
-        android:layout_marginTop="-10dp" />
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:id="@+id/description"
