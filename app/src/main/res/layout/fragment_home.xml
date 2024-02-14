@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.HomeFragment">
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,7 +22,7 @@
         <ListView
             android:id="@+id/topgamelist"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:layout_below="@id/text"
             android:layout_marginTop="10dp"
             android:background="@drawable/border"/>
@@ -36,7 +38,7 @@
         <ListView
             android:id="@+id/trendinggamelist"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:layout_below="@id/text2"
             android:layout_marginTop="10dp"
             android:background="@drawable/border" />
@@ -52,10 +54,10 @@
         <ListView
             android:id="@+id/gamerecommendlist"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="300dp"
             android:layout_below="@id/text3"
             android:layout_marginTop="10dp"
             android:background="@drawable/border" />
     </RelativeLayout>
-
+    </ScrollView>
 </FrameLayout>
