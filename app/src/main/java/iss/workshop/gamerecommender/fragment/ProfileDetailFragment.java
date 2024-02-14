@@ -227,6 +227,10 @@ public class ProfileDetailFragment extends Fragment {
                         String name = profileDetail.get("displayName").getAsString();
                         String url = profileDetail.get("displayImageUrl").getAsString();
 
+                        if (url.isEmpty()){
+                            url = "http://10.0.2.2:8080/image/0.png";
+                        }
+
                         TextView bioTextView = getView().findViewById(R.id.bio);
                         bioTextView.setText(bio);
 
@@ -287,8 +291,12 @@ public class ProfileDetailFragment extends Fragment {
                                 String url = gameObj.get("imageUrl").getAsString();
                                 int gameId = gameObj.get("id").getAsInt();
 
+                                if (url.isEmpty()){
+                                    urls.add("http://10.0.2.2:8080/image/0.png");
+                                } else {
+                                    urls.add(url);
+                                }
                                 titles.add(title);
-                                urls.add(url);
                                 gamesIds.add(gameId);
                             }
 
@@ -386,8 +394,13 @@ public class ProfileDetailFragment extends Fragment {
                                 String url = friendObj.get("displayImageUrl").getAsString();
                                 int friendId = friendObj.get("id").getAsInt();
 
+                                if (url.isEmpty()){
+                                    urls.add("http://10.0.2.2:8080/image/0.png");
+                                } else {
+                                    urls.add(url);
+                                }
+
                                 names.add(name);
-                                urls.add(url);
                                 friendIds.add(friendId);
                             }
                             SharedPreferences sharedPreferences = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
@@ -485,17 +498,25 @@ public class ProfileDetailFragment extends Fragment {
                         } else {
                             List<String> names = new ArrayList<>();
                             List<Integer> cellIds = new ArrayList<>();
+                            List<String> urls = new ArrayList<>();
 
                             for (JsonElement developer : developers) {
                                 JsonObject developerObj = developer.getAsJsonObject();
                                 String name = developerObj.get("displayName").getAsString();
                                 int userId = developerObj.get("id").getAsInt();
+                                String url = developerObj.get("displayImageUrl").getAsString();
 
+                                if (url.isEmpty()){
+                                    urls.add("http://10.0.2.2:8080/image/0.png");
+                                } else {
+                                    urls.add(url);
+                                }
                                 names.add(name);
                                 cellIds.add(userId);
+
                             }
 
-                            FriendProfileDevelopersAdapter adapter = new FriendProfileDevelopersAdapter(requireContext(), names);
+                            FriendProfileDevelopersAdapter adapter = new FriendProfileDevelopersAdapter(requireContext(), urls, names);
 
                             ListView developerlistView = getView().findViewById(R.id.developerslist);
                             if (developerlistView != null) {

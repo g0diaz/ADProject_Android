@@ -90,8 +90,12 @@ public class FriendsFragment extends Fragment implements AdapterView.OnItemClick
                             String url = friendObj.get("displayImageUrl").getAsString();
                             int userId = friendObj.get("id").getAsInt();
 
+                            if (url.isEmpty()){
+                                urls.add("http://10.0.2.2:8080/image/avatar.jpg");
+                            } else {
+                                urls.add(url);
+                            }
                             names.add(name);
-                            urls.add(url);
                             userIds.add(userId);
                         }
 
@@ -125,6 +129,7 @@ public class FriendsFragment extends Fragment implements AdapterView.OnItemClick
 
         Log.d("ItemClick", "Item clicked: " + pos);
 
+        System.out.println(urls);
         Bundle bundle=new Bundle();
         bundle.putInt("userId", userIds.get(pos));
 

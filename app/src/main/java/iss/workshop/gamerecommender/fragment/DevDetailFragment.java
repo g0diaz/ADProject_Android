@@ -83,6 +83,10 @@ public class DevDetailFragment extends Fragment {
                         String name = profileDetail.get("displayName").getAsString();
                         String url = profileDetail.get("displayImageUrl").getAsString();
 
+                        if (url.isEmpty()){
+                            url = "http://10.0.2.2:8080/image/0.png";
+                        }
+
                         TextView bioTextView = getView().findViewById(R.id.bio);
                         bioTextView.setText(bio);
 

@@ -12,7 +12,7 @@
         android:layout_height="50dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:scaleType="fitXY" />
+        android:scaleType="fitCenter" />
 
     <TextView
         android:id="@+id/textview"
@@ -21,6 +21,6 @@
         android:layout_weight="5"
         android:layout_marginRight="10dp"
         android:textColor="@color/black"
-        android:gravity="center|center_horizontal" />
+        android:gravity="center|center_horizontal"/>
 
 </LinearLayout>

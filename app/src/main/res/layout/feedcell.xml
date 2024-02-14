@@ -15,7 +15,9 @@
             android:id="@+id/feed_photo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="10"/>
+            android:layout_weight="10"
+            android:scaleType="fitCenter"/>
+
         <com.borjabravo.readmoretextview.ReadMoreTextView
             android:id="@+id/feed_desc"
             android:layout_width="0dp"
@@ -28,15 +30,6 @@
             app:trimMode="trimModeLength"
             app:trimLength="80"
             app:colorClickableText="@color/darkBlue"/>
-<!--        <TextView-->
-<!--            android:id="@+id/target"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:textSize="20sp"-->
-<!--            android:gravity="left|center_horizontal"-->
-<!--            android:layout_weight="10"-->
-<!--            android:maxLines="3"-->
-<!--            android:ellipsize="end"/>-->
     </LinearLayout>
 
     <TextView

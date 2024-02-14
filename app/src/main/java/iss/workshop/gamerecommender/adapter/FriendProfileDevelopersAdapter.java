@@ -17,11 +17,14 @@ import iss.workshop.gamerecommender.R;
 
 public class FriendProfileDevelopersAdapter extends ArrayAdapter<Object>  {
     private final Context context;
+    protected List<String> urls;
     protected List<String> names;
-    public FriendProfileDevelopersAdapter(Context context, List<String> names) {
+
+    public FriendProfileDevelopersAdapter(Context context, List<String> urls, List<String> names) {
         super(context, R.layout.developerlistcell);
 
         this.context=context;
+        this.urls=urls;
         this.names=names;
 
         addAll(new Object[names.size()]);
@@ -37,6 +40,10 @@ public class FriendProfileDevelopersAdapter extends ArrayAdapter<Object>  {
 
         TextView textView=view.findViewById(R.id.textview);
         textView.setText(names.get(pos));
+
+        ImageView imageView=view.findViewById(R.id.imageview);
+        String url = urls.get(pos);
+        ImageLoader.loadImage(context, url, imageView);
 
         return view;
     }
