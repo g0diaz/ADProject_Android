@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,6 +32,7 @@ import java.util.List;
 
 import iss.workshop.gamerecommender.R;
 import iss.workshop.gamerecommender.activity.EditUserProfileActivity;
+import iss.workshop.gamerecommender.activity.MainActivity;
 import iss.workshop.gamerecommender.adapter.FriendProfileDevelopersAdapter;
 import iss.workshop.gamerecommender.adapter.FriendProfileFriendsAdapter;
 import iss.workshop.gamerecommender.adapter.FriendProfileGamesAdapter;
@@ -45,7 +48,6 @@ public class ProfileDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_profile_detail, container, false);
 
@@ -85,6 +87,16 @@ public class ProfileDetailFragment extends Fragment {
             fetchGameList(viewedUserId);
             fetchFriendList(viewedUserId);
             fetchDevelopersList(viewedUserId);
+
+            OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+                @Override
+                public void handleOnBackPressed() {
+                    startActivity(new Intent(requireActivity(), MainActivity.class));
+                }
+            };
+            requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
+
+
         }
         return view;
     }
@@ -539,4 +551,47 @@ public class ProfileDetailFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Bundle args = getArguments();
+        if (args != null) {
+            int viewedUserId = args.getInt("userId", -1);
+
+            if (viewedUserId == -1) {
+                viewedUserId = args.getInt("cellId", -2);
+            }
+
+            SharedPreferences sharedPreferences = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+            int myUserId = sharedPreferences.getInt("userId", 0);
+
+            if (viewedUserId == myUserId) {
+                Button editProfileButton = getView().findViewById(R.id.editProfileBtn);
+                Button followUnfollowButton = getView().findViewById(R.id.followUnfollowBtn);
+                editProfileButton.setVisibility(View.VISIBLE);
+                followUnfollowButton.setVisibility(View.GONE);
+
+                editProfileButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), EditUserProfileActivity.class);
+                        intent.putExtra("userId", myUserId);
+                        startActivity(intent);
+                    }
+                });
+            } else {
+                Button followUnfollowButton = getView().findViewById(R.id.followUnfollowBtn);
+                followUnfollowButton.setVisibility(View.VISIBLE);
+                checkFriendAndSetButton(myUserId, viewedUserId, followUnfollowButton);
+            }
+
+            fetchProfileDetail(viewedUserId);
+            fetchGameList(viewedUserId);
+            fetchFriendList(viewedUserId);
+            fetchDevelopersList(viewedUserId);
+        }
+    }
+
+
 }

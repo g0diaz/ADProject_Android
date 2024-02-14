@@ -24,7 +24,6 @@ import iss.workshop.gamerecommender.fragment.GameFragment;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
                 replaceFragment(profileDetailFragment, "Profile");
             }
         });
-
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,4 +97,5 @@ public class MainActivity extends AppCompatActivity {
         TextView titleTextView = findViewById(R.id.activity_feed_title);
         titleTextView.setText(title);
     }
+
 }
