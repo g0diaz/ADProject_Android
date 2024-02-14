@@ -30,6 +30,8 @@ import retrofit2.Response;
 
 public class ReviewPostFragment extends Fragment {
 
+    private boolean isEditing = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,18 +46,36 @@ public class ReviewPostFragment extends Fragment {
             }
         }
 
+        ImageView gameImageView=view.findViewById(R.id.gameimage);
+        TextView gameTitleTextView = view.findViewById(R.id.game_title);
+        EditText reviewBodyEditText = view.findViewById(R.id.reviewBodyEditText);
+        RadioGroup radioGroup = view.findViewById(R.id.radioGroup);
+        Button submitBtn = view.findViewById(R.id.submitBtn);
+
         Bundle args=getArguments();
         if(args!=null) {
             String gameTitle = args.getString("gameName");
             String imageUrl = args.getString("imgUrl");
+            isEditing = args.getBoolean("isEditing", false);
 
-            ImageView gameImageView=view.findViewById(R.id.gameimage);
+
             ImageLoader.loadImage(getContext(), imageUrl, gameImageView);
 
-            TextView gameTitleTextView = view.findViewById(R.id.game_title);
+
             gameTitleTextView.setText(gameTitle);
 
-            Button submitBtn = view.findViewById(R.id.submitBtn);
+            if (isEditing){
+                String existingMessage = args.getString("existingMessage");
+                Boolean existingFeedback = args.getBoolean("existingFeedback");
+
+                reviewBodyEditText.setText(existingMessage);
+                if (existingFeedback){
+                    radioGroup.check(R.id.recommendBtn);
+                } else {
+                    radioGroup.check(R.id.notRecommendBtn);
+                }
+            }
+
             submitBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -82,24 +102,22 @@ public class ReviewPostFragment extends Fragment {
     private void submitReview(boolean like) {
         Bundle args = getArguments();
         if(args != null) {
+            EditText reviewBodyEditText = getView().findViewById(R.id.reviewBodyEditText);
             int gameId = args.getInt("gameId", 0);
             String gameTitle = args.getString("gameName");
             SharedPreferences sharedPreferences = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
             int userId = sharedPreferences.getInt("userId", 0);
 
-            EditText reviewBodyEditText = getView().findViewById(R.id.reviewBodyEditText);
-
             JsonObject reviewData = new JsonObject();
             reviewData.addProperty("message", reviewBodyEditText.getText().toString().trim());
             reviewData.addProperty("gameTitle", gameTitle);
             reviewData.addProperty("userId", userId);
-            reviewData.addProperty("gameId", gameId);
             reviewData.addProperty("userFb", like);
 
             RetrofitClient retrofitClient = new RetrofitClient();
             Call<ResponseBody> call = retrofitClient
                     .getAPI()
-                    .reviewGame(reviewData);
+                    .reviewGame(gameId, reviewData);
 
             //Enqueue the call
             call.enqueue(new Callback<ResponseBody>() {
@@ -108,7 +126,18 @@ public class ReviewPostFragment extends Fragment {
 
                     //Handle the server response
                     if (response.isSuccessful()) {
-                        Toast.makeText(getContext(), "Review submitted successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Successful", Toast.LENGTH_SHORT).show();
+
+                        Bundle bundle=new Bundle();
+                        bundle.putInt("cellId", gameId);
+
+                        GamedetailFragment gamedetailFragment=new GamedetailFragment();
+                        gamedetailFragment.setArguments(bundle);
+
+                        getParentFragmentManager().beginTransaction()
+                                .replace(R.id.frame_layout,gamedetailFragment)
+                                .addToBackStack("reviewPostFragment")
+                                .commit();
                     } else {
                         Toast.makeText(getContext(), "Failed to submit review", Toast.LENGTH_SHORT).show();
                     }

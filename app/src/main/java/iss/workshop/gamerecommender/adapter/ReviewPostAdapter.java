@@ -20,7 +20,6 @@ import iss.workshop.gamerecommender.R;
 
 public class ReviewPostAdapter extends ArrayAdapter<Object> {
     private final Context context;
-    protected List<String> urls;
     protected List<String> messages;
     protected List<String> dates;
     protected List<Boolean> reviews;
@@ -28,11 +27,10 @@ public class ReviewPostAdapter extends ArrayAdapter<Object> {
     protected List<Integer> userIds;
     private OnItemClickListener listener;
     private int myUserId;
-    public ReviewPostAdapter(Context context, List<String> urls, List<String> messages, List<String> dates, List<Boolean> reviews, List<String> usernames, List<Integer> userIds) {
+    public ReviewPostAdapter(Context context, List<String> messages, List<String> dates, List<Boolean> reviews, List<String> usernames, List<Integer> userIds) {
         super(context, R.layout.reviewlistcell);
 
         this.context=context;
-        this.urls=urls;
         this.messages=messages;
         this.dates=dates;
         this.reviews=reviews;
@@ -51,21 +49,6 @@ public class ReviewPostAdapter extends ArrayAdapter<Object> {
             view=inflater.inflate(R.layout.reviewlistcell,parent,false);
         }
 
-        Button editButton = view.findViewById(R.id.editBtn);
-        if (userIds.get(pos) == myUserId) {
-            editButton.setVisibility(View.VISIBLE);
-        } else {
-            editButton.setVisibility(View.GONE);
-        }
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    listener.onEditClick(pos);
-                }
-            }
-        });
-
         Button deleteButton = view.findViewById(R.id.deleteBtn);
         if (userIds.get(pos) == myUserId) {
             deleteButton.setVisibility(View.VISIBLE);
@@ -80,10 +63,6 @@ public class ReviewPostAdapter extends ArrayAdapter<Object> {
                 }
             }
         });
-
-        ImageView imageUrlImageView = view.findViewById(R.id.imageUrl);
-        String url = urls.get(pos);
-        ImageLoader.loadImage(context, url, imageUrlImageView);
 
         TextView dateTextView=view.findViewById(R.id.dateTextView);
         dateTextView.setText(dates.get(pos));
@@ -116,7 +95,6 @@ public class ReviewPostAdapter extends ArrayAdapter<Object> {
     }
     public interface OnItemClickListener {
         void onItemClick(int position);
-        void onEditClick(int position);
         void onDeleteClick(int position);
     }
 
