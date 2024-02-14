@@ -2,11 +2,14 @@ package iss.workshop.gamerecommender.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,23 +19,28 @@ import java.util.List;
 import iss.workshop.gamerecommender.R;
 
 public class ReviewPostAdapter extends ArrayAdapter<Object> {
-
     private final Context context;
-    protected List<String> titles;
+    protected List<String> urls;
     protected List<String> messages;
     protected List<String> dates;
     protected List<Boolean> reviews;
     protected List<String> usernames;
-    public ReviewPostAdapter(Context context, List<String> titles, List<String> messages, List<String> dates, List<Boolean> reviews, List<String> usernames) {
+    protected List<Integer> userIds;
+    private OnItemClickListener listener;
+    private int myUserId;
+    public ReviewPostAdapter(Context context, List<String> urls, List<String> messages, List<String> dates, List<Boolean> reviews, List<String> usernames, List<Integer> userIds) {
         super(context, R.layout.reviewlistcell);
 
         this.context=context;
-        this.titles=titles;
+        this.urls=urls;
         this.messages=messages;
         this.dates=dates;
         this.reviews=reviews;
         this.usernames=usernames;
+        this.userIds=userIds;
 
+        SharedPreferences sharedPreferences = context.getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+        myUserId = sharedPreferences.getInt("userId", -1);
         addAll(new Object[reviews.size()]);
     }
 
@@ -43,8 +51,39 @@ public class ReviewPostAdapter extends ArrayAdapter<Object> {
             view=inflater.inflate(R.layout.reviewlistcell,parent,false);
         }
 
-        TextView titleTextView=view.findViewById(R.id.titleTextView);
-        titleTextView.setText(titles.get(pos));
+        Button editButton = view.findViewById(R.id.editBtn);
+        if (userIds.get(pos) == myUserId) {
+            editButton.setVisibility(View.VISIBLE);
+        } else {
+            editButton.setVisibility(View.GONE);
+        }
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onEditClick(pos);
+                }
+            }
+        });
+
+        Button deleteButton = view.findViewById(R.id.deleteBtn);
+        if (userIds.get(pos) == myUserId) {
+            deleteButton.setVisibility(View.VISIBLE);
+        } else {
+            deleteButton.setVisibility(View.GONE);
+        }
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onDeleteClick(pos);
+                }
+            }
+        });
+
+        ImageView imageUrlImageView = view.findViewById(R.id.imageUrl);
+        String url = urls.get(pos);
+        ImageLoader.loadImage(context, url, imageUrlImageView);
 
         TextView dateTextView=view.findViewById(R.id.dateTextView);
         dateTextView.setText(dates.get(pos));
@@ -54,8 +93,17 @@ public class ReviewPostAdapter extends ArrayAdapter<Object> {
 
         TextView userTextView=view.findViewById(R.id.reviewUserTextView);
         userTextView.setText(usernames.get(pos));
+        userTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) {
+                    listener.onItemClick(pos);
+                }
+            }
+        });
 
         TextView reviewTextView=view.findViewById(R.id.reviewTextView);
+
         if (reviews.get(pos)) {
             reviewTextView.setText("Recommended");
             reviewTextView.setTextColor(Color.rgb(0, 255, 0));
@@ -65,5 +113,14 @@ public class ReviewPostAdapter extends ArrayAdapter<Object> {
         }
 
         return view;
+    }
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+        void onEditClick(int position);
+        void onDeleteClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 }

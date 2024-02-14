@@ -151,7 +151,7 @@ public class HomeFragment extends Fragment {
         ListView listView=view.findViewById(R.id.gamelist);
         if(listView!=null){
             listView.setAdapter(adapter);
-            listView.setOnItemClickListener(this);
+//            listView.setOnItemClickListener(this);
         }
     }
 }

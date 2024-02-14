@@ -47,17 +47,8 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-        ImageButton notiBtn = findViewById(R.id.noti_btn);
         ImageButton profileBtn = findViewById(R.id.profile_btn);
         ImageButton logoutBtn = findViewById(R.id.logout_btn);
-
-        notiBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, NotiActivity.class);
-                startActivity(intent);
-            }
-        });
 
         profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override

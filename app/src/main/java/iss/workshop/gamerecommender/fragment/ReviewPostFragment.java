@@ -87,11 +87,9 @@ public class ReviewPostFragment extends Fragment {
             SharedPreferences sharedPreferences = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
             int userId = sharedPreferences.getInt("userId", 0);
 
-            EditText reviewTitleEditText = getView().findViewById(R.id.reviewTitleEditText);
             EditText reviewBodyEditText = getView().findViewById(R.id.reviewBodyEditText);
 
             JsonObject reviewData = new JsonObject();
-            reviewData.addProperty("title", reviewTitleEditText.getText().toString().trim());
             reviewData.addProperty("message", reviewBodyEditText.getText().toString().trim());
             reviewData.addProperty("gameTitle", gameTitle);
             reviewData.addProperty("userId", userId);

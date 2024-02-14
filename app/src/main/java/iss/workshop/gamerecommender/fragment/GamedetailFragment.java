@@ -1,6 +1,8 @@
 package iss.workshop.gamerecommender.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +26,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,7 +43,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GamedetailFragment extends Fragment {
+public class GamedetailFragment extends Fragment implements ReviewPostAdapter.OnItemClickListener{
+
+    private List<Integer> reviewUserIds = new ArrayList<>();
+    private List<Integer> reviewIds = new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -234,27 +244,44 @@ public class GamedetailFragment extends Fragment {
 
                         //for review posts
                         JsonArray reviewPosts = profile.get("gameReviewPosts").getAsJsonArray();
-                        List<String> reviewTitles = new ArrayList<>();
+                        List<String> reviewUserImgs = new ArrayList<>();
                         List<String> reviewMessages = new ArrayList<>();
                         List<String> reviewDates = new ArrayList<>();
                         List<Boolean> reviewResults = new ArrayList<>();
                         List<String> reviewUsernames = new ArrayList<>();
+
+                        reviewUserIds.clear();
+                        reviewIds.clear();
+
                         for (JsonElement reviewPost : reviewPosts){
                             JsonObject reviewObj = reviewPost.getAsJsonObject();
-                            String reviewTitle = reviewObj.get("title").getAsString();
-                            String reviewMessage = reviewObj.get("message").getAsString();
+
+                            String reviewUserImg = reviewObj.get("userImageUrl").getAsString();
+
+                            String reviewMessage;
+                            if (reviewObj.get("message").getAsString().isEmpty()){
+                                reviewMessage = "No Message";
+                            } else {
+                                reviewMessage = reviewObj.get("message").getAsString();
+                            }
+
                             String reviewDate = reviewObj.get("datePosted").getAsString();
                             Boolean reviewResult = reviewObj.get("isRecommend").getAsBoolean();
                             String reviewUsername = reviewObj.get("userDisplayname").getAsString();
+                            int reviewUserId = reviewObj.get("userId").getAsInt();
+                            int reviewId = reviewObj.get("id").getAsInt();
 
-                            reviewTitles.add(reviewTitle);
+                            reviewUserImgs.add(reviewUserImg);
                             reviewMessages.add(reviewMessage);
                             reviewDates.add(reviewDate);
                             reviewResults.add(reviewResult);
                             reviewUsernames.add(reviewUsername);
+                            reviewUserIds.add(reviewUserId);
+                            reviewIds.add(reviewId);
                         }
 
-                        ReviewPostAdapter reviewPostAdapter = new ReviewPostAdapter(requireContext(), reviewTitles, reviewMessages, reviewDates, reviewResults, reviewUsernames);
+                        ReviewPostAdapter reviewPostAdapter = new ReviewPostAdapter(requireContext(), reviewUserImgs, reviewMessages, reviewDates, reviewResults, reviewUsernames, reviewUserIds);
+                        reviewPostAdapter.setOnItemClickListener(GamedetailFragment.this);
                         ListView reviewListView = getView().findViewById(R.id.review_list);
 
                         if (reviewListView != null) {
@@ -391,6 +418,131 @@ public class GamedetailFragment extends Fragment {
                         }
                     });
                 }
+            }
+        });
+    }
+
+    //To able to click textview from adapter
+    @Override
+    public void onItemClick(int pos) {
+        int userId = reviewUserIds.get(pos);
+
+        Bundle bundle=new Bundle();
+        bundle.putInt("userId", userId);
+
+        ProfileDetailFragment profileDetailFragment = new ProfileDetailFragment();
+        profileDetailFragment.setArguments(bundle);
+
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout, profileDetailFragment)
+                .addToBackStack("friendsFragment")
+                .commit();
+    }
+
+    @Override
+    public void onEditClick(int pos) {
+
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View view = inflater.inflate(R.layout.dialog_edit_review, null);
+
+        final RadioGroup radioGroup = view.findViewById(R.id.radio_group_recommendation);
+        final EditText editTextMessage = view.findViewById(R.id.edit_text_message);
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        dialogBuilder.setView(view)
+                .setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+                        RadioButton selectedRadioButton = view.findViewById(selectedRadioButtonId);
+                        String recommendation = selectedRadioButton.getText().toString();
+                        Boolean feedback;
+                        if (recommendation.equals("Recommend")){
+                            feedback = true;
+                        } else {
+                            feedback = false;
+                        }
+
+                        String message = editTextMessage.getText().toString();
+
+                        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+                        int myUserId = sharedPreferences.getInt("userId", 0);
+                        int reviewId = reviewIds.get(pos);
+                        int gameId = 0;
+
+                        Bundle args=getArguments();
+                        if(args!=null) {
+                            gameId = args.getInt("cellId", 0);
+                        }
+                        JsonObject reviewData = new JsonObject();
+                        reviewData.addProperty("feedback", feedback);
+                        reviewData.addProperty("message", message);
+                        reviewData.addProperty("userId", myUserId);
+                        reviewData.addProperty("gameId", gameId);
+
+                        RetrofitClient retrofitClient = new RetrofitClient();
+                        Call<ResponseBody> call = retrofitClient
+                                .getAPI()
+                                .updateReview(reviewId, reviewData);
+
+                        call.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(getContext(), "Update Completed", Toast.LENGTH_SHORT).show();
+                                    Bundle args=getArguments();
+                                    if(args!=null){
+                                        int gameId = args.getInt("cellId", 0);
+                                        fetchGameDetail(gameId);}
+                                } else {
+                                    Toast.makeText(getContext(), "Update Failed" +response.code(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+    }
+    @Override
+    public void onDeleteClick(int pos) {
+        int reviewId = reviewIds.get(pos);
+
+        RetrofitClient retrofitClient = new RetrofitClient();
+        Call<ResponseBody> call = retrofitClient
+                .getAPI()
+                .deleteReview(reviewId);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(getContext(), "Delete Completed", Toast.LENGTH_SHORT).show();
+                    Bundle args=getArguments();
+                    if(args!=null){
+                        int gameId = args.getInt("cellId", 0);
+                        fetchGameDetail(gameId);}
+                } else {
+                    Toast.makeText(getContext(), "Delete Failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
