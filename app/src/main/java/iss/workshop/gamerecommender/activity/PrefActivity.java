@@ -32,12 +32,16 @@ import retrofit2.Retrofit;
 
 public class PrefActivity extends AppCompatActivity{
     private List<String> selected=new ArrayList<>();
+    private int pref=0;
     private PrefActivityAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pref);
 
+        if(getIntent()!=null){
+            pref=getIntent().getIntExtra("pref",0);
+        }
         request();
         Button conBtn=findViewById(R.id.conBtn);
         conBtn.setOnClickListener(new View.OnClickListener() {
@@ -107,9 +111,12 @@ public class PrefActivity extends AppCompatActivity{
                     editor.putBoolean("oldUser", true);
                     editor.apply();
 
-                    Intent intent = new Intent(PrefActivity.this, MainActivity.class);
+                    if(pref==1){
+                        finish();
+                    }
+                    else{Intent intent = new Intent(PrefActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
+                    startActivity(intent);}
                 }else{
                     System.out.println("error");
                 }
