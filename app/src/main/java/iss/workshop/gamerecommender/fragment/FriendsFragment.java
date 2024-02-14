@@ -100,7 +100,6 @@ public class FriendsFragment extends Fragment implements AdapterView.OnItemClick
                         Log.e("API Error", "Error reading response body", e);
                     }
                 } else {
-                    Toast.makeText(getContext(), "Unable to fetch your friends", Toast.LENGTH_SHORT).show();
                 }
 
             }
