@@ -42,9 +42,9 @@
     <!--    devDetailPage     -->
     <string name="feat_games">Featured Games</string>
     <!--    gamePage     -->
-    <string name="games_title">GAMES</string>
-    <string name="developers_title">DEVELOPERS</string>
-    <string name="users_title">USERS</string>
+    <string name="games_title">GAME</string>
+    <string name="developers_title">DEVELOPER</string>
+    <string name="users_title">USER</string>
     <string-array name="search_methods">
         <item>Game</item>
         <item>Developer</item>

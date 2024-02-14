@@ -36,7 +36,6 @@ public class FriendProfileFriendsAdapter extends ArrayAdapter<Object>  {
             view=inflater.inflate(R.layout.friendlistcell,parent,false);
         }
 
-
         TextView textView=view.findViewById(R.id.textview);
         textView.setText(names.get(pos));
 

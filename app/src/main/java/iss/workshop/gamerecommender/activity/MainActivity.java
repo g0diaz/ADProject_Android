@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 replaceFragment(new HomeFragment(), "Home");
             } else if (item.getItemId() == R.id.activity_feed) {
                 replaceFragment(new ActivityFeedFragment(), "Activity Feed");
-            } else if (item.getItemId() == R.id.friends) {
+            } else if (item.getItemId() == R.id.profile) {
                 SharedPreferences sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
                 int myUserId = sharedPreferences.getInt("userId", 0);
 
@@ -57,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         ImageButton logoutBtn = findViewById(R.id.logout_btn);
-
-
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

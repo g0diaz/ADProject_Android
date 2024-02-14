@@ -51,7 +51,7 @@ public class GameFragment extends Fragment
         if (getActivity() != null) {
             TextView titleTextView = getActivity().findViewById(R.id.activity_feed_title);
             if (titleTextView != null) {
-                titleTextView.setText("Home");
+                titleTextView.setText("Search");
             }
         }
 
@@ -96,8 +96,13 @@ public class GameFragment extends Fragment
                         String url = gameObj.get("imageUrl").getAsString();
                         int gameId = gameObj.get("id").getAsInt();
 
+                        if (url.isEmpty()){
+                            urls.add("http://10.0.2.2:8080/image/0.png");
+                        } else {
+                            urls.add(url);
+                        }
+
                         titles.add(title);
-                        urls.add(url);
                         cellIds.add(gameId);
                     }
 
@@ -269,6 +274,9 @@ public class GameFragment extends Fragment
             JsonObject obj = e.getAsJsonObject();
             String title = obj.get(titlename).getAsString();
             String url = obj.get(urlname).getAsString();
+            if (url.isEmpty()){
+                url = "http://10.0.2.2:8080/image/0.png";
+            }
             int id=obj.get("id").getAsInt();
 
             titles.add(title);
