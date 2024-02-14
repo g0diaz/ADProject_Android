@@ -28,12 +28,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class HomeFragment extends Fragment
-        implements AdapterView.OnItemClickListener {
+public class HomeFragment extends Fragment {
 
     private List<String> titles;
     private List<String> urls ;
-    private List<Integer> cellIds;
+    private List<Integer> topIds;
+    private List<Integer> trendIds;
+    private List<Integer> recommendIds;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,7 +62,7 @@ public class HomeFragment extends Fragment
 
                 titles= new ArrayList<>();
                 urls= new ArrayList<>();
-                cellIds = new ArrayList<>();
+                topIds = new ArrayList<>();
 
                 for (JsonElement element : result) {
                     JsonObject gameObj = element.getAsJsonObject();
@@ -71,7 +72,7 @@ public class HomeFragment extends Fragment
 
                     titles.add(title);
                     urls.add(url);
-                    cellIds.add(gameId);
+                    topIds.add(gameId);
                 }
 
                 setContent(view,"top");
@@ -93,7 +94,7 @@ public class HomeFragment extends Fragment
 
                 titles= new ArrayList<>();
                 urls= new ArrayList<>();
-                cellIds = new ArrayList<>();
+                trendIds = new ArrayList<>();
 
                 for (JsonElement element : result) {
                     JsonObject gameObj = element.getAsJsonObject();
@@ -103,7 +104,7 @@ public class HomeFragment extends Fragment
 
                     titles.add(title);
                     urls.add(url);
-                    cellIds.add(gameId);
+                    trendIds.add(gameId);
                 }
 
                 setContent(view,"trend");
@@ -125,7 +126,7 @@ public class HomeFragment extends Fragment
 
                 titles= new ArrayList<>();
                 urls= new ArrayList<>();
-                cellIds = new ArrayList<>();
+                recommendIds = new ArrayList<>();
 
                 for (JsonElement element : result) {
                     JsonObject gameObj = element.getAsJsonObject();
@@ -135,7 +136,7 @@ public class HomeFragment extends Fragment
 
                     titles.add(title);
                     urls.add(url);
-                    cellIds.add(gameId);
+                    recommendIds.add(gameId);
                 }
 
                 setContent(view,"recomm");
@@ -153,31 +154,52 @@ public class HomeFragment extends Fragment
         switch(name){
             case "top":
                 listView=view.findViewById(R.id.topgamelist);
+                listView.setAdapter(adapter);
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Bundle bundle=new Bundle();
+                        bundle.putInt("cellId", topIds.get(position));
+
+                        setItemClick(bundle);
+                    }
+                });
                 break;
             case "trend":
                 listView=view.findViewById(R.id.trendinggamelist);
+                listView.setAdapter(adapter);
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Bundle bundle=new Bundle();
+                        bundle.putInt("cellId", trendIds.get(position));
+
+                        setItemClick(bundle);
+                    }
+                });
                 break;
             case "recomm":
                 listView=view.findViewById(R.id.gamerecommendlist);
+                listView.setAdapter(adapter);
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Bundle bundle=new Bundle();
+                        bundle.putInt("cellId", recommendIds.get(position));
+
+                        setItemClick(bundle);
+                    }
+                });
                 break;
-        }
-        if(listView!=null){
-            listView.setAdapter(adapter);
-            listView.setOnItemClickListener(this);
         }
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Bundle bundle=new Bundle();
-        bundle.putInt("cellId", cellIds.get(position));
-
+    private void setItemClick(Bundle bundle) {
         GamedetailFragment gamedetailFragment=new GamedetailFragment();
         gamedetailFragment.setArguments(bundle);
         getParentFragmentManager().beginTransaction()
                 .replace(R.id.frame_layout,gamedetailFragment)
                 .addToBackStack("gameFragment")
                 .commit();
-
     }
 }
