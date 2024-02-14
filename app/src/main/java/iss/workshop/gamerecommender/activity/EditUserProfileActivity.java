@@ -48,6 +48,16 @@ public class EditUserProfileActivity extends AppCompatActivity {
                 updateUserProfile(userId);
             }
         });
+
+        Button prefButton=findViewById(R.id.pref);
+        prefButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(EditUserProfileActivity.this,PrefActivity.class);
+                intent.putExtra("pref",1);
+                startActivity(intent);
+            }
+        });
     }
 
     private void fetchProfileDetail(int userId) {

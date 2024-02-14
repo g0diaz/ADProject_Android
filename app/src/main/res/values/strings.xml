@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">GameRecommender</string>
-    <string name="copyright">©2024 Rain, Inc.</string>
+    <string name="copyright">© GDipSA57 - Team 7</string>
 
     <!--    signInPage    -->
     <string name="sign_in">Sign in</string>
