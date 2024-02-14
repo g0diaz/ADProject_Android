@@ -8,19 +8,20 @@
     <ImageView
         android:id="@+id/imageview"
         android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="50dp"
+        android:layout_weight="1.2"
+        android:layout_height="60dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitCenter"/>
 
     <TextView
         android:id="@+id/textview"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_weight="5"
+        android:layout_marginTop="5dp"
         android:layout_marginRight="10dp"
         android:textColor="@color/black"
-        android:gravity="center|center_horizontal"/>
+        android:gravity="left|center_vertical"/>
 
 </LinearLayout>

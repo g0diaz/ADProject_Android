@@ -11,7 +11,6 @@ import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +18,6 @@ import com.google.gson.JsonObject;
 
 import java.io.IOException;
 
-import iss.workshop.gamerecommender.api.RetrofitAPI;
 import iss.workshop.gamerecommender.R;
 import iss.workshop.gamerecommender.api.RetrofitClient;
 import okhttp3.ResponseBody;
@@ -34,7 +32,6 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText reenterPasswordEditText;
     private Button createAccountButton;
     private TextView signinLink;
-    private ProgressBar loadingPB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +45,6 @@ public class RegistrationActivity extends AppCompatActivity {
         reenterPasswordEditText = findViewById(R.id.reenter_password);
         createAccountButton = findViewById(R.id.create_account_button);
         signinLink = findViewById(R.id.sign_in_link);
-        loadingPB = findViewById(R.id.idLoadingPB);
 
         //Set OnClickListener for "Create Account" button
         createAccountButton.setOnClickListener(new View.OnClickListener() {
@@ -96,9 +92,6 @@ public class RegistrationActivity extends AppCompatActivity {
     //Method to post user filled data
     private void postData() {
 
-        //Show the progress bar
-        loadingPB.setVisibility(View.VISIBLE);
-
         //Create JsonObject for data
         JsonObject userData = new JsonObject();
         userData.addProperty("username", usernameEditText.getText().toString().trim());
@@ -124,10 +117,9 @@ public class RegistrationActivity extends AppCompatActivity {
                     editor.putBoolean("oldUser", false);
                     editor.apply();
 
-                    Toast.makeText(RegistrationActivity.this, "Data added to API", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistrationActivity.this, "Account Created!", Toast.LENGTH_SHORT).show();
 
-                    //Hide progress bar and clear user filled data
-                    loadingPB.setVisibility(View.GONE);
+                    //Clear the edit texts
                     usernameEditText.setText("");
                     displayNameEditText.setText("");
                     passwordEditText.setText("");

@@ -1,19 +1,32 @@
 <resources>
     <string name="app_name">GameRecommender</string>
-    <string name="logo">Logo</string>
+    <string name="copyright">©2024 Rain, Inc.</string>
+
+    <!--    signInPage    -->
     <string name="sign_in">Sign in</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="displayName">Display name</string>
-    <string name="reEnter">Re-enter password</string>
     <string name="login">Login</string>
     <string name="sign_up">Sign up</string>
-    <string name="copyright">©2024 Rain, Inc.</string>
-    <string name="forgot_password">Forgot Password?</string>
+
+    <!--    registrationPage    -->
+    <string name="create">Create Account</string>
+    <string name="displayName">Display name</string>
+    <string name="reEnter">Re-enter password</string>
+    <string name="createAccount">Create</string>
+    <string name="alreadyUser">Already an user? Sign in</string>
+
     <!--    prefPage    -->
     <string name="welcome">Welcome User! Select your favourite genres</string>
     <string name="description">We use your favorite genres to make better games
         recommendations and tailor what you see in your feed.</string>
+    <string name="con">Continue</string>
+
+    <!--    homePage     -->
+    <string name="top">Top Games</string>
+    <string name="trend">Trending Games</string>
+    <string name="recommend">Games Recommendation</string>
+
     <!--    gameDetailPage     -->
     <string name="sell">Top Sellers</string>
     <string name="GameList">Game List</string>
@@ -29,27 +42,28 @@
     <string name="toprate">Top Rated</string>
     <string name="title_activity_feed">ActivityFeedActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <!--    profilePage     -->
     <string name="logout">Logout</string>
-    <string name="bio">BIO</string>
-    <string name="f_users">FOLLOWED USERS</string>
+    <string name="bio">Biography</string>
+    <string name="date">Join Date</string>
+    <string name="f_users">FRIENDS</string>
     <string name="f_games">FOLLOWED GAMES</string>
     <string name="f_dev">FOLLOWED DEVELOPERS</string>
-    <!--    registrationPage     -->
-    <string name="createAccount">Create account</string>
-    <!--    forgotPasswordPage     -->
-    <string name="resetPassword">Reset Password</string>
+
     <!--    devDetailPage     -->
-    <string name="feat_games">Featured Games</string>
+    <string name="games_dev">GAMES DEVELOPED</string>
+
     <!--    gamePage     -->
-    <string name="games_title">GAME</string>
-    <string name="developers_title">DEVELOPER</string>
-    <string name="users_title">USER</string>
+    <string name="games_title">Game</string>
+    <string name="developers_title">Developer</string>
+    <string name="users_title">User</string>
     <string-array name="search_methods">
         <item>Game</item>
         <item>Developer</item>
         <item>User</item>
     </string-array>
+
     <!--    reviewPage     -->
     <string name="review_title">MAKE A REVIEW</string>
     <string name="review_body">Please describe what you liked or disliked about this game and whether you recommend it to others. \nPlease remember to be polite and follow the Rules and Guidelines.</string>

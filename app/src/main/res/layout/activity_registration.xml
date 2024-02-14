@@ -1,40 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="20dp"
-    android:background="@color/biege">
-
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:contentDescription="@string/logo" />
+    style="@style/pageSetup">
 
     <TextView
         android:id="@+id/create_account_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/logo"
         android:layout_centerHorizontal="true"
-        android:text="Create Account"
+        android:layout_above="@id/username_layout"
+        android:text="@string/create"
         android:textSize="24sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/username_layout"
-        android:layout_width="380dp"
+        android:layout_width="300dp"
         android:layout_height="60dp"
-        android:layout_below="@+id/create_account_title"
+        android:layout_above="@+id/displayName_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/username"
-            android:layout_width="370dp"
+            android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
@@ -44,15 +34,15 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/email_layout"
-        android:layout_width="380dp"
+        android:id="@+id/displayName_layout"
+        android:layout_width="300dp"
         android:layout_height="60dp"
-        android:layout_below="@+id/username_layout"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/password_layout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/displayName"
-            android:layout_width="370dp"
+            android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
@@ -63,14 +53,14 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/password_layout"
-        android:layout_width="380dp"
+        android:layout_width="300dp"
         android:layout_height="60dp"
-        android:layout_below="@+id/email_layout"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
-            android:layout_width="370dp"
+            android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
@@ -81,14 +71,14 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/reenter_password_layout"
-        android:layout_width="380dp"
+        android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_below="@+id/password_layout"
         android:layout_centerHorizontal="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/reenter_password"
-            android:layout_width="370dp"
+            android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
@@ -98,16 +88,12 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
+        style="@style/buttonStyle"
         android:id="@+id/create_account_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_below="@id/reenter_password_layout"
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
-        android:backgroundTint="@color/darkBlue"
-        android:text="@string/createAccount"
-        android:textColor="@color/white"
-        android:textAllCaps="false"/>
+        android:text="@string/createAccount"/>
 
     <TextView
         android:id="@+id/sign_in_link"
@@ -117,13 +103,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:text="Already an user? Sign in"
-        android:textColor="@color/darkBlue" />
-
-    <ProgressBar
-        android:id="@+id/idLoadingPB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone" />
+        android:textColor="@color/darkBlue"/>
 
 </RelativeLayout>

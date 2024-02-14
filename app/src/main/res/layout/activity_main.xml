@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightGrey"
     tools:context=".activity.MainActivity">
 
     <LinearLayout
@@ -12,8 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingBottom="10dp"
-        android:background="@color/biege"
-        android:padding="20dp">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/activity_feed_title"
@@ -21,15 +21,14 @@
             android:layout_height="match_parent"
             android:layout_weight="8"
             android:text="Activity Feed"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:gravity="center"
             android:background="@drawable/border"/>
 
-
-
         <ImageButton
+            style="@style/buttonStyle"
             android:id="@+id/logout_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -50,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        app:backgroundTint="@color/darkBlue"
+        app:backgroundTint="@color/darkGrey"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
         app:menu="@menu/bottom_nav_menu"/>

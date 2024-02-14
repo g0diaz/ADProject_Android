@@ -1,63 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@color/biege">
-
+    style="@style/pageSetup">
 
     <TextView
-        android:id="@+id/welcome"
+        android:id="@+id/welcome_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         android:text="@string/welcome"
         android:textStyle="bold"
         android:textSize="16sp"
-        android:layout_marginTop="10dp" />
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/welcome"
+        android:layout_below="@id/welcome_textview"
         android:layout_centerHorizontal="true"
-        android:gravity="center"
         android:layout_marginTop="10dp"
+        android:gravity="center"
         android:text="@string/description"
-        android:textSize="12sp" />
+        android:textSize="14sp"
+        android:textColor="@color/black"/>
 
     <ListView
         android:id="@+id/listview"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_below="@id/description"
-        android:layout_above="@id/conBtn"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="25dp"
         android:background="@drawable/border"/>
 
     <Button
-        android:id="@+id/conBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Continue"
-        android:layout_marginTop="10dp"
+        style="@style/buttonStyle"
+        android:id="@+id/continueBtn"
+        android:text="@string/con"
+        android:layout_marginTop="15dp"
         android:layout_centerHorizontal="true"
-        android:layout_above="@id/copy_right"
-        android:backgroundTint="@color/darkBlue"
-        android:textColor="@color/white"/>
-
-    <TextView
-        android:id="@+id/copy_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/copyright"
-        android:textSize="12sp" />
+        android:layout_below="@id/listview"/>
 
 </RelativeLayout>

@@ -3,6 +3,7 @@
     <style name="Base.Theme.GameRecommender" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!--Theme.MaterialComponents.DayNight.NoActionBar.Bridge-->
     </style>
 
     <style name="Theme.GameRecommender" parent="Base.Theme.GameRecommender" />

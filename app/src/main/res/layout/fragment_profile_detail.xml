@@ -1,157 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".fragment.ProfileDetailFragment"
+    style="@style/pageSetup">
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".fragment.ProfileDetailFragment">
-        <ScrollView
+        android:layout_height="match_parent">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/biege">
+            android:layout_height="wrap_content">
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/friend_name"
+                android:layout_width="160dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <Button
+                style="@style/buttonStyle"
+                android:id="@+id/followUnfollowBtn"
+                android:layout_toEndOf="@id/friend_name"
+                android:layout_marginTop="-10dp"
+                android:layout_marginStart="125dp"
+                android:gravity="center|center_vertical"
+                android:text="unfollow"/>
+
+            <ImageView
+                android:id="@+id/friend_avatar"
+                android:scaleType="fitCenter"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_below="@id/friend_name"/>
+
+            <TextView
+                android:id="@+id/bio_title"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp"
-                android:background="@color/biege">
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/friend_avatar"
+                android:layout_below="@id/friend_name"
+                android:layout_marginStart="10dp"
+                android:text="@string/bio"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
 
-                <TextView
-                    android:id="@+id/friend_name"
-                    android:layout_width="160dp"
-                    android:layout_height="50dp"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/bio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/friend_avatar"
+                android:layout_below="@id/bio_title"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/black"/>
 
-                <Button
-                    android:id="@+id/followUnfollowBtn"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/friend_name"
-                    android:layout_marginTop="-10dp"
-                    android:layout_marginLeft="100dp"
-                    android:text="unfollow"/>
+            <TextView
+                android:id="@+id/date_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/friend_avatar"
+                android:layout_below="@id/bio"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/date"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
 
-                <ImageView
-                    android:id="@+id/friend_avatar"
-                    android:scaleType="fitXY"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_below="@id/friend_name"
-                    android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/friend_avatar"
+                android:layout_below="@id/date_title"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/black"/>
 
-                <TextView
-                    android:id="@+id/bio_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/friend_avatar"
-                    android:layout_below="@id/friend_name"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/bio"
-                    android:textStyle="bold"/>
+            <Button
+                style="@style/buttonStyle"
+                android:id="@+id/editProfileBtn"
+                android:layout_toEndOf="@id/friend_name"
+                android:layout_marginTop="-10dp"
+                android:layout_marginStart="125dp"
+                android:text="Edit"
+                android:visibility="gone"/>
 
-                <TextView
-                    android:id="@+id/bio"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/friend_avatar"
-                    android:layout_below="@id/bio_title"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/black"/>
+            <TextView
+                android:id="@+id/games"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@id/friend_avatar"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/f_games"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
 
-                <Button
-                    android:id="@+id/editProfileBtn"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/friend_avatar"
-                    android:layout_below="@id/bio"
-                    android:layout_marginLeft="10dp"
-                    android:text="Edit"
-                    android:visibility="gone"/>
+            <ListView
+                android:id="@+id/gamelist"
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:layout_below="@id/games"
+                android:layout_marginTop="20dp"
+                android:divider="@color/lightGrey"
+                android:dividerHeight="10dp"/>
 
-                <TextView
-                    android:id="@+id/friends"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/friend_avatar"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/f_users"
-                    android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/no_games_textview"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/gamelist"
+                android:layout_marginTop="15dp"
+                android:text="No followed games"
+                android:visibility="gone"
+                android:textStyle="bold"/>
 
-                <ListView
-                    android:id="@+id/friendlist"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_below="@id/friends"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/border"/>
+            <TextView
+                android:id="@+id/developers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/no_games_textview"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/f_dev"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
 
-                <TextView
-                    android:id="@+id/no_friends_textview"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_below="@id/friendlist"
-                    android:layout_marginTop="10dp"
-                    android:text="No followed friends"
-                    android:visibility="gone"
-                    android:textStyle="bold"/>
+            <ListView
+                android:id="@+id/developerslist"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_below="@id/developers"
+                android:layout_marginTop="15dp"
+                android:divider="@color/lightGrey"
+                android:dividerHeight="1dp"/>
 
-                <TextView
-                    android:id="@+id/games"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/no_friends_textview"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/f_games"
-                    android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/no_developers_textview"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/developerslist"
+                android:layout_marginTop="15dp"
+                android:text="No followed developers"
+                android:visibility="gone"
+                android:textStyle="bold"/>
 
-                <ListView
-                    android:id="@+id/gamelist"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_below="@id/games"
-                    android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/friends"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@id/no_developers_textview"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/f_users"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
 
-                <TextView
-                    android:id="@+id/no_games_textview"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_below="@id/gamelist"
-                    android:layout_marginTop="10dp"
-                    android:text="No followed games"
-                    android:visibility="gone"
-                    android:textStyle="bold"/>
+            <ListView
+                android:id="@+id/friendlist"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:layout_below="@id/friends"
+                android:layout_marginTop="15dp"
+                android:divider="@color/lightGrey"
+                android:dividerHeight="1dp"/>
 
-                <TextView
-                    android:id="@+id/developers"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/no_games_textview"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/f_dev"
-                    android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/no_friends_textview"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/friendlist"
+                android:layout_marginTop="15dp"
+                android:text="No followed friends"
+                android:visibility="gone"
+                android:textStyle="bold"/>
 
-                <ListView
-                    android:id="@+id/developerslist"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:layout_below="@id/developers"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/border"/>
 
-                <TextView
-                    android:id="@+id/no_developers_textview"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_below="@id/developerslist"
-                    android:layout_marginTop="10dp"
-                    android:text="No followed developers"
-                    android:visibility="gone"
-                    android:textStyle="bold"/>
 
-            </RelativeLayout>
-        </ScrollView>
-    </FrameLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+</FrameLayout>

@@ -4,38 +4,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
-
 import iss.workshop.gamerecommender.R;
 import iss.workshop.gamerecommender.api.RetrofitClient;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.HEAD;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText usernameEditText;
     private EditText passwordEditText;
     private Button loginButton;
     private Button signupButton;
-    private TextView forgotPasswordTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.password);
         loginButton = findViewById(R.id.login_button);
         signupButton = findViewById(R.id.sign_up_button);
-        forgotPasswordTextView = findViewById(R.id.forgot_password);
 
         //Set OnClickListener for "Login" button
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -70,21 +57,6 @@ public class LoginActivity extends AppCompatActivity {
                 String password = passwordEditText.getText().toString();
                 //Call "Login" method
                 login(username, password);
-            }
-        });
-
-        //Underline "Forgot Password" text
-        TextView textView = (TextView) findViewById(R.id.forgot_password);
-        SpannableString content = new SpannableString(textView.getText());
-        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-        textView.setText(content);
-
-        //Set OnClickListener for "Forgot Password" button
-        forgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
-                startActivity(intent);
             }
         });
 
@@ -124,7 +96,6 @@ public class LoginActivity extends AppCompatActivity {
                         String sessionId = jsonObject.get("sessionId").getAsString();
                         int userId = jsonObject.get("userId").getAsInt();
 
-
                         //Store the username, sessionId and boolean in SharedPreferences
                         SharedPreferences sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -133,9 +104,9 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putBoolean("loggedIn", true);
                         editor.putInt("userId", userId);
                         editor.apply();
-                        boolean oldUser = sharedPreferences.getBoolean("oldUser", false);
 
                         //Redirect to "Game List" page or "Pref" page
+                        boolean oldUser = sharedPreferences.getBoolean("oldUser", false);
                         Intent intent;
                         if (oldUser){
                             intent = new Intent(LoginActivity.this, MainActivity.class);

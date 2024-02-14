@@ -18,7 +18,6 @@ import iss.workshop.gamerecommender.databinding.ActivityMainBinding;
 import iss.workshop.gamerecommender.fragment.ActivityFeedFragment;
 import iss.workshop.gamerecommender.fragment.HomeFragment;
 import iss.workshop.gamerecommender.fragment.ProfileDetailFragment;
-import iss.workshop.gamerecommender.fragment.FriendsFragment;
 import iss.workshop.gamerecommender.fragment.GameFragment;
 
 public class MainActivity extends AppCompatActivity {

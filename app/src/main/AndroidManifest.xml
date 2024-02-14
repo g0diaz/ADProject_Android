@@ -32,9 +32,6 @@
             android:name=".activity.RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.NotiActivity"
-            android:exported="false" />
-        <activity
             android:name=".adapter.FriendProfileGamesAdapter"
             android:exported="false" />
         <activity
@@ -42,9 +39,6 @@
             android:exported="false" />
         <activity
             android:name=".activity.PrefActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.ForgotPasswordActivity"
             android:exported="false" />
         <activity
             android:name=".activity.MainActivity"

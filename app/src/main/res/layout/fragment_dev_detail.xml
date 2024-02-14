@@ -1,81 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragment.DevDetailFragment">
+    tools:context=".fragment.DevDetailFragment"
+    style="@style/pageSetup">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/biege">
+        android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:background="@color/biege">
+            android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/dev_name"
                 android:layout_width="160dp"
                 android:layout_height="50dp"
+                android:layout_marginStart="10dp"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"/>
 
             <Button
+                style="@style/buttonStyle"
                 android:id="@+id/followUnfollowBtn"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/dev_name"
+                android:layout_toEndOf="@id/dev_name"
                 android:layout_marginTop="-10dp"
-                android:layout_marginLeft="100dp"
+                android:layout_marginStart="125dp"
+                android:gravity="center|center_vertical"
                 android:text="unfollow"/>
 
             <ImageView
                 android:id="@+id/dev_avatar"
-                android:scaleType="fitXY"
+                android:scaleType="fitCenter"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_below="@id/dev_name"
-                android:layout_marginTop="10dp"/>
+                android:layout_below="@id/dev_name"/>
 
             <TextView
                 android:id="@+id/bio_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/dev_avatar"
+                android:layout_toEndOf="@id/dev_avatar"
                 android:layout_below="@id/dev_name"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:text="@string/bio"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
 
             <TextView
                 android:id="@+id/bio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/dev_avatar"
+                android:layout_toEndOf="@id/dev_avatar"
                 android:layout_below="@id/bio_title"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/date_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/dev_avatar"
+                android:layout_below="@id/bio"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/date"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/dev_avatar"
+                android:layout_below="@id/date_title"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dp"
                 android:textColor="@color/black"/>
 
             <TextView
                 android:id="@+id/dev_game"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
                 android:layout_below="@id/dev_avatar"
-                android:layout_marginTop="10dp"
-                android:text="@string/feat_games"
-                android:textStyle="bold"/>
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/games_dev"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
 
             <ListView
                 android:id="@+id/dev_gamelist"
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
+                android:layout_height="480dp"
                 android:layout_below="@id/dev_game"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/border"/>
+                android:layout_marginTop="20dp"
+                android:divider="@color/lightGrey"
+                android:dividerHeight="10dp"/>
         </RelativeLayout>
     </ScrollView>
 

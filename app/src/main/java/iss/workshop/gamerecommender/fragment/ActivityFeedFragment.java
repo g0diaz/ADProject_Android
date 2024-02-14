@@ -93,7 +93,7 @@ public class ActivityFeedFragment extends Fragment {
                             }else if(activityType.startsWith("GAME")){
                                 images.add("http://10.0.2.2:8080/image/gamedefault.jpg");
                             }else{
-                                images.add("http://10.0.2.2:8080/image/gamer-icon.png");
+                                images.add("http://10.0.2.2:8080/image/0.png");
                             }
                             contents.add(finalContent);
                             createTimes.add(formattedTime);
@@ -105,7 +105,6 @@ public class ActivityFeedFragment extends Fragment {
                     }
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
 
