@@ -51,20 +51,19 @@ public class PrefActivity extends AppCompatActivity{
     //to get the data from the sever
     private void request(){
         RetrofitClient retrofitClient=new RetrofitClient();
-        Call<JsonElement> call=retrofitClient.getAPI().getGenres();
-        call.enqueue(new Callback<JsonElement>() {
+        Call<JsonArray> call=retrofitClient.getAPI().getGenres();
+        call.enqueue(new Callback<JsonArray>() {
             @Override
-            public void onResponse(Call<JsonElement> call, Response<JsonElement> response) {
-                JsonElement result=response.body();
-                JsonArray jsonArray = result.getAsJsonArray();
-                List<String> genreList=new ArrayList<>();;
-                for (JsonElement element : jsonArray) {
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                JsonArray result=response.body();
+                List<String> genreList=new ArrayList<>();
+                for (JsonElement element : result) {
                     genreList.add(element.getAsString());
                 }
                 setGenre(genreList);
             }
             @Override
-            public void onFailure(Call<JsonElement> call, Throwable throwable) {
+            public void onFailure(Call<JsonArray> call, Throwable throwable) {
                 System.out.println("Error Connect");
             }
         });

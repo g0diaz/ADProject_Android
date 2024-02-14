@@ -29,7 +29,7 @@ public interface RetrofitAPI {
     Call<ResponseBody> storeGenres(@Body JsonObject genreData);
 
     @GET("api/user/profile/genreList")
-    Call<JsonElement> getGenres();
+    Call<JsonArray> getGenres();
 
     //Retrieve Game List
     @GET("api/game/list")
@@ -94,5 +94,10 @@ public interface RetrofitAPI {
     @POST("api/game/review")
     Call<ResponseBody> reviewGame(@Body JsonObject reviewData);
 
+    @GET("api/user/home/topgamelist")
+    Call<JsonArray> getAllTopGame();
+
+    @GET("api/user/home/trendgamelist")
+    Call<JsonArray> getAllTrendGame();
 }
 

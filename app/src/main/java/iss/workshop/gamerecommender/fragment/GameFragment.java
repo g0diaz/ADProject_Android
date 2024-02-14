@@ -71,8 +71,7 @@ public class GameFragment extends Fragment
         spinner=view.findViewById(R.id.searchChoice);
         handleSpinner(spinner);
 
-//        ImageButton filter=view.findViewById(R.id.filter);
-//        registerForContextMenu(filter);
+
         return view;
     }
 
@@ -124,14 +123,6 @@ public class GameFragment extends Fragment
         }
     }
 
-//    @Override
-//    public void onCreateContextMenu(ContextMenu menu, View v,
-//                                    ContextMenu.ContextMenuInfo menuInfo){
-//        if(v.getId()==R.id.filter){
-//            MenuInflater inflater=requireActivity().getMenuInflater();
-//            inflater.inflate(R.menu.contextmenu,menu);
-//        }
-//    }
 
     @Override
     public void onItemClick(AdapterView<?> av,View v,int pos,long id){
@@ -166,20 +157,6 @@ public class GameFragment extends Fragment
         }
     }
 
-//    @Override
-//    public boolean onContextItemSelected(MenuItem item){
-//        int id=item.getItemId();
-//        if(id==R.id.topseller){
-//
-//        }
-//        if(id==R.id.trending){
-//
-//        }
-//        if(id==R.id.toprate){
-//
-//        }
-//        return super.onContextItemSelected(item);
-//    }
 
     private void handleSpinner(Spinner spinner){
         String[] searchMethods = getResources().getStringArray(R.array.search_methods);
