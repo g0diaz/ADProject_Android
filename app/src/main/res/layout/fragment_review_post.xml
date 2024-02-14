@@ -57,13 +57,12 @@
             android:text="@string/review_body"/>
 
 
-
         <EditText
             android:id="@+id/reviewBodyEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Review Message"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:hint="Review Message" />
 
         <TextView
             android:id="@+id/recommendText"

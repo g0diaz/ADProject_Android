@@ -47,6 +47,7 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
 
     private List<Integer> reviewUserIds = new ArrayList<>();
     private List<Integer> reviewIds = new ArrayList<>();
+    private int myUserId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,7 +67,7 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
             int gameId = args.getInt("cellId", 0);
 
             SharedPreferences sharedPreferences = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
-            int myUserId = sharedPreferences.getInt("userId", 0);
+            myUserId = sharedPreferences.getInt("userId", 0);
 
             Button followUnfollowButton = view.findViewById(R.id.followUnfollowBtn);
 
@@ -142,22 +143,6 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
                         });
 
                         TextView reviewTextView = getView().findViewById(R.id.reviewTextView);
-                        reviewTextView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                                Bundle bundle = new Bundle();
-                                bundle.putInt("gameId", gameId);
-                                bundle.putString("gameName", title);
-                                bundle.putString("imgUrl", imageUrl);
-                                ReviewPostFragment reviewPostFragment = new ReviewPostFragment();
-                                reviewPostFragment.setArguments(bundle);
-                                getParentFragmentManager().beginTransaction()
-                                        .replace(R.id.frame_layout, reviewPostFragment)
-                                        .addToBackStack("reviewPostFragment")
-                                        .commit();
-                            }
-                        });
 
                         TextView priceTextView = getView().findViewById(R.id.priceTitle);
                         if (price == 0){
@@ -201,111 +186,163 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
                         //for dev blog posts
                         JsonObject profile = gameDetail.getAsJsonObject("profile");
                         JsonArray gameUpdatePosts = profile.get("gameUpdatePosts").getAsJsonArray();
-                        List<String> devTitles = new ArrayList<>();
-                        List<String> devMessages = new ArrayList<>();
-                        List<String> devDates = new ArrayList<>();
-                        for (JsonElement gameUpdatePost : gameUpdatePosts){
-                            JsonObject blogObj = gameUpdatePost.getAsJsonObject();
-                            String blogTitle = blogObj.get("title").getAsString();
-                            String blogMessage = blogObj.get("message").getAsString();
-                            String blogDate = blogObj.get("datePosted").getAsString();
+                        if (gameUpdatePosts.size() == 0){
+                            TextView noBlogsTextView = getView().findViewById(R.id.no_blogs_textview);
+                            if (noBlogsTextView != null){
+                                noBlogsTextView.setVisibility(View.VISIBLE);
+                            }
+                            ListView postlistView = getView().findViewById(R.id.post_list);
+                            if (postlistView != null) {
+                                postlistView.setVisibility(View.GONE);
+                            }
+                        } else {
+                            List<String> devTitles = new ArrayList<>();
+                            List<String> devMessages = new ArrayList<>();
+                            List<String> devDates = new ArrayList<>();
+                            for (JsonElement gameUpdatePost : gameUpdatePosts) {
+                                JsonObject blogObj = gameUpdatePost.getAsJsonObject();
+                                String blogTitle = blogObj.get("title").getAsString();
+                                String blogMessage = blogObj.get("message").getAsString();
+                                String blogDate = blogObj.get("datePosted").getAsString();
 
-                            devTitles.add(blogTitle);
-                            devMessages.add(blogMessage);
-                            devDates.add(blogDate);
-                        }
-
-                        DevBlogAdapter devBlogAdapterdapter = new DevBlogAdapter(requireContext(), devTitles, devMessages, devDates);
-                        ListView blogListView = getView().findViewById(R.id.post_list);
-
-                        if (blogListView != null) {
-                            blogListView.setAdapter(devBlogAdapterdapter);
-
-                            //to make list view scroll work https://stackoverflow.com/questions/6546108/mapview-inside-a-scrollview/6883831#6883831
-                            blogListView.setOnTouchListener(new View.OnTouchListener() {
-                                @Override
-                                public boolean onTouch(View view, MotionEvent motionEvent) {
-                                    int action = motionEvent.getAction();
-                                    switch (action) {
-                                        case MotionEvent.ACTION_DOWN:
-                                            // Disallow ScrollView to intercept touch events.
-                                            view.getParent().requestDisallowInterceptTouchEvent(true);
-                                            break;
-                                        case MotionEvent.ACTION_UP:
-                                            // Allow ScrollView to intercept touch events.
-                                            view.getParent().requestDisallowInterceptTouchEvent(false);
-                                            break;
-                                    }
-                                    view.onTouchEvent(motionEvent);
-                                    return true;
-                                }
-                            });
-                        }
-
-                        //for review posts
-                        JsonArray reviewPosts = profile.get("gameReviewPosts").getAsJsonArray();
-                        List<String> reviewUserImgs = new ArrayList<>();
-                        List<String> reviewMessages = new ArrayList<>();
-                        List<String> reviewDates = new ArrayList<>();
-                        List<Boolean> reviewResults = new ArrayList<>();
-                        List<String> reviewUsernames = new ArrayList<>();
-
-                        reviewUserIds.clear();
-                        reviewIds.clear();
-
-                        for (JsonElement reviewPost : reviewPosts){
-                            JsonObject reviewObj = reviewPost.getAsJsonObject();
-
-                            String reviewUserImg = reviewObj.get("userImageUrl").getAsString();
-
-                            String reviewMessage;
-                            if (reviewObj.get("message").getAsString().isEmpty()){
-                                reviewMessage = "No Message";
-                            } else {
-                                reviewMessage = reviewObj.get("message").getAsString();
+                                devTitles.add(blogTitle);
+                                devMessages.add(blogMessage);
+                                devDates.add(blogDate);
                             }
 
-                            String reviewDate = reviewObj.get("datePosted").getAsString();
-                            Boolean reviewResult = reviewObj.get("isRecommend").getAsBoolean();
-                            String reviewUsername = reviewObj.get("userDisplayname").getAsString();
-                            int reviewUserId = reviewObj.get("userId").getAsInt();
-                            int reviewId = reviewObj.get("id").getAsInt();
+                            DevBlogAdapter devBlogAdapterdapter = new DevBlogAdapter(requireContext(), devTitles, devMessages, devDates);
+                            ListView blogListView = getView().findViewById(R.id.post_list);
 
-                            reviewUserImgs.add(reviewUserImg);
-                            reviewMessages.add(reviewMessage);
-                            reviewDates.add(reviewDate);
-                            reviewResults.add(reviewResult);
-                            reviewUsernames.add(reviewUsername);
-                            reviewUserIds.add(reviewUserId);
-                            reviewIds.add(reviewId);
-                        }
+                            if (blogListView != null) {
+                                blogListView.setAdapter(devBlogAdapterdapter);
 
-                        ReviewPostAdapter reviewPostAdapter = new ReviewPostAdapter(requireContext(), reviewUserImgs, reviewMessages, reviewDates, reviewResults, reviewUsernames, reviewUserIds);
-                        reviewPostAdapter.setOnItemClickListener(GamedetailFragment.this);
-                        ListView reviewListView = getView().findViewById(R.id.review_list);
-
-                        if (reviewListView != null) {
-                            reviewListView.setAdapter(reviewPostAdapter);
-
-                            //to make list view scroll work https://stackoverflow.com/questions/6546108/mapview-inside-a-scrollview/6883831#6883831
-                            reviewListView.setOnTouchListener(new View.OnTouchListener() {
-                                @Override
-                                public boolean onTouch(View view, MotionEvent motionEvent) {
-                                    int action = motionEvent.getAction();
-                                    switch (action) {
-                                        case MotionEvent.ACTION_DOWN:
-                                            // Disallow ScrollView to intercept touch events.
-                                            view.getParent().requestDisallowInterceptTouchEvent(true);
-                                            break;
-                                        case MotionEvent.ACTION_UP:
-                                            // Allow ScrollView to intercept touch events.
-                                            view.getParent().requestDisallowInterceptTouchEvent(false);
-                                            break;
+                                //to make list view scroll work https://stackoverflow.com/questions/6546108/mapview-inside-a-scrollview/6883831#6883831
+                                blogListView.setOnTouchListener(new View.OnTouchListener() {
+                                    @Override
+                                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                                        int action = motionEvent.getAction();
+                                        switch (action) {
+                                            case MotionEvent.ACTION_DOWN:
+                                                // Disallow ScrollView to intercept touch events.
+                                                view.getParent().requestDisallowInterceptTouchEvent(true);
+                                                break;
+                                            case MotionEvent.ACTION_UP:
+                                                // Allow ScrollView to intercept touch events.
+                                                view.getParent().requestDisallowInterceptTouchEvent(false);
+                                                break;
+                                        }
+                                        view.onTouchEvent(motionEvent);
+                                        return true;
                                     }
-                                    view.onTouchEvent(motionEvent);
-                                    return true;
+                                });
+                            }
+                        }
+                        //for review posts
+                        JsonArray reviewPosts = profile.get("gameReviewPosts").getAsJsonArray();
+                        if (reviewPosts.size() == 0){
+                            TextView noReviewsTextView = getView().findViewById(R.id.no_reviews_textview);
+                            if (noReviewsTextView != null){
+                                noReviewsTextView.setVisibility(View.VISIBLE);
+                            }
+                            ListView reviewlistView = getView().findViewById(R.id.review_list);
+                            if (reviewlistView != null) {
+                                reviewlistView.setVisibility(View.GONE);
+                            }
+                        } else {
+                            List<String> reviewMessages = new ArrayList<>();
+                            List<String> reviewDates = new ArrayList<>();
+                            List<Boolean> reviewResults = new ArrayList<>();
+                            List<String> reviewUsernames = new ArrayList<>();
+
+                            reviewUserIds.clear();
+                            reviewIds.clear();
+
+                            for (JsonElement reviewPost : reviewPosts) {
+                                JsonObject reviewObj = reviewPost.getAsJsonObject();
+
+                                String reviewMessage;
+                                if (reviewObj.get("message").getAsString().isEmpty()) {
+                                    reviewMessage = "No Message";
+                                } else {
+                                    reviewMessage = reviewObj.get("message").getAsString();
+                                }
+
+                                String reviewDate = reviewObj.get("datePosted").getAsString();
+                                Boolean reviewResult = reviewObj.get("isRecommend").getAsBoolean();
+                                String reviewUsername = reviewObj.get("userDisplayname").getAsString();
+                                int reviewUserId = reviewObj.get("userId").getAsInt();
+                                int reviewId = reviewObj.get("id").getAsInt();
+
+                                reviewMessages.add(reviewMessage);
+                                reviewDates.add(reviewDate);
+                                reviewResults.add(reviewResult);
+                                reviewUsernames.add(reviewUsername);
+                                reviewUserIds.add(reviewUserId);
+                                reviewIds.add(reviewId);
+
+                            }
+
+                            if (reviewUserIds.contains(myUserId)) {
+                                reviewTextView.setHint("Edit Review...");
+                            }
+
+                            reviewTextView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+
+                                    Bundle bundle = new Bundle();
+                                    bundle.putInt("gameId", gameId);
+                                    bundle.putString("gameName", title);
+                                    bundle.putString("imgUrl", imageUrl);
+
+                                    if (reviewUserIds.contains(myUserId)) {
+                                        int reviewIndex = reviewUserIds.indexOf(myUserId);
+                                        String existingMessage = reviewMessages.get(reviewIndex);
+                                        Boolean existingFeedback = reviewResults.get(reviewIndex);
+
+                                        bundle.putString("existingMessage", existingMessage);
+                                        bundle.putBoolean("existingFeedback", existingFeedback);
+                                        bundle.putBoolean("isEditing", true);
+                                    } else {
+                                        bundle.putBoolean("isEditing", false);
+                                    }
+
+                                    ReviewPostFragment reviewPostFragment = new ReviewPostFragment();
+                                    reviewPostFragment.setArguments(bundle);
+                                    getParentFragmentManager().beginTransaction()
+                                            .replace(R.id.frame_layout, reviewPostFragment)
+                                            .addToBackStack("reviewPostFragment")
+                                            .commit();
                                 }
                             });
+
+                            ReviewPostAdapter reviewPostAdapter = new ReviewPostAdapter(requireContext(), reviewMessages, reviewDates, reviewResults, reviewUsernames, reviewUserIds);
+                            reviewPostAdapter.setOnItemClickListener(GamedetailFragment.this);
+                            ListView reviewListView = getView().findViewById(R.id.review_list);
+
+                            if (reviewListView != null) {
+                                reviewListView.setAdapter(reviewPostAdapter);
+
+                                //to make list view scroll work https://stackoverflow.com/questions/6546108/mapview-inside-a-scrollview/6883831#6883831
+                                reviewListView.setOnTouchListener(new View.OnTouchListener() {
+                                    @Override
+                                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                                        int action = motionEvent.getAction();
+                                        switch (action) {
+                                            case MotionEvent.ACTION_DOWN:
+                                                // Disallow ScrollView to intercept touch events.
+                                                view.getParent().requestDisallowInterceptTouchEvent(true);
+                                                break;
+                                            case MotionEvent.ACTION_UP:
+                                                // Allow ScrollView to intercept touch events.
+                                                view.getParent().requestDisallowInterceptTouchEvent(false);
+                                                break;
+                                        }
+                                        view.onTouchEvent(motionEvent);
+                                        return true;
+                                    }
+                                });
+                            }
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -366,8 +403,6 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
     }
 
     private void gameFollowUnfollowButtonSetup(int gameId, Button followUnfollowButton, boolean isCurrentlyFollowed) {
-        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
-        int myUserId = sharedPreferences.getInt("userId", 0);
         JsonObject userIdData = new JsonObject();
         userIdData.addProperty("userId", myUserId);
         RetrofitClient retrofitClient = new RetrofitClient();
@@ -439,84 +474,6 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
                 .commit();
     }
 
-    @Override
-    public void onEditClick(int pos) {
-
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        View view = inflater.inflate(R.layout.dialog_edit_review, null);
-
-        final RadioGroup radioGroup = view.findViewById(R.id.radio_group_recommendation);
-        final EditText editTextMessage = view.findViewById(R.id.edit_text_message);
-
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
-        dialogBuilder.setView(view)
-                .setPositiveButton("Update", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
-                        RadioButton selectedRadioButton = view.findViewById(selectedRadioButtonId);
-                        String recommendation = selectedRadioButton.getText().toString();
-                        Boolean feedback;
-                        if (recommendation.equals("Recommend")){
-                            feedback = true;
-                        } else {
-                            feedback = false;
-                        }
-
-                        String message = editTextMessage.getText().toString();
-
-                        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
-                        int myUserId = sharedPreferences.getInt("userId", 0);
-                        int reviewId = reviewIds.get(pos);
-                        int gameId = 0;
-
-                        Bundle args=getArguments();
-                        if(args!=null) {
-                            gameId = args.getInt("cellId", 0);
-                        }
-                        JsonObject reviewData = new JsonObject();
-                        reviewData.addProperty("feedback", feedback);
-                        reviewData.addProperty("message", message);
-                        reviewData.addProperty("userId", myUserId);
-                        reviewData.addProperty("gameId", gameId);
-
-                        RetrofitClient retrofitClient = new RetrofitClient();
-                        Call<ResponseBody> call = retrofitClient
-                                .getAPI()
-                                .updateReview(reviewId, reviewData);
-
-                        call.enqueue(new Callback<ResponseBody>() {
-                            @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                if (response.isSuccessful()) {
-                                    Toast.makeText(getContext(), "Update Completed", Toast.LENGTH_SHORT).show();
-                                    Bundle args=getArguments();
-                                    if(args!=null){
-                                        int gameId = args.getInt("cellId", 0);
-                                        fetchGameDetail(gameId);}
-                                } else {
-                                    Toast.makeText(getContext(), "Update Failed" +response.code(), Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-
-        AlertDialog dialog = dialogBuilder.create();
-        dialog.show();
-    }
     @Override
     public void onDeleteClick(int pos) {
         int reviewId = reviewIds.get(pos);

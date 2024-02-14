@@ -91,8 +91,8 @@ public interface RetrofitAPI {
     @POST("api/user/activity")
     Call<ResponseBody> getAllActivity(@Body JsonObject userId);
 
-    @POST("api/game/review")
-    Call<ResponseBody> reviewGame(@Body JsonObject reviewData);
+    @POST("api/game/{gameId}/review")
+    Call<ResponseBody> reviewGame(@Path("gameId") int gameId, @Body JsonObject reviewData);
 
     @GET("api/user/home/topgamelist")
     Call<JsonArray> getAllTopGame();
@@ -102,7 +102,5 @@ public interface RetrofitAPI {
     @DELETE("api/game/review/delete/{reviewId}")
     Call<ResponseBody> deleteReview(@Path("reviewId") int reviewId);
 
-    @PUT("api/game/review/update/{reviewId}")
-    Call<ResponseBody> updateReview(@Path("reviewId") int reviewId, @Body JsonObject reviewData);
 }
 

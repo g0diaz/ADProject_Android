@@ -301,6 +301,15 @@
                     android:layout_height="200dp"
                     android:background="@drawable/border"/>
 
+                <TextView
+                    android:id="@+id/no_blogs_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:text="No Blog Posts"
+                    android:visibility="gone"
+                    android:textStyle="bold"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -321,6 +330,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:background="@drawable/border"/>
+
+                <TextView
+                    android:id="@+id/no_reviews_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:text="No Review Posts"
+                    android:visibility="gone"
+                    android:textStyle="bold"/>
 
             </LinearLayout>
         </RelativeLayout>
