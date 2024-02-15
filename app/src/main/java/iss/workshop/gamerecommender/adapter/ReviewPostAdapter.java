@@ -4,12 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -49,7 +50,7 @@ public class ReviewPostAdapter extends ArrayAdapter<Object> {
             view=inflater.inflate(R.layout.reviewlistcell,parent,false);
         }
 
-        Button deleteButton = view.findViewById(R.id.deleteBtn);
+        ImageButton deleteButton = view.findViewById(R.id.deleteBtn);
         if (userIds.get(pos) == myUserId) {
             deleteButton.setVisibility(View.VISIBLE);
         } else {
@@ -81,14 +82,12 @@ public class ReviewPostAdapter extends ArrayAdapter<Object> {
             }
         });
 
-        TextView reviewTextView=view.findViewById(R.id.reviewTextView);
+        ImageButton feedbackIcon = view.findViewById(R.id.feedback_icon);
 
         if (reviews.get(pos)) {
-            reviewTextView.setText("Recommended");
-            reviewTextView.setTextColor(Color.rgb(0, 255, 0));
+            feedbackIcon.setImageResource(R.drawable.like);
         } else {
-            reviewTextView.setText("Not Recommended");
-            reviewTextView.setTextColor(Color.rgb(255, 0, 0));
+            feedbackIcon.setImageResource(R.drawable.dislike);
         }
 
         return view;

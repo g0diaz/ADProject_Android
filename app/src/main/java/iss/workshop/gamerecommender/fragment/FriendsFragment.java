@@ -91,10 +91,9 @@ public class FriendsFragment extends Fragment implements AdapterView.OnItemClick
                             int userId = friendObj.get("id").getAsInt();
 
                             if (url.isEmpty()){
-                                urls.add("http://10.0.2.2:8080/image/avatar.jpg");
-                            } else {
-                                urls.add(url);
+                                url = "http://10.0.2.2:8080/image/user.jpg";
                             }
+                            urls.add(url);
                             names.add(name);
                             userIds.add(userId);
                         }

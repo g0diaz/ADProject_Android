@@ -31,7 +31,7 @@
     <string name="sell">Top Sellers</string>
     <string name="GameList">Game List</string>
     <string name="GameDetail">Game Detail</string>
-    <string name="similar">MORE LIKE THIS</string>
+    <string name="similar">BROWSE SIMILAR GAMES</string>
     <string name="liked">Add to liked games</string>
     <string name="wished">Add to wishlist</string>
     <string name="review">GAME REVIEWS</string>
@@ -68,5 +68,5 @@
     <string name="review_title">MAKE A REVIEW</string>
     <string name="review_body">Please describe what you liked or disliked about this game and whether you recommend it to others.</string>
     <string name="delete">Delete</string>
-    <string name="deletemsg">Do you wish to delete your review</string>
+    <string name="deletemsg">Do you wish to delete your review?</string>
 </resources>

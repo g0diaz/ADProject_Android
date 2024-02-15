@@ -75,9 +75,14 @@ public class HomeFragment extends Fragment {
                     String url = gameObj.get("imageUrl").getAsString();
                     int gameId = gameObj.get("id").getAsInt();
 
-                    titles.add(title);
+                    if (url.isEmpty()){
+                        url = "http://10.0.2.2:8080/image/game.png";
+                    }
+
                     urls.add(url);
+                    titles.add(title);
                     topIds.add(gameId);
+
                 }if(topIds.size()==0){
                     view.findViewById(R.id.text).setVisibility(View.INVISIBLE);
                     view.findViewById(R.id.topgamelist).setVisibility(View.GONE);
@@ -110,9 +115,13 @@ public class HomeFragment extends Fragment {
                     String url = gameObj.get("imageUrl").getAsString();
                     int gameId = gameObj.get("id").getAsInt();
 
-                    titles.add(title);
+                    if (url.isEmpty()){
+                        url = "http://10.0.2.2:8080/image/game.png";
+                    }
                     urls.add(url);
+                    titles.add(title);
                     trendIds.add(gameId);
+
                 }if(trendIds.size()==0){
                     view.findViewById(R.id.text2).setVisibility(View.INVISIBLE);
                     view.findViewById(R.id.trendinggamelist).setVisibility(View.GONE);
@@ -151,9 +160,12 @@ public class HomeFragment extends Fragment {
                             String url = gameObj.get("imageUrl").getAsString();
                             int gameId = gameObj.get("id").getAsInt();
 
-                            System.out.println(gameId);
-                            titles.add(title);
+                            if (url.isEmpty()){
+                                url = "http://10.0.2.2:8080/image/game.png";
+                            }
+
                             urls.add(url);
+                            titles.add(title);
                             recommendIds.add(gameId);
                         }
                         if(recommendIds.size()==0){

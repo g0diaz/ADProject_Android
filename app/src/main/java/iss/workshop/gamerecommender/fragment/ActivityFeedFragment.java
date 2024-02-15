@@ -89,11 +89,11 @@ public class ActivityFeedFragment extends Fragment {
                             String formattedTime = dateTime.format(targetFormatter);
 
                             if(activityType.startsWith("DEV")){
-                                images.add("http://10.0.2.2:8080/image/developer-icon.png");
+                                images.add("http://10.0.2.2:8080/image/developer.png");
                             }else if(activityType.startsWith("GAME")){
-                                images.add("http://10.0.2.2:8080/image/gamedefault.jpg");
+                                images.add("http://10.0.2.2:8080/image/game.jpg");
                             }else{
-                                images.add("http://10.0.2.2:8080/image/0.png");
+                                images.add("http://10.0.2.2:8080/image/user.png");
                             }
                             contents.add(finalContent);
                             createTimes.add(formattedTime);

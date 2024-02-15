@@ -97,11 +97,9 @@ public class GameFragment extends Fragment
                         int gameId = gameObj.get("id").getAsInt();
 
                         if (url.isEmpty()){
-                            urls.add("http://10.0.2.2:8080/image/0.png");
-                        } else {
-                            urls.add(url);
+                            url = "http://10.0.2.2:8080/image/game.png";
                         }
-
+                        urls.add(url);
                         titles.add(title);
                         cellIds.add(gameId);
                     }
@@ -251,9 +249,9 @@ public class GameFragment extends Fragment
                         urls=new ArrayList<>();
                         cellIds=new ArrayList<>();
                             if(type=="Game"){
-                                setTitlesandUrls(jsonArray,"title","imageUrl");
+                                setTitlesandUrls(jsonArray,"title","imageUrl", "Game");
                             }else{
-                                setTitlesandUrls(jsonArray,"displayName","displayImageUrl");
+                                setTitlesandUrls(jsonArray,"displayName","displayImageUrl", "Else");
                             }
                         setContent(view);
                     }catch(IOException e){
@@ -269,13 +267,17 @@ public class GameFragment extends Fragment
         });
     }
 
-    private void setTitlesandUrls(JsonArray jsonArray,String titlename,String urlname){
+    private void setTitlesandUrls(JsonArray jsonArray,String titlename,String urlname, String type){
         for (JsonElement e : jsonArray){
             JsonObject obj = e.getAsJsonObject();
             String title = obj.get(titlename).getAsString();
             String url = obj.get(urlname).getAsString();
             if (url.isEmpty()){
-                url = "http://10.0.2.2:8080/image/0.png";
+                if(type.equals("Game")) {
+                    url = "http://10.0.2.2:8080/image/game.png";
+                } else {
+                    url = "http://10.0.2.2:8080/image/user.png";
+                }
             }
             int id=obj.get("id").getAsInt();
 

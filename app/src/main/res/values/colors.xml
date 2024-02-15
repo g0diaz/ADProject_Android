@@ -4,6 +4,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="darkBlue">#154c79</color>
     <color name="biege">#F5F5DC</color>
-    <color name="lightGrey">#fcfcfd</color>
-    <color name="darkGrey">#767676</color>
+    <color name="lightGrey">#EEEEEE</color>
+    <color name="darkGrey">#3B3B3B</color>
+    <color name="green">#228B22</color>
+    <color name="red">#FF0000</color>
 </resources>

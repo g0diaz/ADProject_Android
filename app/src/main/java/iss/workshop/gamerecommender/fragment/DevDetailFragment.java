@@ -45,6 +45,13 @@ public class DevDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_dev_detail, container, false);
 
+        if (getActivity() != null) {
+            TextView titleTextView = getActivity().findViewById(R.id.activity_feed_title);
+            if (titleTextView != null) {
+                titleTextView.setText("Profile");
+            }
+        }
+
         Bundle args=getArguments();
         if(args!=null) {
             int userId = args.getInt("cellId", 0);
@@ -86,7 +93,7 @@ public class DevDetailFragment extends Fragment {
                         String date = dateDetail.get("dateCreated").getAsString();
 
                         if (url.isEmpty()){
-                            url = "http://10.0.2.2:8080/image/0.png";
+                            url = "http://10.0.2.2:8080/image/user.png";
                         }
 
                         TextView bioTextView = getView().findViewById(R.id.bio);
@@ -142,8 +149,11 @@ public class DevDetailFragment extends Fragment {
                             String url = gameObj.get("imageUrl").getAsString();
                             int gameId = gameObj.get("id").getAsInt();
 
-                            titles.add(title);
+                            if (url.isEmpty()){
+                                url = "http://10.0.2.2:8080/image/game.png";
+                            }
                             urls.add(url);
+                            titles.add(title);
                             gamesIds.add(gameId);
                         }
 

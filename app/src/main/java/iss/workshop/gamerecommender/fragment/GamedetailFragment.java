@@ -54,6 +54,7 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
     private List<Integer> recommendIds;
     private int myUserId;
     private int gameId;
+    private String imageUrl;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,7 +113,10 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
                         int developerId = developer.get("id").getAsInt();
                         String title = gameDetail.get("title").getAsString();
                         String description = gameDetail.get("description").getAsString();
-                        String imageUrl = gameDetail.get("imageUrl").getAsString();
+                        imageUrl = gameDetail.get("imageUrl").getAsString();
+                        if (imageUrl.isEmpty()){
+                            imageUrl = "http://10.0.2.2:8080/image/game.png";
+                        }
                         String webUrl = gameDetail.get("webUrl").getAsString();
                         String releasedDate = gameDetail.get("dateRelease").getAsString();
                         JsonArray platformArray = gameDetail.get("platforms").getAsJsonArray();
@@ -562,9 +566,11 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
                             String url = gameObj.get("imageUrl").getAsString();
                             int gameId = gameObj.get("id").getAsInt();
 
-                            System.out.println(gameId);
-                            titles.add(title);
+                            if (url.isEmpty()){
+                                url = "http://10.0.2.2:8080/image/game.png";
+                            }
                             urls.add(url);
+                            titles.add(title);
                             recommendIds.add(gameId);
                         }
                         setCustomerAdapter(view);
