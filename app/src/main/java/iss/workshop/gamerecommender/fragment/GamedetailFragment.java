@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -35,6 +36,7 @@ import java.util.List;
 
 import iss.workshop.gamerecommender.R;
 import iss.workshop.gamerecommender.adapter.DevBlogAdapter;
+import iss.workshop.gamerecommender.adapter.FriendProfileGamesAdapter;
 import iss.workshop.gamerecommender.adapter.ImageLoader;
 import iss.workshop.gamerecommender.adapter.ReviewPostAdapter;
 import iss.workshop.gamerecommender.api.RetrofitClient;
@@ -47,7 +49,11 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
 
     private List<Integer> reviewUserIds = new ArrayList<>();
     private List<Integer> reviewIds = new ArrayList<>();
+    private List<String> titles;
+    private List<String> urls ;
+    private List<Integer> recommendIds;
     private int myUserId;
+    private int gameId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,7 +70,7 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
 
         Bundle args=getArguments();
         if(args!=null){
-            int gameId = args.getInt("cellId", 0);
+            gameId = args.getInt("cellId", 0);
 
             SharedPreferences sharedPreferences = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
             myUserId = sharedPreferences.getInt("userId", 0);
@@ -75,6 +81,8 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
 
             fetchGameDetail(gameId);
         }
+
+        displayGameRecommend(view);
 
         return view;
     }
@@ -503,5 +511,71 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
                 Toast.makeText(getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void displayGameRecommend(View view){
+        JsonObject gameIdData=new JsonObject();
+        gameIdData.addProperty("gameId",gameId);
+
+        RetrofitClient retrofitClient=new RetrofitClient();
+        Call<ResponseBody> call=retrofitClient.getAPI().getRelated(gameIdData);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()&&response.body()!=null){
+                    try{
+                        String responseBodyString=response.body().string();
+                        JsonArray result= JsonParser.parseString(responseBodyString).getAsJsonArray();
+
+                        titles= new ArrayList<>();
+                        urls= new ArrayList<>();
+                        recommendIds = new ArrayList<>();
+
+                        for (JsonElement element : result) {
+                            JsonObject gameObj = element.getAsJsonObject();
+                            String title = gameObj.get("title").getAsString();
+                            String url = gameObj.get("imageUrl").getAsString();
+                            int gameId = gameObj.get("id").getAsInt();
+
+                            System.out.println(gameId);
+                            titles.add(title);
+                            urls.add(url);
+                            recommendIds.add(gameId);
+                        }
+                        setCustomerAdapter(view);
+                    }catch(IOException e){
+                        System.out.println("Error");
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+                System.out.println("Error Connect");
+            }
+        });
+    }
+
+    private void setCustomerAdapter(View view){
+        if(recommendIds.size()==0){
+            view.findViewById(R.id.similar_games).setVisibility(View.GONE);
+            view.findViewById(R.id.similar_games_list).setVisibility(View.GONE);
+        }else{
+            FriendProfileGamesAdapter adapter=new FriendProfileGamesAdapter(requireContext(),urls,titles);
+            ListView listView=view.findViewById(R.id.similar_games_list);
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Bundle bundle=new Bundle();
+                    bundle.putInt("cellId", recommendIds.get(position));
+                    GamedetailFragment gamedetailFragment=new GamedetailFragment();
+                    gamedetailFragment.setArguments(bundle);
+                    getParentFragmentManager().beginTransaction()
+                            .replace(R.id.frame_layout,gamedetailFragment)
+                            .addToBackStack("gameFragment")
+                            .commit();
+                }
+            });
+        }
     }
 }
