@@ -99,6 +99,8 @@ public interface RetrofitAPI {
 
     @GET("api/user/home/trendgamelist")
     Call<JsonArray> getAllTrendGame();
+    @POST("api/user/home/recogamelist")
+    Call<ResponseBody> getAllRecommendGame(@Body JsonObject userIdData);
     @DELETE("api/game/review/delete/{reviewId}")
     Call<ResponseBody> deleteReview(@Path("reviewId") int reviewId);
 

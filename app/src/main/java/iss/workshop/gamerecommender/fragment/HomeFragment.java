@@ -11,11 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +26,7 @@ import iss.workshop.gamerecommender.R;
 import iss.workshop.gamerecommender.adapter.FriendProfileGamesAdapter;
 import iss.workshop.gamerecommender.adapter.PrefActivityAdapter;
 import iss.workshop.gamerecommender.api.RetrofitClient;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,6 +39,7 @@ public class HomeFragment extends Fragment {
     private List<Integer> topIds;
     private List<Integer> trendIds;
     private List<Integer> recommendIds;
+    private int userId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,7 +48,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
-        int userId = sharedPreferences.getInt("userId", 0);
+        userId = sharedPreferences.getInt("userId", 0);
 
         displayTopGames(view);
         displayTrendingGames(view);
@@ -73,9 +78,12 @@ public class HomeFragment extends Fragment {
                     titles.add(title);
                     urls.add(url);
                     topIds.add(gameId);
+                }if(topIds.size()==0){
+                    view.findViewById(R.id.text).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.topgamelist).setVisibility(View.GONE);
+                }else {
+                    setContent(view, "top");
                 }
-
-                setContent(view,"top");
             }
             @Override
             public void onFailure(Call<JsonArray> call, Throwable throwable) {
@@ -105,9 +113,12 @@ public class HomeFragment extends Fragment {
                     titles.add(title);
                     urls.add(url);
                     trendIds.add(gameId);
+                }if(trendIds.size()==0){
+                    view.findViewById(R.id.text2).setVisibility(View.INVISIBLE);
+                    view.findViewById(R.id.trendinggamelist).setVisibility(View.GONE);
+                }else {
+                    setContent(view, "trend");
                 }
-
-                setContent(view,"trend");
             }
             @Override
             public void onFailure(Call<JsonArray> call, Throwable throwable) {
@@ -117,32 +128,47 @@ public class HomeFragment extends Fragment {
     }
 
     private void displayGameRecommend(View view){
+        JsonObject userIdData=new JsonObject();
+        userIdData.addProperty("userId",userId);
+
         RetrofitClient retrofitClient=new RetrofitClient();
-        Call<JsonArray> call=retrofitClient.getAPI().getAllTopGame();
-        call.enqueue(new Callback<JsonArray>() {
+        Call<ResponseBody> call=retrofitClient.getAPI().getAllRecommendGame(userIdData);
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                JsonArray result=response.body();
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()&&response.body()!=null){
+                    try{
+                        String responseBodyString=response.body().string();
+                        JsonArray result= JsonParser.parseString(responseBodyString).getAsJsonArray();
 
-                titles= new ArrayList<>();
-                urls= new ArrayList<>();
-                recommendIds = new ArrayList<>();
+                        titles= new ArrayList<>();
+                        urls= new ArrayList<>();
+                        recommendIds = new ArrayList<>();
 
-                for (JsonElement element : result) {
-                    JsonObject gameObj = element.getAsJsonObject();
-                    String title = gameObj.get("title").getAsString();
-                    String url = gameObj.get("imageUrl").getAsString();
-                    int gameId = gameObj.get("id").getAsInt();
+                        for (JsonElement element : result) {
+                            JsonObject gameObj = element.getAsJsonObject();
+                            String title = gameObj.get("title").getAsString();
+                            String url = gameObj.get("imageUrl").getAsString();
+                            int gameId = gameObj.get("id").getAsInt();
 
-                    titles.add(title);
-                    urls.add(url);
-                    recommendIds.add(gameId);
+                            System.out.println(gameId);
+                            titles.add(title);
+                            urls.add(url);
+                            recommendIds.add(gameId);
+                        }
+                        if(recommendIds.size()==0){
+                            view.findViewById(R.id.text3).setVisibility(View.GONE);
+                            view.findViewById(R.id.gamerecommendlist).setVisibility(View.GONE);
+                        }else{
+                            setContent(view,"recomm");
+                        }
+                    }catch(IOException e){
+                        System.out.println("Error");
+                    }
                 }
-
-                setContent(view,"recomm");
             }
             @Override
-            public void onFailure(Call<JsonArray> call, Throwable throwable) {
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
                 System.out.println("Error Connect");
             }
         });
