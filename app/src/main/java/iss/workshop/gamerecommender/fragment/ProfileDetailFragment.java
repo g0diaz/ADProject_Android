@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,7 +30,6 @@ import java.util.List;
 
 import iss.workshop.gamerecommender.R;
 import iss.workshop.gamerecommender.activity.EditUserProfileActivity;
-import iss.workshop.gamerecommender.activity.MainActivity;
 import iss.workshop.gamerecommender.adapter.FriendProfileDevelopersAdapter;
 import iss.workshop.gamerecommender.adapter.FriendProfileFriendsAdapter;
 import iss.workshop.gamerecommender.adapter.FriendProfileGamesAdapter;
@@ -308,6 +305,8 @@ public class ProfileDetailFragment extends Fragment {
                             ListView gamelistView = getView().findViewById(R.id.gamelist);
                             if (gamelistView != null) {
                                 gamelistView.setAdapter(adapter);
+
+                                //to enable scrolling list view in scroll view https://stackoverflow.com/questions/6546108/mapview-inside-a-scrollview/6883831#6883831
                                 gamelistView.setOnTouchListener(new View.OnTouchListener() {
                                     @Override
                                     public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -326,6 +325,7 @@ public class ProfileDetailFragment extends Fragment {
                                         return true;
                                     }
                                 });
+
                                 gamelistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> av, View view, int pos, long id) {
@@ -418,6 +418,8 @@ public class ProfileDetailFragment extends Fragment {
                             ListView friendlistView = getView().findViewById(R.id.friendlist);
                             if (friendlistView != null) {
                                 friendlistView.setAdapter(adapter);
+
+                                //to enable scrolling list view in scroll view https://stackoverflow.com/questions/6546108/mapview-inside-a-scrollview/6883831#6883831
                                 friendlistView.setOnTouchListener(new View.OnTouchListener() {
                                     @Override
                                     public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -436,6 +438,7 @@ public class ProfileDetailFragment extends Fragment {
                                         return true;
                                     }
                                 });
+
                                 friendlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> av, View view, int pos, long id) {
@@ -523,6 +526,8 @@ public class ProfileDetailFragment extends Fragment {
                             ListView developerlistView = getView().findViewById(R.id.developerslist);
                             if (developerlistView != null) {
                                 developerlistView.setAdapter(adapter);
+
+                                //to enable scrolling list view in scroll view https://stackoverflow.com/questions/6546108/mapview-inside-a-scrollview/6883831#6883831
                                 developerlistView.setOnTouchListener(new View.OnTouchListener() {
                                     @Override
                                     public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -541,6 +546,7 @@ public class ProfileDetailFragment extends Fragment {
                                         return true;
                                     }
                                 });
+
                                 developerlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> av, View view, int pos, long id) {

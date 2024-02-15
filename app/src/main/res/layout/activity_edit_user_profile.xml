@@ -13,7 +13,7 @@
         android:gravity="center"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:text="Display Name"
+        android:text="@string/displayName"
         android:textColor="@color/black"
         android:background="@drawable/border"/>
 
@@ -49,7 +49,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="@color/black"
-        android:text="Display Image Url" />
+        android:text="@string/display_url" />
 
     <EditText
         android:id="@+id/imageUrl"
@@ -74,7 +74,7 @@
         android:textStyle="bold"
         android:gravity="center"
         android:textColor="@color/black"
-        android:text="Biography"/>
+        android:text="@string/bio"/>
 
     <EditText
         android:id="@+id/bio"
@@ -117,7 +117,7 @@
         android:layout_below="@id/line"
         android:layout_centerInParent="true"
         android:layout_marginTop="15dp"
-        android:text="Pref" />
+        android:text="Genres" />
 
     <Button
         style="@style/buttonStyle"

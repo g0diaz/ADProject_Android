@@ -19,7 +19,6 @@ public class FriendProfileDevelopersAdapter extends ArrayAdapter<Object>  {
     private final Context context;
     protected List<String> urls;
     protected List<String> names;
-
     public FriendProfileDevelopersAdapter(Context context, List<String> urls, List<String> names) {
         super(context, R.layout.developerlistcell);
 
@@ -36,7 +35,6 @@ public class FriendProfileDevelopersAdapter extends ArrayAdapter<Object>  {
                     (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
             view=inflater.inflate(R.layout.developerlistcell,parent,false);
         }
-
 
         TextView textView=view.findViewById(R.id.textview);
         textView.setText(names.get(pos));

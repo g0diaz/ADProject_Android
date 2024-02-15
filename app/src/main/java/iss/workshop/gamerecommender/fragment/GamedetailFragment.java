@@ -3,7 +3,6 @@ package iss.workshop.gamerecommender.fragment;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -15,11 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,8 +23,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -229,7 +223,7 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
                             if (blogListView != null) {
                                 blogListView.setAdapter(devBlogAdapter);
 
-                                //to make list view scroll work https://stackoverflow.com/questions/6546108/mapview-inside-a-scrollview/6883831#6883831
+                                //to enable scrolling list view in scroll view https://stackoverflow.com/questions/6546108/mapview-inside-a-scrollview/6883831#6883831
                                 blogListView.setOnTouchListener(new View.OnTouchListener() {
                                     @Override
                                     public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -336,7 +330,7 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
                             if (reviewListView != null) {
                                 reviewListView.setAdapter(reviewPostAdapter);
 
-                                //to make list view scroll work https://stackoverflow.com/questions/6546108/mapview-inside-a-scrollview/6883831#6883831
+                                //to enable scrolling list view in scroll view https://stackoverflow.com/questions/6546108/mapview-inside-a-scrollview/6883831#6883831
                                 reviewListView.setOnTouchListener(new View.OnTouchListener() {
                                     @Override
                                     public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -470,7 +464,7 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
         });
     }
 
-    //To able to click textview from adapter
+    //to click textview from adapter
     @Override
     public void onItemClick(int pos) {
         int userId = reviewUserIds.get(pos);
@@ -487,6 +481,7 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
                 .commit();
     }
 
+    //to delete review
     @Override
     public void onDeleteClick(int pos) {
         int reviewId = reviewIds.get(pos);

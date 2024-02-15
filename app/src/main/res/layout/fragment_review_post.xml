@@ -32,7 +32,6 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:gravity="center"
-            android:text="GG"
             android:textColor="@color/black"/>
 
         <TextView

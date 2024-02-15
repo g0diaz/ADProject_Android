@@ -102,7 +102,7 @@
         android:layout_below="@id/create_account_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:text="Already an user? Sign in"
+        android:text="@string/alreadyUser"
         android:textColor="@color/darkBlue"/>
 
 </RelativeLayout>

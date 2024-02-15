@@ -16,7 +16,6 @@ import java.util.List;
 import iss.workshop.gamerecommender.R;
 
 public class DevBlogAdapter extends ArrayAdapter<Object> {
-
     private final Context context;
     protected List<String> titles;
     protected List<String> messages;
@@ -28,7 +27,6 @@ public class DevBlogAdapter extends ArrayAdapter<Object> {
         this.titles=titles;
         this.messages=messages;
         this.dates=dates;
-
 
         addAll(new Object[titles.size()]);
     }
