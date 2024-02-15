@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
+    style="@style/pageSetup"
     android:background="@drawable/border">
 
     <TextView
         android:id="@+id/reviewUserTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textStyle="bold"
         android:textSize="15sp"
+        android:textColor="@color/black"
         android:padding="8dp"/>
 
     <TextView
@@ -21,46 +19,45 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/reviewTextView"
-        android:layout_toRightOf="@id/reviewUserTextView"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:textStyle="bold"/>
+        android:layout_toEndOf="@id/reviewUserTextView"
+        android:layout_marginStart="10dp"
+        android:gravity="left|center_vertical"
+        android:textColor="@color/black"
+        android:padding="8dp"/>
 
     <com.borjabravo.readmoretextview.ReadMoreTextView
         android:id="@+id/messageTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/reviewUserTextView"
-        android:layout_marginLeft="10dp"
-        android:textSize="20sp"
-        android:textColor="@color/black"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@id/reviewUserTextView"
+        android:gravity="left|center_vertical"
         android:padding="8dp"
-        android:background="@drawable/border"
-        app:trimExpandedText="@string/read_less"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:colorClickableText="@color/darkBlue"
         app:trimCollapsedText="@string/read_more"
-        app:trimMode="trimModeLength"
+        app:trimExpandedText="@string/read_less"
         app:trimLength="95"
-        app:colorClickableText="@color/darkBlue"/>
+        app:trimMode="trimModeLength" />
 
     <TextView
         android:id="@+id/reviewTextView"
-        android:layout_width="200dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/reviewUserTextView"
+        android:layout_toEndOf="@id/reviewUserTextView"
         android:layout_below="@id/messageTextView"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:textColor="@color/black"
-        android:textSize="20sp"
+        android:layout_marginStart="18dp"
+        android:gravity="left|center_vertical"
+        android:textSize="15sp"
         android:textStyle="bold"/>
 
     <Button
+        style="@style/buttonStyle"
         android:id="@+id/deleteBtn"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
         android:layout_below="@id/messageTextView"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/reviewTextView"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@id/reviewTextView"
         android:text="Delete"/>
 
 </RelativeLayout>

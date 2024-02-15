@@ -34,9 +34,9 @@
     <string name="similar">MORE LIKE THIS</string>
     <string name="liked">Add to liked games</string>
     <string name="wished">Add to wishlist</string>
-    <string name="review">REVIEWS</string>
+    <string name="review">GAME REVIEWS</string>
     <string name="hint">Write a review...</string>
-    <string name="posts">RECENT ANNOUNCEMENTS</string>
+    <string name="posts">RECENT GAME UPDATES</string>
     <string name="follow">Follow</string>
     <string name="trending">Trending</string>
     <string name="toprate">Top Rated</string>
@@ -47,7 +47,7 @@
     <string name="logout">Logout</string>
     <string name="bio">Biography</string>
     <string name="date">Join Date</string>
-    <string name="f_users">FRIENDS</string>
+    <string name="f_users">FOLLOWED GAMERS</string>
     <string name="f_games">FOLLOWED GAMES</string>
     <string name="f_dev">FOLLOWED DEVELOPERS</string>
 
@@ -66,5 +66,5 @@
 
     <!--    reviewPage     -->
     <string name="review_title">MAKE A REVIEW</string>
-    <string name="review_body">Please describe what you liked or disliked about this game and whether you recommend it to others. \nPlease remember to be polite and follow the Rules and Guidelines.</string>
+    <string name="review_body">Please describe what you liked or disliked about this game and whether you recommend it to others.</string>
 </resources>

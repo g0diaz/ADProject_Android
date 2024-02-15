@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/biege"
-    android:padding="16dp">
+    style="@style/pageSetup">
 
     <FrameLayout
         android:id="@+id/title_bar_placeholder"
@@ -31,11 +28,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/review_title"
+            android:layout_marginBottom="20dp"
             android:textSize="20sp"
             android:textStyle="bold"
             android:gravity="center"
             android:text="GG"
-            android:layout_marginBottom="20dp"/>
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/review_title"
@@ -43,18 +41,19 @@
             android:layout_height="wrap_content"
             android:gravity="left|center"
             android:text="@string/review_title"
-            android:textSize="17sp"
+            android:textSize="18sp"
             android:layout_above="@id/review_body"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/review_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left|center"
-            android:layout_marginTop="15dp"
             android:layout_above="@id/reviewBodyEditText"
-            android:text="@string/review_body"/>
+            android:layout_marginTop="5dp"
+            android:text="@string/review_body"
+            android:textColor="@color/black"/>
 
 
         <EditText
@@ -62,6 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_marginTop="15dp"
             android:hint="Review Message" />
 
         <TextView
@@ -70,7 +70,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_below="@id/reviewBodyEditText"
-            android:text="Recommend Game?" />
+            android:text="Recommend Game?"
+            android:textColor="@color/black"/>
 
         <RadioGroup
             android:id="@+id/radioGroup"
@@ -95,16 +96,12 @@
         </RadioGroup>
 
         <Button
+            style="@style/buttonStyle"
             android:id="@+id/submitBtn"
-            android:layout_width="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_height="wrap_content"
             android:layout_below="@id/radioGroup"
             android:layout_centerHorizontal="true"
-            android:text="Submit"
-            android:textAllCaps="false"
-            android:textColor="@color/biege"
-            android:src="@color/darkBlue"/>
+            android:text="Submit"/>
 
     </RelativeLayout>
 
