@@ -114,6 +114,7 @@
                 android:layout_height="50dp"
                 android:layout_below="@id/gamelist"
                 android:layout_marginTop="15dp"
+                android:layout_marginStart="10dp"
                 android:text="No followed games"
                 android:visibility="gone"
                 android:textStyle="bold"/>
@@ -144,6 +145,7 @@
                 android:layout_height="50dp"
                 android:layout_below="@id/developerslist"
                 android:layout_marginTop="15dp"
+                android:layout_marginStart="10dp"
                 android:text="No followed developers"
                 android:visibility="gone"
                 android:textStyle="bold"/>
@@ -174,6 +176,7 @@
                 android:layout_height="50dp"
                 android:layout_below="@id/friendlist"
                 android:layout_marginTop="15dp"
+                android:layout_marginStart="10dp"
                 android:text="No followed friends"
                 android:visibility="gone"
                 android:textStyle="bold"/>

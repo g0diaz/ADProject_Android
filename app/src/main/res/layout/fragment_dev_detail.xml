@@ -12,7 +12,7 @@
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/dev_name"
-                android:layout_width="160dp"
+                android:layout_width="250dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="10dp"
                 android:textColor="@color/black"
@@ -24,7 +24,7 @@
                 android:id="@+id/followUnfollowBtn"
                 android:layout_toEndOf="@id/dev_name"
                 android:layout_marginTop="-10dp"
-                android:layout_marginStart="125dp"
+                android:layout_marginStart="20dp"
                 android:gravity="center|center_vertical"
                 android:text="unfollow"/>
 

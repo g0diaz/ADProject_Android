@@ -223,9 +223,11 @@ public class ProfileDetailFragment extends Fragment {
                     try {
                         String responseBodyString = response.body().string();
                         JsonObject profileDetail = JsonParser.parseString(responseBodyString).getAsJsonObject();
+                        JsonObject dateDetail = profileDetail.getAsJsonObject("profile");
                         String bio = profileDetail.get("biography").getAsString();
                         String name = profileDetail.get("displayName").getAsString();
                         String url = profileDetail.get("displayImageUrl").getAsString();
+                        String date = dateDetail.get("dateCreated").getAsString();
 
                         if (url.isEmpty()){
                             url = "http://10.0.2.2:8080/image/0.png";
@@ -234,8 +236,11 @@ public class ProfileDetailFragment extends Fragment {
                         TextView bioTextView = getView().findViewById(R.id.bio);
                         bioTextView.setText(bio);
 
-                        TextView textView=getView().findViewById(R.id.friend_name);
+                        TextView textView = getView().findViewById(R.id.friend_name);
                         textView.setText(name);
+
+                        TextView dateTextView = getView().findViewById(R.id.date);
+                        dateTextView.setText(date);
 
                         ImageView imageView=getView().findViewById(R.id.friend_avatar);
                         ImageLoader.loadImage(getContext(), url, imageView);

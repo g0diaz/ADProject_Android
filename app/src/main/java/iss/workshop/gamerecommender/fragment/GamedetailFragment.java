@@ -219,11 +219,11 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
                                 devDates.add(blogDate);
                             }
 
-                            DevBlogAdapter devBlogAdapterdapter = new DevBlogAdapter(requireContext(), devTitles, devMessages, devDates);
+                            DevBlogAdapter devBlogAdapter = new DevBlogAdapter(requireContext(), devTitles, devMessages, devDates);
                             ListView blogListView = getView().findViewById(R.id.post_list);
 
                             if (blogListView != null) {
-                                blogListView.setAdapter(devBlogAdapterdapter);
+                                blogListView.setAdapter(devBlogAdapter);
 
                                 //to make list view scroll work https://stackoverflow.com/questions/6546108/mapview-inside-a-scrollview/6883831#6883831
                                 blogListView.setOnTouchListener(new View.OnTouchListener() {

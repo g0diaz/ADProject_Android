@@ -9,8 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/border">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/titleTextView"
@@ -19,9 +18,9 @@
             android:layout_weight="2"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:gravity="center|center_vertical"
-            android:padding="8dp"
-            android:background="@drawable/border"/>
+            android:textSize="18sp"
+            android:gravity="left|center_vertical"
+            android:padding="8dp"/>
 
         <TextView
             android:id="@+id/dateTextView"
@@ -30,8 +29,7 @@
             android:layout_weight="1"
             android:textColor="@color/black"
             android:gravity="center|center_vertical"
-            android:padding="8dp"
-            android:background="@drawable/border"/>
+            android:padding="8dp"/>
 
     </LinearLayout>
 
@@ -41,8 +39,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:textColor="@color/black"
-        android:gravity="center|center_horizontal"
-        android:padding="8dp"
-        android:background="@drawable/border"/>
+        android:gravity="left|center_horizontal"
+        android:padding="8dp"/>
 
 </LinearLayout>
