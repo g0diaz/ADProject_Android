@@ -67,4 +67,6 @@
     <!--    reviewPage     -->
     <string name="review_title">MAKE A REVIEW</string>
     <string name="review_body">Please describe what you liked or disliked about this game and whether you recommend it to others. \nPlease remember to be polite and follow the Rules and Guidelines.</string>
+    <string name="delete">Delete</string>
+    <string name="deletemsg">Do you wish to delete your review</string>
 </resources>

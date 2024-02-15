@@ -487,6 +487,32 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
     public void onDeleteClick(int pos) {
         int reviewId = reviewIds.get(pos);
 
+        String title=getString(R.string.delete);
+        String msg=getString(R.string.deletemsg);
+
+        AlertDialog.Builder dlg=new AlertDialog.Builder(requireContext())
+                .setTitle(title)
+                .setMessage(msg)
+                .setPositiveButton("yes",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                delete(reviewId);
+                            }
+                        })
+                .setNegativeButton("cancel",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                .setIcon(android.R.drawable.ic_dialog_alert);
+
+        dlg.show();
+    }
+
+    private void delete(int reviewId){
         RetrofitClient retrofitClient = new RetrofitClient();
         Call<ResponseBody> call = retrofitClient
                 .getAPI()
@@ -512,7 +538,6 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
             }
         });
     }
-
     private void displayGameRecommend(View view){
         JsonObject gameIdData=new JsonObject();
         gameIdData.addProperty("gameId",gameId);
