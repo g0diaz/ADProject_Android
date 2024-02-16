@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,7 +30,6 @@ import java.util.List;
 
 import iss.workshop.gamerecommender.R;
 import iss.workshop.gamerecommender.activity.EditUserProfileActivity;
-import iss.workshop.gamerecommender.activity.MainActivity;
 import iss.workshop.gamerecommender.adapter.FriendProfileDevelopersAdapter;
 import iss.workshop.gamerecommender.adapter.FriendProfileFriendsAdapter;
 import iss.workshop.gamerecommender.adapter.FriendProfileGamesAdapter;
@@ -50,6 +47,13 @@ public class ProfileDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_profile_detail, container, false);
+
+        if (getActivity() != null) {
+            TextView titleTextView = getActivity().findViewById(R.id.activity_feed_title);
+            if (titleTextView != null) {
+                titleTextView.setText("Profile");
+            }
+        }
 
         Bundle args=getArguments();
         if(args!=null){
@@ -87,15 +91,6 @@ public class ProfileDetailFragment extends Fragment {
             fetchGameList(viewedUserId);
             fetchFriendList(viewedUserId);
             fetchDevelopersList(viewedUserId);
-
-//            OnBackPressedCallback callback = new OnBackPressedCallback(true) {
-//                @Override
-//                public void handleOnBackPressed() {
-//                    startActivity(new Intent(requireActivity(), MainActivity.class));
-//                }
-//            };
-//            requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
-//
 
         }
         return view;
@@ -230,7 +225,7 @@ public class ProfileDetailFragment extends Fragment {
                         String date = dateDetail.get("dateCreated").getAsString();
 
                         if (url.isEmpty()){
-                            url = "http://10.0.2.2:8080/image/0.png";
+                            url = "http://10.0.2.2:8080/image/user.png";
                         }
 
                         TextView bioTextView = getView().findViewById(R.id.bio);
@@ -297,10 +292,10 @@ public class ProfileDetailFragment extends Fragment {
                                 int gameId = gameObj.get("id").getAsInt();
 
                                 if (url.isEmpty()){
-                                    urls.add("http://10.0.2.2:8080/image/0.png");
-                                } else {
-                                    urls.add(url);
+                                    url = "http://10.0.2.2:8080/image/game.png";
                                 }
+
+                                urls.add(url);
                                 titles.add(title);
                                 gamesIds.add(gameId);
                             }
@@ -310,6 +305,8 @@ public class ProfileDetailFragment extends Fragment {
                             ListView gamelistView = getView().findViewById(R.id.gamelist);
                             if (gamelistView != null) {
                                 gamelistView.setAdapter(adapter);
+
+                                //to enable scrolling list view in scroll view https://stackoverflow.com/questions/6546108/mapview-inside-a-scrollview/6883831#6883831
                                 gamelistView.setOnTouchListener(new View.OnTouchListener() {
                                     @Override
                                     public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -328,6 +325,7 @@ public class ProfileDetailFragment extends Fragment {
                                         return true;
                                     }
                                 });
+
                                 gamelistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> av, View view, int pos, long id) {
@@ -400,11 +398,10 @@ public class ProfileDetailFragment extends Fragment {
                                 int friendId = friendObj.get("id").getAsInt();
 
                                 if (url.isEmpty()){
-                                    urls.add("http://10.0.2.2:8080/image/0.png");
-                                } else {
-                                    urls.add(url);
+                                    url = "http://10.0.2.2:8080/image/user.png";
                                 }
 
+                                urls.add(url);
                                 names.add(name);
                                 friendIds.add(friendId);
                             }
@@ -421,6 +418,8 @@ public class ProfileDetailFragment extends Fragment {
                             ListView friendlistView = getView().findViewById(R.id.friendlist);
                             if (friendlistView != null) {
                                 friendlistView.setAdapter(adapter);
+
+                                //to enable scrolling list view in scroll view https://stackoverflow.com/questions/6546108/mapview-inside-a-scrollview/6883831#6883831
                                 friendlistView.setOnTouchListener(new View.OnTouchListener() {
                                     @Override
                                     public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -439,6 +438,7 @@ public class ProfileDetailFragment extends Fragment {
                                         return true;
                                     }
                                 });
+
                                 friendlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> av, View view, int pos, long id) {
@@ -512,7 +512,7 @@ public class ProfileDetailFragment extends Fragment {
                                 String url = developerObj.get("displayImageUrl").getAsString();
 
                                 if (url.isEmpty()){
-                                    urls.add("http://10.0.2.2:8080/image/0.png");
+                                    urls.add("http://10.0.2.2:8080/image/user.png");
                                 } else {
                                     urls.add(url);
                                 }
@@ -526,6 +526,8 @@ public class ProfileDetailFragment extends Fragment {
                             ListView developerlistView = getView().findViewById(R.id.developerslist);
                             if (developerlistView != null) {
                                 developerlistView.setAdapter(adapter);
+
+                                //to enable scrolling list view in scroll view https://stackoverflow.com/questions/6546108/mapview-inside-a-scrollview/6883831#6883831
                                 developerlistView.setOnTouchListener(new View.OnTouchListener() {
                                     @Override
                                     public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -544,6 +546,7 @@ public class ProfileDetailFragment extends Fragment {
                                         return true;
                                     }
                                 });
+
                                 developerlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> av, View view, int pos, long id) {

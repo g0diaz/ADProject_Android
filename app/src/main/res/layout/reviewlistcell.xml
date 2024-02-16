@@ -8,31 +8,27 @@
         android:id="@+id/reviewUserTextView"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textSize="15sp"
         android:textColor="@color/black"
-        android:padding="8dp"/>
+        android:textSize="15sp"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/dateTextView"
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/reviewTextView"
-        android:layout_toEndOf="@id/reviewUserTextView"
-        android:layout_marginStart="10dp"
-        android:gravity="left|center_vertical"
+        android:layout_below="@id/feedback_icon"
+        android:layout_toEndOf="@id/messageTextView"
+        android:layout_marginStart="-60dp"
         android:textColor="@color/black"
-        android:padding="8dp"/>
+        android:gravity="end"/>
 
     <com.borjabravo.readmoretextview.ReadMoreTextView
         android:id="@+id/messageTextView"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@id/reviewUserTextView"
-        android:gravity="left|center_vertical"
-        android:padding="8dp"
+        android:gravity="left"
         android:textColor="@color/black"
         android:textSize="15sp"
         app:colorClickableText="@color/darkBlue"
@@ -45,19 +41,28 @@
         android:id="@+id/reviewTextView"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/reviewUserTextView"
-        android:layout_below="@id/messageTextView"
-        android:layout_marginStart="18dp"
+        android:layout_below="@id/reviewUserTextView"
+        android:layout_marginTop="10dp"
         android:gravity="left|center_vertical"
-        android:textSize="15sp"
-        android:textStyle="bold"/>
+        android:textSize="14sp"/>
 
-    <Button
-        style="@style/buttonStyle"
+    <ImageButton
+        android:id="@+id/feedback_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/reviewUserTextView"
+        android:backgroundTint="@color/lightGrey"/>
+
+    <ImageButton
         android:id="@+id/deleteBtn"
-        android:layout_below="@id/messageTextView"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@id/reviewTextView"
-        android:text="Delete"/>
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="-15dp"
+        android:layout_toEndOf="@id/messageTextView"
+        android:src="@drawable/baseline_edit_document_24"
+        android:text="Delete"
+        android:backgroundTint="@color/lightGrey"/>
 
 </RelativeLayout>

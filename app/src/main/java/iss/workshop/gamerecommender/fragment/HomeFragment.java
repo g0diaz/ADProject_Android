@@ -24,7 +24,6 @@ import java.util.List;
 
 import iss.workshop.gamerecommender.R;
 import iss.workshop.gamerecommender.adapter.FriendProfileGamesAdapter;
-import iss.workshop.gamerecommender.adapter.PrefActivityAdapter;
 import iss.workshop.gamerecommender.api.RetrofitClient;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -47,6 +46,14 @@ public class HomeFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        if (getActivity() != null) {
+            TextView titleTextView = getActivity().findViewById(R.id.activity_feed_title);
+            if (titleTextView != null) {
+                titleTextView.setText("Home");
+            }
+        }
+
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
         userId = sharedPreferences.getInt("userId", 0);
 
@@ -75,9 +82,14 @@ public class HomeFragment extends Fragment {
                     String url = gameObj.get("imageUrl").getAsString();
                     int gameId = gameObj.get("id").getAsInt();
 
-                    titles.add(title);
+                    if (url.isEmpty()){
+                        url = "http://10.0.2.2:8080/image/game.png";
+                    }
+
                     urls.add(url);
+                    titles.add(title);
                     topIds.add(gameId);
+
                 }if(topIds.size()==0){
                     view.findViewById(R.id.text).setVisibility(View.INVISIBLE);
                     view.findViewById(R.id.topgamelist).setVisibility(View.GONE);
@@ -110,9 +122,13 @@ public class HomeFragment extends Fragment {
                     String url = gameObj.get("imageUrl").getAsString();
                     int gameId = gameObj.get("id").getAsInt();
 
-                    titles.add(title);
+                    if (url.isEmpty()){
+                        url = "http://10.0.2.2:8080/image/game.png";
+                    }
                     urls.add(url);
+                    titles.add(title);
                     trendIds.add(gameId);
+
                 }if(trendIds.size()==0){
                     view.findViewById(R.id.text2).setVisibility(View.INVISIBLE);
                     view.findViewById(R.id.trendinggamelist).setVisibility(View.GONE);
@@ -151,9 +167,12 @@ public class HomeFragment extends Fragment {
                             String url = gameObj.get("imageUrl").getAsString();
                             int gameId = gameObj.get("id").getAsInt();
 
-                            System.out.println(gameId);
-                            titles.add(title);
+                            if (url.isEmpty()){
+                                url = "http://10.0.2.2:8080/image/game.png";
+                            }
+
                             urls.add(url);
+                            titles.add(title);
                             recommendIds.add(gameId);
                         }
                         if(recommendIds.size()==0){

@@ -31,7 +31,7 @@
     <string name="sell">Top Sellers</string>
     <string name="GameList">Game List</string>
     <string name="GameDetail">Game Detail</string>
-    <string name="similar">MORE LIKE THIS</string>
+    <string name="similar">BROWSE SIMILAR GAMES</string>
     <string name="liked">Add to liked games</string>
     <string name="wished">Add to wishlist</string>
     <string name="review">GAME REVIEWS</string>
@@ -41,7 +41,8 @@
     <string name="trending">Trending</string>
     <string name="toprate">Top Rated</string>
     <string name="title_activity_feed">ActivityFeedActivity</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_blog">No Blog Posts</string>
+    <string name="no_review">No Blog Posts</string>
 
     <!--    profilePage     -->
     <string name="logout">Logout</string>
@@ -50,6 +51,9 @@
     <string name="f_users">FOLLOWED GAMERS</string>
     <string name="f_games">FOLLOWED GAMES</string>
     <string name="f_dev">FOLLOWED DEVELOPERS</string>
+    <string name="nf_users">No followed gamers</string>
+    <string name="nf_games">No followed games</string>
+    <string name="nf_devs">No followed developers</string>
 
     <!--    devDetailPage     -->
     <string name="games_dev">GAMES DEVELOPED</string>
@@ -68,5 +72,9 @@
     <string name="review_title">MAKE A REVIEW</string>
     <string name="review_body">Please describe what you liked or disliked about this game and whether you recommend it to others.</string>
     <string name="delete">Delete</string>
-    <string name="deletemsg">Do you wish to delete your review</string>
+    <string name="deletemsg">Do you wish to delete your review?</string>
+
+    <!--    editProfilePage     -->
+    <string name="display_name">Display Name</string>
+    <string name="display_url">Display Image Url</string>
 </resources>

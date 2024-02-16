@@ -20,7 +20,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="8"
-            android:text="Activity Feed"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/black"

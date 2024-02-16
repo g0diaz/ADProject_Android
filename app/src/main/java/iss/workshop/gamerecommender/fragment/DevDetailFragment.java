@@ -1,7 +1,6 @@
 package iss.workshop.gamerecommender.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -27,9 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import iss.workshop.gamerecommender.R;
-import iss.workshop.gamerecommender.activity.EditUserProfileActivity;
-import iss.workshop.gamerecommender.adapter.FriendProfileDevelopersAdapter;
-import iss.workshop.gamerecommender.adapter.FriendProfileFriendsAdapter;
 import iss.workshop.gamerecommender.adapter.FriendProfileGamesAdapter;
 import iss.workshop.gamerecommender.adapter.ImageLoader;
 import iss.workshop.gamerecommender.api.RetrofitClient;
@@ -44,6 +40,13 @@ public class DevDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_dev_detail, container, false);
+
+        if (getActivity() != null) {
+            TextView titleTextView = getActivity().findViewById(R.id.activity_feed_title);
+            if (titleTextView != null) {
+                titleTextView.setText("Profile");
+            }
+        }
 
         Bundle args=getArguments();
         if(args!=null) {
@@ -86,7 +89,7 @@ public class DevDetailFragment extends Fragment {
                         String date = dateDetail.get("dateCreated").getAsString();
 
                         if (url.isEmpty()){
-                            url = "http://10.0.2.2:8080/image/0.png";
+                            url = "http://10.0.2.2:8080/image/developer.png";
                         }
 
                         TextView bioTextView = getView().findViewById(R.id.bio);
@@ -142,16 +145,22 @@ public class DevDetailFragment extends Fragment {
                             String url = gameObj.get("imageUrl").getAsString();
                             int gameId = gameObj.get("id").getAsInt();
 
-                            titles.add(title);
+                            if (url.isEmpty()){
+                                url = "http://10.0.2.2:8080/image/game.png";
+                            }
                             urls.add(url);
+                            titles.add(title);
                             gamesIds.add(gameId);
                         }
 
                         FriendProfileGamesAdapter adapter = new FriendProfileGamesAdapter(requireContext(), urls, titles);
 
+                        //to enable scrolling list view in scroll view
                         ListView gamelistView = getView().findViewById(R.id.dev_gamelist);
                         if (gamelistView != null) {
                             gamelistView.setAdapter(adapter);
+
+                            //to enable scrolling list view in scroll view https://stackoverflow.com/questions/6546108/mapview-inside-a-scrollview/6883831#6883831
                             gamelistView.setOnTouchListener(new View.OnTouchListener() {
                                 @Override
                                 public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -170,6 +179,7 @@ public class DevDetailFragment extends Fragment {
                                     return true;
                                 }
                             });
+
                             gamelistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> av, View view, int pos, long id) {

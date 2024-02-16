@@ -25,14 +25,14 @@
                 android:layout_toEndOf="@id/dev_name"
                 android:layout_marginTop="-10dp"
                 android:layout_marginStart="20dp"
-                android:gravity="center|center_vertical"
-                android:text="unfollow"/>
+                android:gravity="center|center_vertical"/>
 
             <ImageView
                 android:id="@+id/dev_avatar"
                 android:scaleType="fitCenter"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="90dp"
+                android:layout_height="95dp"
+                android:layout_marginTop="20dp"
                 android:layout_below="@id/dev_name"/>
 
             <TextView
@@ -42,6 +42,7 @@
                 android:layout_toEndOf="@id/dev_avatar"
                 android:layout_below="@id/dev_name"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/bio"
                 android:textStyle="bold"
                 android:textColor="@color/black"/>
@@ -83,7 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_below="@id/dev_avatar"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginStart="10dp"
                 android:text="@string/games_dev"
                 android:textStyle="bold"

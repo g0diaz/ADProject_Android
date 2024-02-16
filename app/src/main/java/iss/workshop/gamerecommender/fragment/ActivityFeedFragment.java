@@ -1,16 +1,13 @@
 package iss.workshop.gamerecommender.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -24,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import iss.workshop.gamerecommender.R;
-//import iss.workshop.gamerecommender.activity.FeedActivity;
 import iss.workshop.gamerecommender.adapter.FeedActivityAdapter;
 import iss.workshop.gamerecommender.api.RetrofitClient;
 import okhttp3.ResponseBody;
@@ -46,8 +42,6 @@ public class ActivityFeedFragment extends Fragment {
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
         int myUserId = sharedPreferences.getInt("userId", 0);
-
-
 
         getAllActivity(myUserId,listView);
         return view;
@@ -89,11 +83,11 @@ public class ActivityFeedFragment extends Fragment {
                             String formattedTime = dateTime.format(targetFormatter);
 
                             if(activityType.startsWith("DEV")){
-                                images.add("http://10.0.2.2:8080/image/developer-icon.png");
+                                images.add("http://10.0.2.2:8080/image/developer.png");
                             }else if(activityType.startsWith("GAME")){
-                                images.add("http://10.0.2.2:8080/image/gamedefault.jpg");
+                                images.add("http://10.0.2.2:8080/image/game.jpg");
                             }else{
-                                images.add("http://10.0.2.2:8080/image/0.png");
+                                images.add("http://10.0.2.2:8080/image/user.png");
                             }
                             contents.add(finalContent);
                             createTimes.add(formattedTime);
