@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.IOException;
 
@@ -32,6 +33,8 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText reenterPasswordEditText;
     private Button createAccountButton;
     private TextView signinLink;
+    private String username;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +70,7 @@ public class RegistrationActivity extends AppCompatActivity {
         signinLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                Intent intent = new Intent(RegistrationActivity.this, PrefActivity.class);
                 startActivity(intent);
             }
         });
@@ -94,9 +97,11 @@ public class RegistrationActivity extends AppCompatActivity {
 
         //Create JsonObject for data
         JsonObject userData = new JsonObject();
-        userData.addProperty("username", usernameEditText.getText().toString().trim());
+        username=usernameEditText.getText().toString().trim();
+        password=passwordEditText.getText().toString().trim();
+        userData.addProperty("username", username);
         userData.addProperty("displayName", displayNameEditText.getText().toString().trim());
-        userData.addProperty("password", passwordEditText.getText().toString().trim());
+        userData.addProperty("password", password);
 
         //Create a call to server using Retrofit for creating user
         RetrofitClient retrofitClient = new RetrofitClient();
@@ -112,11 +117,6 @@ public class RegistrationActivity extends AppCompatActivity {
                 //Handle the server response
                 if (response.isSuccessful()) {
 
-                    SharedPreferences pref = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.putBoolean("oldUser", false);
-                    editor.apply();
-
                     Toast.makeText(RegistrationActivity.this, "Account Created!", Toast.LENGTH_SHORT).show();
 
                     //Clear the edit texts
@@ -125,9 +125,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     passwordEditText.setText("");
                     reenterPasswordEditText.setText("");
 
-                    //Redirect to "Login" page
-                    Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
-                    startActivity(intent);
+                    login(username,password);
 
                 } else {
                     String errorMessage = "Error: " + response.code();
@@ -144,6 +142,63 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(RegistrationActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void login(String username, String password) {
+
+        //Create JsonObject for data
+        JsonObject loginData = new JsonObject();
+        loginData.addProperty("username", username);
+        loginData.addProperty("password", password);
+
+        RetrofitClient retrofitClient = new RetrofitClient();
+        //Create a call to server using Retrofit for login
+        Call<ResponseBody> call = retrofitClient
+                .getAPI()
+                .loginUser(loginData);
+
+        //Enqueue the call
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                //Handle the server response
+                if (response.isSuccessful() && response.body() != null) {
+                    try {
+                        //Using gson library to parse the response
+                        String responseBodyString = response.body().string();
+                        JsonObject jsonObject = JsonParser.parseString(responseBodyString).getAsJsonObject();
+                        String sessionId = jsonObject.get("sessionId").getAsString();
+                        int userId = jsonObject.get("userId").getAsInt();
+
+                        //Store the username, sessionId and boolean in SharedPreferences
+                        SharedPreferences sharedPreferences = getSharedPreferences("loginPrefs", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("username", username);
+                        editor.putString("sessionId", sessionId);
+                        editor.putBoolean("loggedIn", true);
+                        editor.putInt("userId", userId);
+                        editor.apply();
+
+                        //Redirect to "Game List" page or "Pref" page
+
+                        Intent intent = new Intent(RegistrationActivity.this, PrefActivity.class);
+
+                        startActivity(intent);
+                        finish();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Toast.makeText(RegistrationActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            //Handle failure
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(RegistrationActivity.this, "Login failed: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -105,14 +105,9 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putInt("userId", userId);
                         editor.apply();
 
-                        //Redirect to "Game List" page or "Pref" page
-                        boolean oldUser = sharedPreferences.getBoolean("oldUser", false);
-                        Intent intent;
-                        if (oldUser){
-                            intent = new Intent(LoginActivity.this, MainActivity.class);
-                        } else {
-                            intent = new Intent(LoginActivity.this, PrefActivity.class);
-                        }
+
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+
                         startActivity(intent);
                         finish();
                     } catch (IOException e) {
