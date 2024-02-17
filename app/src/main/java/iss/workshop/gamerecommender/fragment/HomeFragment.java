@@ -70,31 +70,34 @@ public class HomeFragment extends Fragment {
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                JsonArray result=response.body();
+                if (isAdded()) {
+                    JsonArray result = response.body();
 
-                titles= new ArrayList<>();
-                urls= new ArrayList<>();
-                topIds = new ArrayList<>();
+                    titles = new ArrayList<>();
+                    urls = new ArrayList<>();
+                    topIds = new ArrayList<>();
 
-                for (JsonElement element : result) {
-                    JsonObject gameObj = element.getAsJsonObject();
-                    String title = gameObj.get("title").getAsString();
-                    String url = gameObj.get("imageUrl").getAsString();
-                    int gameId = gameObj.get("id").getAsInt();
+                    for (JsonElement element : result) {
+                        JsonObject gameObj = element.getAsJsonObject();
+                        String title = gameObj.get("title").getAsString();
+                        String url = gameObj.get("imageUrl").getAsString();
+                        int gameId = gameObj.get("id").getAsInt();
 
-                    if (url.isEmpty()){
-                        url = RetrofitClient.BASE_URL + "image/game.png";
+                        if (url.isEmpty()) {
+                            url = RetrofitClient.BASE_URL + "image/game.png";
+                        }
+
+                        urls.add(url);
+                        titles.add(title);
+                        topIds.add(gameId);
+
                     }
-
-                    urls.add(url);
-                    titles.add(title);
-                    topIds.add(gameId);
-
-                }if(topIds.size()==0){
-                    view.findViewById(R.id.text).setVisibility(View.INVISIBLE);
-                    view.findViewById(R.id.topgamelist).setVisibility(View.GONE);
-                }else {
-                    setContent(view, "top");
+                    if (topIds.size() == 0) {
+                        view.findViewById(R.id.text).setVisibility(View.INVISIBLE);
+                        view.findViewById(R.id.topgamelist).setVisibility(View.GONE);
+                    } else {
+                        setContent(view, "top");
+                    }
                 }
             }
             @Override
@@ -110,30 +113,33 @@ public class HomeFragment extends Fragment {
         call.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
-                JsonArray result=response.body();
+                if (isAdded()) {
+                    JsonArray result = response.body();
 
-                titles= new ArrayList<>();
-                urls= new ArrayList<>();
-                trendIds = new ArrayList<>();
+                    titles = new ArrayList<>();
+                    urls = new ArrayList<>();
+                    trendIds = new ArrayList<>();
 
-                for (JsonElement element : result) {
-                    JsonObject gameObj = element.getAsJsonObject();
-                    String title = gameObj.get("title").getAsString();
-                    String url = gameObj.get("imageUrl").getAsString();
-                    int gameId = gameObj.get("id").getAsInt();
+                    for (JsonElement element : result) {
+                        JsonObject gameObj = element.getAsJsonObject();
+                        String title = gameObj.get("title").getAsString();
+                        String url = gameObj.get("imageUrl").getAsString();
+                        int gameId = gameObj.get("id").getAsInt();
 
-                    if (url.isEmpty()){
-                        url = RetrofitClient.BASE_URL + "image/game.png";
+                        if (url.isEmpty()) {
+                            url = RetrofitClient.BASE_URL + "image/game.png";
+                        }
+                        urls.add(url);
+                        titles.add(title);
+                        trendIds.add(gameId);
+
                     }
-                    urls.add(url);
-                    titles.add(title);
-                    trendIds.add(gameId);
-
-                }if(trendIds.size()==0){
-                    view.findViewById(R.id.text2).setVisibility(View.INVISIBLE);
-                    view.findViewById(R.id.trendinggamelist).setVisibility(View.GONE);
-                }else {
-                    setContent(view, "trend");
+                    if (trendIds.size() == 0) {
+                        view.findViewById(R.id.text2).setVisibility(View.INVISIBLE);
+                        view.findViewById(R.id.trendinggamelist).setVisibility(View.GONE);
+                    } else {
+                        setContent(view, "trend");
+                    }
                 }
             }
             @Override
@@ -153,36 +159,38 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()&&response.body()!=null){
-                    try{
-                        String responseBodyString=response.body().string();
-                        JsonArray result= JsonParser.parseString(responseBodyString).getAsJsonArray();
+                    if (isAdded()) {
+                        try {
+                            String responseBodyString = response.body().string();
+                            JsonArray result = JsonParser.parseString(responseBodyString).getAsJsonArray();
 
-                        titles= new ArrayList<>();
-                        urls= new ArrayList<>();
-                        recommendIds = new ArrayList<>();
+                            titles = new ArrayList<>();
+                            urls = new ArrayList<>();
+                            recommendIds = new ArrayList<>();
 
-                        for (JsonElement element : result) {
-                            JsonObject gameObj = element.getAsJsonObject();
-                            String title = gameObj.get("title").getAsString();
-                            String url = gameObj.get("imageUrl").getAsString();
-                            int gameId = gameObj.get("id").getAsInt();
+                            for (JsonElement element : result) {
+                                JsonObject gameObj = element.getAsJsonObject();
+                                String title = gameObj.get("title").getAsString();
+                                String url = gameObj.get("imageUrl").getAsString();
+                                int gameId = gameObj.get("id").getAsInt();
 
-                            if (url.isEmpty()){
-                                url = RetrofitClient.BASE_URL + "image/game.png";
+                                if (url.isEmpty()) {
+                                    url = RetrofitClient.BASE_URL + "image/game.png";
+                                }
+
+                                urls.add(url);
+                                titles.add(title);
+                                recommendIds.add(gameId);
                             }
-
-                            urls.add(url);
-                            titles.add(title);
-                            recommendIds.add(gameId);
+                            if (recommendIds.size() == 0) {
+                                view.findViewById(R.id.text3).setVisibility(View.GONE);
+                                view.findViewById(R.id.gamerecommendlist).setVisibility(View.GONE);
+                            } else {
+                                setContent(view, "recomm");
+                            }
+                        } catch (IOException e) {
+                            System.out.println("Error");
                         }
-                        if(recommendIds.size()==0){
-                            view.findViewById(R.id.text3).setVisibility(View.GONE);
-                            view.findViewById(R.id.gamerecommendlist).setVisibility(View.GONE);
-                        }else{
-                            setContent(view,"recomm");
-                        }
-                    }catch(IOException e){
-                        System.out.println("Error");
                     }
                 }
             }

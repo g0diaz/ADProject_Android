@@ -88,30 +88,33 @@ public class GameFragment extends Fragment
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 if (response.isSuccessful() && response.body() != null){
-                    JsonArray games = response.body();
+                    if (isAdded()) {
+                        JsonArray games = response.body();
 
-                    for (JsonElement game : games){
-                        JsonObject gameObj = game.getAsJsonObject();
-                        String title = gameObj.get("title").getAsString();
-                        String url = gameObj.get("imageUrl").getAsString();
-                        int gameId = gameObj.get("id").getAsInt();
+                        for (JsonElement game : games) {
+                            JsonObject gameObj = game.getAsJsonObject();
+                            String title = gameObj.get("title").getAsString();
+                            String url = gameObj.get("imageUrl").getAsString();
+                            int gameId = gameObj.get("id").getAsInt();
 
-                        if (url.isEmpty()){
-                            url = RetrofitClient.BASE_URL + "image/game.png";
+                            if (url.isEmpty()) {
+                                url = RetrofitClient.BASE_URL + "image/game.png";
+                            }
+                            urls.add(url);
+                            titles.add(title);
+                            cellIds.add(gameId);
                         }
-                        urls.add(url);
-                        titles.add(title);
-                        cellIds.add(gameId);
+
+                        setContent(view);
                     }
-
-                    setContent(view);
-
                 }
             }
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                Toast.makeText(getContext(), "Cannot fetch the games: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                if (isAdded()) {
+                    Toast.makeText(getContext(), "Cannot fetch the games: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

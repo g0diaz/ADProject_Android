@@ -61,43 +61,44 @@ public class ActivityFeedFragment extends Fragment {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful() && response.body() != null){
-                    try {
-                        String responseBodyString = response.body().string();
-                        JsonArray jsonArray = JsonParser.parseString(responseBodyString).getAsJsonArray();
+                    if (isAdded()) {
+                        try {
+                            String responseBodyString = response.body().string();
+                            JsonArray jsonArray = JsonParser.parseString(responseBodyString).getAsJsonArray();
 
-                        images=new ArrayList<>();
-                        contents=new ArrayList<>();
-                        createTimes=new ArrayList<>();
+                            images = new ArrayList<>();
+                            contents = new ArrayList<>();
+                            createTimes = new ArrayList<>();
 
-                        for(JsonElement e:jsonArray){
-                            JsonObject jsonObject=e.getAsJsonObject();
-                            String activityType=jsonObject.get("activityType").getAsString();
+                            for (JsonElement e : jsonArray) {
+                                JsonObject jsonObject = e.getAsJsonObject();
+                                String activityType = jsonObject.get("activityType").getAsString();
 
-                            String content=jsonObject.get("message").getAsString();
-                            String targetName=jsonObject.get("targetName").getAsString();
-                            String parentName=jsonObject.get("parentName").getAsString();
-                            String finalContent=parentName+" "+content+" "+targetName;
+                                String content = jsonObject.get("message").getAsString();
+                                String targetName = jsonObject.get("targetName").getAsString();
+                                String parentName = jsonObject.get("parentName").getAsString();
+                                String finalContent = parentName + " " + content + " " + targetName;
 
-                            String time=jsonObject.get("timeCreated").getAsString();
-                            DateTimeFormatter originalFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-                            LocalDateTime dateTime = LocalDateTime.parse(time, originalFormatter);
-                            DateTimeFormatter targetFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                            String formattedTime = dateTime.format(targetFormatter);
+                                String time = jsonObject.get("timeCreated").getAsString();
+                                DateTimeFormatter originalFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+                                LocalDateTime dateTime = LocalDateTime.parse(time, originalFormatter);
+                                DateTimeFormatter targetFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                                String formattedTime = dateTime.format(targetFormatter);
 
-                            if(activityType.startsWith("DEV")){
-                                images.add(RetrofitClient.BASE_URL + "image/developer.png");
-                            }else if(activityType.startsWith("GAME")){
-                                images.add(RetrofitClient.BASE_URL + "image/game.png");
-                            }else{
-                                images.add(RetrofitClient.BASE_URL + "image/user.png");
+                                if (activityType.startsWith("DEV")) {
+                                    images.add(RetrofitClient.BASE_URL + "image/developer.png");
+                                } else if (activityType.startsWith("GAME")) {
+                                    images.add(RetrofitClient.BASE_URL + "image/game.png");
+                                } else {
+                                    images.add(RetrofitClient.BASE_URL + "image/user.png");
+                                }
+                                contents.add(finalContent);
+                                createTimes.add(formattedTime);
                             }
-                            contents.add(finalContent);
-                            createTimes.add(formattedTime);
+                            listView.setAdapter(new FeedActivityAdapter(getContext(), images, contents, createTimes));
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                        listView.setAdapter(new FeedActivityAdapter(getContext(), images, contents, createTimes));
-                    }
-                    catch(IOException e){
-                        e.printStackTrace();
                     }
                 }
             }
