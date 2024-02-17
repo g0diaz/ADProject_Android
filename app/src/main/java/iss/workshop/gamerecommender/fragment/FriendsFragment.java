@@ -91,7 +91,7 @@ public class FriendsFragment extends Fragment implements AdapterView.OnItemClick
                             int userId = friendObj.get("id").getAsInt();
 
                             if (url.isEmpty()){
-                                url = "http://10.0.2.2:8080/image/user.jpg";
+                                url = RetrofitClient.BASE_URL + "image/user.png";
                             }
                             urls.add(url);
                             names.add(name);

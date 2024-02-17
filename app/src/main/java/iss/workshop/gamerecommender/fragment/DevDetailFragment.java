@@ -89,7 +89,7 @@ public class DevDetailFragment extends Fragment {
                         String date = dateDetail.get("dateCreated").getAsString();
 
                         if (url.isEmpty()){
-                            url = "http://10.0.2.2:8080/image/developer.png";
+                            url = RetrofitClient.BASE_URL + "image/developer.png";
                         }
 
                         TextView bioTextView = getView().findViewById(R.id.bio);
@@ -146,7 +146,7 @@ public class DevDetailFragment extends Fragment {
                             int gameId = gameObj.get("id").getAsInt();
 
                             if (url.isEmpty()){
-                                url = "http://10.0.2.2:8080/image/game.png";
+                                url = RetrofitClient.BASE_URL + "image/game.png";
                             }
                             urls.add(url);
                             titles.add(title);

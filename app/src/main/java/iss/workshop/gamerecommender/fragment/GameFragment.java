@@ -97,7 +97,7 @@ public class GameFragment extends Fragment
                         int gameId = gameObj.get("id").getAsInt();
 
                         if (url.isEmpty()){
-                            url = "http://10.0.2.2:8080/image/game.png";
+                            url = RetrofitClient.BASE_URL + "image/game.png";
                         }
                         urls.add(url);
                         titles.add(title);
@@ -274,9 +274,9 @@ public class GameFragment extends Fragment
             String url = obj.get(urlname).getAsString();
             if (url.isEmpty()){
                 if(type.equals("Game")) {
-                    url = "http://10.0.2.2:8080/image/game.png";
+                    url = RetrofitClient.BASE_URL + "image/game.png";
                 } else {
-                    url = "http://10.0.2.2:8080/image/user.png";
+                    url = RetrofitClient.BASE_URL + "image/user.png";
                 }
             }
             int id=obj.get("id").getAsInt();

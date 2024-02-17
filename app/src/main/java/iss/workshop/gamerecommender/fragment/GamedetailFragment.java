@@ -109,7 +109,7 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
                         String description = gameDetail.get("description").getAsString();
                         imageUrl = gameDetail.get("imageUrl").getAsString();
                         if (imageUrl.isEmpty()){
-                            imageUrl = "http://10.0.2.2:8080/image/game.png";
+                            imageUrl = RetrofitClient.BASE_URL + "image/game.png";
                         }
                         String webUrl = gameDetail.get("webUrl").getAsString();
                         String releasedDate = gameDetail.get("dateRelease").getAsString();
@@ -562,7 +562,7 @@ public class GamedetailFragment extends Fragment implements ReviewPostAdapter.On
                             int gameId = gameObj.get("id").getAsInt();
 
                             if (url.isEmpty()){
-                                url = "http://10.0.2.2:8080/image/game.png";
+                                url = RetrofitClient.BASE_URL + "image/game.png";
                             }
                             urls.add(url);
                             titles.add(title);

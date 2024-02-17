@@ -225,7 +225,7 @@ public class ProfileDetailFragment extends Fragment {
                         String date = dateDetail.get("dateCreated").getAsString();
 
                         if (url.isEmpty()){
-                            url = "http://10.0.2.2:8080/image/user.png";
+                            url = RetrofitClient.BASE_URL + "image/user.png";
                         }
 
                         TextView bioTextView = getView().findViewById(R.id.bio);
@@ -292,7 +292,7 @@ public class ProfileDetailFragment extends Fragment {
                                 int gameId = gameObj.get("id").getAsInt();
 
                                 if (url.isEmpty()){
-                                    url = "http://10.0.2.2:8080/image/game.png";
+                                    url = RetrofitClient.BASE_URL + "image/game.png";
                                 }
 
                                 urls.add(url);
@@ -398,7 +398,7 @@ public class ProfileDetailFragment extends Fragment {
                                 int friendId = friendObj.get("id").getAsInt();
 
                                 if (url.isEmpty()){
-                                    url = "http://10.0.2.2:8080/image/user.png";
+                                    url = RetrofitClient.BASE_URL + "image/user.png";
                                 }
 
                                 urls.add(url);
@@ -512,7 +512,7 @@ public class ProfileDetailFragment extends Fragment {
                                 String url = developerObj.get("displayImageUrl").getAsString();
 
                                 if (url.isEmpty()){
-                                    urls.add("http://10.0.2.2:8080/image/user.png");
+                                    urls.add(RetrofitClient.BASE_URL + "image/user.png");
                                 } else {
                                     urls.add(url);
                                 }
