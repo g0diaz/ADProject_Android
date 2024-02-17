@@ -1,5 +1,7 @@
 package iss.workshop.gamerecommender.fragment;
 
+import static iss.workshop.gamerecommender.api.RetrofitClient.BASE_URL;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -83,11 +85,11 @@ public class ActivityFeedFragment extends Fragment {
                             String formattedTime = dateTime.format(targetFormatter);
 
                             if(activityType.startsWith("DEV")){
-                                images.add("http://10.0.2.2:8080/image/developer.png");
+                                images.add(BASE_URL+"image/developer.png");
                             }else if(activityType.startsWith("GAME")){
-                                images.add("http://10.0.2.2:8080/image/game.jpg");
+                                images.add(BASE_URL+"image/game.png");
                             }else{
-                                images.add("http://10.0.2.2:8080/image/user.png");
+                                images.add(BASE_URL+"image/user.png");
                             }
                             contents.add(finalContent);
                             createTimes.add(formattedTime);
