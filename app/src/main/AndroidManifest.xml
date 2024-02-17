@@ -32,12 +32,6 @@
             android:name=".activity.RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".adapter.FriendProfileGamesAdapter"
-            android:exported="false" />
-        <activity
-            android:name=".adapter.PrefActivityAdapter"
-            android:exported="false" />
-        <activity
             android:name=".activity.PrefActivity"
             android:exported="false" />
         <activity
