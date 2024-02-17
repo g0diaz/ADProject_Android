@@ -250,8 +250,10 @@ public class GameFragment extends Fragment
                         cellIds=new ArrayList<>();
                             if(type=="Game"){
                                 setTitlesandUrls(jsonArray,"title","imageUrl", "Game");
-                            }else{
-                                setTitlesandUrls(jsonArray,"displayName","displayImageUrl", "Else");
+                            }else if (type=="Developer"){
+                                setTitlesandUrls(jsonArray, "displayName", "displayImageUrl", "Developer");
+                            } else{
+                                setTitlesandUrls(jsonArray,"displayName","displayImageUrl", "User");
                             }
                         setContent(view);
                     }catch(IOException e){
@@ -275,6 +277,8 @@ public class GameFragment extends Fragment
             if (url.isEmpty()){
                 if(type.equals("Game")) {
                     url = RetrofitClient.BASE_URL + "image/game.png";
+                } else if(type.equals("Developer")) {
+                    url = RetrofitClient.BASE_URL + "image/developer.png";
                 } else {
                     url = RetrofitClient.BASE_URL + "image/user.png";
                 }

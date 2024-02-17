@@ -1,5 +1,6 @@
 package iss.workshop.gamerecommender.fragment;
 
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.HEAD;
 
 public class ActivityFeedFragment extends Fragment {
     private List<String> images;
